@@ -33,7 +33,8 @@
 <div class="sc-founder">
   <div class="sc-founder__media">
     {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'lazy', sizes: '(min-width:750px) 50vw, 100vw', widths: '390, 750, 1100, 1500', alt: section.settings.image.alt | default: 'Founder portrait' | escape }}
+      {%- assign founder_alt = section.settings.image.alt | default: 'Founder portrait' -%}
+      {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'lazy', sizes: '(min-width:750px) 50vw, 100vw', widths: '390, 750, 1100, 1500', alt: founder_alt }}
     {%- else -%}
       <span class="sc-founder__ph">founder portrait</span>
     {%- endif -%}

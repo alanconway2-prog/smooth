@@ -22,7 +22,8 @@
     {%- if section.blocks.size > 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.settings.image != blank -%}
-          {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: block.settings.name | escape, class: 'sc-press__logo' }}
+          {%- assign press_alt = block.settings.name | default: shop.name -%}
+          {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: press_alt, class: 'sc-press__logo' }}
         {%- else -%}
           <span {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
         {%- endif -%}

@@ -46,10 +46,9 @@
         {%- elsif on_sale -%}
           <span class="sc-card__badge">Sale</span>
         {%- endif -%}
-        {%- if product.featured_media -%}
-          {{ product.featured_media | image_url: width: 700 | image_tag:
-             loading: 'lazy', sizes: '248px',
-             widths: '248, 372, 496, 700', alt: product.featured_media.alt | default: product.title | escape }}
+        {%- if product.featured_image -%}
+          {%- assign card_alt = product.featured_image.alt | default: product.title -%}
+          {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', sizes: '248px', widths: '248, 372, 496, 700', alt: card_alt }}
         {%- endif -%}
       </a>
       {%- if product.available -%}

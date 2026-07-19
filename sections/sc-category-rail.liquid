@@ -48,7 +48,7 @@
         <a class="sc-cat__tile" href="{{ link | default: '#' }}" {{ block.shopify_attributes }}>
           <span class="sc-cat__media">
             {%- if img != blank -%}
-              {{ img | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '300px', widths: '300, 450, 600, 800', alt: label | escape }}
+              {{ img | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '300px', widths: '300, 450, 600, 800', alt: label }}
             {%- endif -%}
             <span class="sc-cat__grad"></span>
             <span class="sc-cat__label">{{ label }}</span>

@@ -54,7 +54,7 @@
                 {%- endfor -%}
               </video>
             {%- elsif block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 560 | image_tag: loading: 'lazy', sizes: '240px', widths: '240, 360, 480, 560', alt: block.settings.title | escape }}
+              {{ block.settings.image | image_url: width: 560 | image_tag: loading: 'lazy', sizes: '240px', widths: '240, 360, 480, 560', alt: block.settings.title }}
               <span class="sc-watch__play">▶</span>
             {%- else -%}
               <span class="sc-watch__play">▶</span>

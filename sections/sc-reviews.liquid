@@ -61,7 +61,7 @@
         <div class="sc-rev__card" {{ block.shopify_attributes }}>
           <div class="sc-rev__media">
             {%- if block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '260px', widths: '260, 390, 520, 600', alt: block.settings.name | escape }}
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '260px', widths: '260, 390, 520, 600', alt: block.settings.name }}
             {%- endif -%}
             {%- if block.settings.product != blank -%}<span class="sc-rev__chip">Shop {{ block.settings.product }}</span>{%- endif -%}
           </div>
