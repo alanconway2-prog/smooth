@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+<style>
+  @font-face { font-family:'Gotham'; src:url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham-Medium.woff2?v=1726063066') format('woff2'); font-weight:400 500; font-display:swap; }
+  @font-face { font-family:'Gotham'; src:url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham_Bold.woff2?v=1740561122') format('woff2'); font-weight:600 800; font-display:swap; }
+  @font-face { font-family:'Gotham Light'; src:url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham-Light_1.woff2?v=1726063088') format('woff2'); font-weight:300; font-display:swap; }
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  body { margin: 0; background: #E7E7E4; font-family: 'Gotham', system-ui, sans-serif; color: #1d1d1b; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #0f3d51; }
+  ::-webkit-scrollbar { height: 0; width: 0; }
+  @keyframes softpan { 0%{transform:scale(1.08) translate(0,0)} 50%{transform:scale(1.15) translate(-2%,-1%)} 100%{transform:scale(1.08) translate(0,0)} }
+  .snap { scroll-snap-type: x mandatory; }
+  .donovan { font-family:'Gotham', system-ui, sans-serif; font-weight:700; }
+  .eyebrow { font-size:12px; letter-spacing:0.24em; text-transform:uppercase; font-weight:600; text-align:center; }
+  .lab { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:72px 56px 120px;">
+  <div style="max-width:920px;margin:0 auto 40px;">
+    <div class="lab" style="color:#8A8A84;text-align:left;">The Smooth Company · Refy-tight pass</div>
+    <h1 class="donovan" style="font-size:42px;letter-spacing:-0.01em;margin:10px 0 8px;line-height:0.98;">Tighter, cleaner, edge to edge</h1>
+    <p style="margin:0;max-width:620px;color:#6C6C66;font-size:15px;line-height:1.6;">Refy flow applied — full-bleed imagery with 2px gaps, square buttons, hamburger nav, centered tracked-caps headers, add-to-cart on the image. Brand kit intact: real <span style="color:#5aa695;">Gotham</span> type, mint <span style="color:#5aa695;">#b5e3d9</span> sparingly, black stars. Reference in chat as <a href="#2b" style="color:#0f3d51;">2b</a>.</p>
+  </div>
+
+  <section id="turn4" style="margin-bottom:72px;">
+  <div style="max-width:980px;margin:0 auto 24px;">
+    <div class="lab" style="color:#8A8A84;text-align:left;">Add-to-cart · 10 card treatments</div>
+    <h2 class="donovan" style="font-size:32px;margin:8px 0 6px;line-height:1;letter-spacing:-0.01em;">Pick the add-to-cart</h2>
+    <p style="margin:0;color:#6C6C66;font-size:14px;line-height:1.55;max-width:640px;">Same card, ten ways — under-text, inline price rows, icons, and on-image. Hover any button to see its active state. Call the one you want by badge (e.g. <a href="#4c" style="color:#0f3d51;">4c</a>) and I'll roll it through the rail.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:26px 24px;justify-content:center;align-items:flex-start;">
+    <div id="4a" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4a</span>
+        <span style="font-size:12px;color:#6C6C66;">Outline button under text · sale price</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px;"><span style="font-size:13px;color:#1d1d1b;">£24.00</span><span style="font-size:12px;color:#A8A8A2;text-decoration:line-through;">£34.00</span><span class="lab" style="font-size:9px;color:#0f3d51;">Save £10</span></div>
+          <button style="width:100%;margin-top:14px;border:1px solid #1d1d1b;background:transparent;color:#1d1d1b;padding:12px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;transition:all .18s;" style-hover="width:100%;margin-top:14px;border:1px solid #1d1d1b;background:#1d1d1b;color:#fff;padding:12px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;">Add to cart</button>
+        </div>
+      </div>
+    </div>
+    <div id="4b" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4b</span>
+        <span style="font-size:12px;color:#6C6C66;">Solid button under text</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="font-size:13px;margin-top:8px;">£24</div>
+          <button style="width:100%;margin-top:14px;border:none;background:#1d1d1b;color:#fff;padding:13px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;transition:all .18s;" style-hover="width:100%;margin-top:14px;border:none;background:#0f3d51;color:#fff;padding:13px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;">Add to cart</button>
+        </div>
+      </div>
+    </div>
+    <div id="4c" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4c</span>
+        <span style="font-size:12px;color:#6C6C66;">Outline plus, price row</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;"><span style="font-size:13px;">£24</span><button aria-label="Add to cart" style="width:38px;height:38px;border:1px solid #1d1d1b;background:transparent;color:#1d1d1b;font-size:18px;line-height:1;font-family:inherit;cursor:pointer;transition:all .18s;" style-hover="width:38px;height:38px;border:1px solid #1d1d1b;background:#1d1d1b;color:#fff;font-size:18px;line-height:1;font-family:inherit;cursor:pointer;">+</button></div>
+        </div>
+      </div>
+    </div>
+    <div id="4d" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4d</span>
+        <span style="font-size:12px;color:#6C6C66;">Solid plus, price row</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;"><span style="font-size:13px;">£24</span><button aria-label="Add to cart" style="width:38px;height:38px;border:none;background:#1d1d1b;color:#fff;font-size:18px;line-height:1;font-family:inherit;cursor:pointer;transition:all .18s;" style-hover="width:38px;height:38px;border:none;background:#0f3d51;color:#fff;font-size:18px;line-height:1;font-family:inherit;cursor:pointer;">+</button></div>
+        </div>
+      </div>
+    </div>
+    <div id="4e" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4e</span>
+        <span style="font-size:12px;color:#6C6C66;">Text link, price row</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;"><span style="font-size:13px;">£24</span><a href="#4e" style="font-size:10.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;border-bottom:1px solid #1d1d1b;padding-bottom:3px;">Add +</a></div>
+        </div>
+      </div>
+    </div>
+    <div id="4f" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4f</span>
+        <span style="font-size:12px;color:#6C6C66;">Bag icon, price row</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;"><span style="font-size:13px;">£24</span><button aria-label="Add to cart" style="width:38px;height:38px;border:1px solid #1d1d1b;background:transparent;color:#1d1d1b;display:flex;align-items:center;justify-content:center;font-family:inherit;cursor:pointer;transition:all .18s;" style-hover="width:38px;height:38px;border:1px solid #1d1d1b;background:#1d1d1b;color:#fff;display:flex;align-items:center;justify-content:center;font-family:inherit;cursor:pointer;"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M4 5.5h10l-.8 10.5H4.8L4 5.5z" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 6V4.8a2.5 2.5 0 0 1 5 0V6" stroke="currentColor" stroke-width="1.3"/></svg></button></div>
+        </div>
+      </div>
+    </div>
+    <div id="4g" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4g</span>
+        <span style="font-size:12px;color:#6C6C66;">Quick-add plus on image</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span><button aria-label="Add to cart" style="position:absolute;top:10px;right:10px;width:34px;height:34px;border:none;background:#fff;color:#1d1d1b;font-size:17px;line-height:1;font-family:inherit;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);transition:all .18s;" style-hover="position:absolute;top:10px;right:10px;width:34px;height:34px;border:none;background:#1d1d1b;color:#fff;font-size:17px;line-height:1;font-family:inherit;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);">+</button></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;"><span style="font-size:13px;">£24</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="4h" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4h</span>
+        <span style="font-size:12px;color:#6C6C66;">On-image bar (bottom)</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span><button style="position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,0.94);color:#1d1d1b;border:none;border-top:1px solid #eceae6;padding:13px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;transition:all .18s;" style-hover="position:absolute;left:0;right:0;bottom:0;background:#1d1d1b;color:#fff;border:none;border-top:1px solid #1d1d1b;padding:13px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;">Add to cart</button></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="font-size:13px;margin-top:8px;">£24</div>
+        </div>
+      </div>
+    </div>
+    <div id="4i" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4i</span>
+        <span style="font-size:12px;color:#6C6C66;">Label button, price row</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;"><span style="font-size:13px;">£24</span><button style="border:1px solid #1d1d1b;background:transparent;color:#1d1d1b;padding:10px 16px;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;font-family:inherit;cursor:pointer;white-space:nowrap;transition:all .18s;" style-hover="border:1px solid #1d1d1b;background:#1d1d1b;color:#fff;padding:10px 16px;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;font-family:inherit;cursor:pointer;white-space:nowrap;">Add to bag</button></div>
+        </div>
+      </div>
+    </div>
+    <div id="4j" style="width:224px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;border-radius:100px;">4j</span>
+        <span style="font-size:12px;color:#6C6C66;">Price inside button · cramped on sale</span>
+      </div>
+      <div style="background:#fff;box-shadow:0 20px 40px -24px rgba(0,0,0,0.3);">
+        <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;"><span class="lab" style="position:absolute;top:12px;left:12px;font-size:9px;">Bestseller</span></div>
+        <div style="padding:14px 14px 16px;">
+          <div style="font-size:11px;">★★★★★ <span style="color:#A8A8A2;">(312)</span></div>
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-top:8px;">The Smoothing Stick</div>
+          <div style="font-size:12px;color:#8A8A84;margin-top:4px;">Frizz + flyaways, on the go</div>
+          <button style="width:100%;margin-top:14px;border:1px solid #1d1d1b;background:transparent;color:#1d1d1b;padding:12px;font-size:10.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .18s;" style-hover="width:100%;margin-top:14px;border:1px solid #1d1d1b;background:#1d1d1b;color:#fff;padding:12px;font-size:10.5px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;"><span>Add to cart</span><span style="white-space:nowrap;">£24 <span style="text-decoration:line-through;opacity:0.55;">£34</span></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <section id="turn3">
+  <div style="display:flex;justify-content:center;">
+
+    <div id="2b" style="width:390px;">
+      <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px;">
+        <span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;padding:0 9px;background:#1d1d1b;color:#fff;font-size:12px;font-weight:600;letter-spacing:0.04em;border-radius:100px;">2b</span>
+        <span style="font-size:13px;font-weight:600;letter-spacing:0.02em;">Refy-tight · square buttons · full bleed</span>
+      </div>
+
+      <div style="width:390px;height:820px;overflow-y:auto;overflow-x:hidden;background:#ffffff;border-radius:34px;box-shadow:0 40px 80px -30px rgba(0,0,0,0.35),0 0 0 1px rgba(0,0,0,0.05);scroll-snap-type:y proximity;">
+
+        <!-- announcement -->
+        <div style="background:#1d1d1b;color:#F4F4F2;text-align:center;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;padding:9px 16px;">Free delivery on all orders £30+</div>
+
+        <!-- white header -->
+        <div style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:#fff;border-bottom:1px solid #eeeeec;">
+          <div style="display:flex;align-items:center;gap:16px;color:#1d1d1b;">
+            <div style="display:flex;flex-direction:column;gap:5px;width:20px;cursor:pointer;"><span style="height:1.5px;width:20px;background:#1d1d1b;display:block;"></span><span style="height:1.5px;width:12px;background:#1d1d1b;display:block;"></span></div>
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="7" cy="7" r="5.4" stroke="#1d1d1b" stroke-width="1.3"/><line x1="11" y1="11" x2="16" y2="16" stroke="#1d1d1b" stroke-width="1.3"/></svg>
+          </div>
+          <img src="assets/logo-black.png" alt="The Smooth Company" style="height:24px;width:auto;display:block;">
+          <div style="display:flex;align-items:center;gap:15px;color:#1d1d1b;">
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.2" stroke="#1d1d1b" stroke-width="1.3"/><path d="M3.5 15.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="#1d1d1b" stroke-width="1.3"/></svg>
+            <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M4 5.5h10l-.8 10.5H4.8L4 5.5z" stroke="#1d1d1b" stroke-width="1.3"/><path d="M6.5 6V4.8a2.5 2.5 0 0 1 5 0V6" stroke="#1d1d1b" stroke-width="1.3"/></svg>
+          </div>
+        </div>
+
+        <!-- HERO: light film, text below (Refy) -->
+        <div style="position:relative;height:470px;overflow:hidden;background:#e7e3dd;">
+          <div style="position:absolute;inset:0;background:repeating-linear-gradient(120deg,#e7e3dd 0 16px,#efece6 16px 32px);animation:softpan 20s ease-in-out infinite;"></div>
+          <div style="position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;font-style:italic;color:#b3aa9e;font-size:11px;font-family:Georgia,serif;">brand film — muted · autoplay · loop</div>
+        </div>
+        <div style="text-align:center;padding:44px 20px 0;">
+          <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;font-size:11px;letter-spacing:0.06em;color:#6C6C66;"><span style="color:#1d1d1b;font-size:12px;letter-spacing:0.1em;">★★★★★</span>4.7 · 460+ reviews</div>
+          <h2 class="donovan" style="font-size:26px;line-height:1.02;letter-spacing:-0.01em;margin:0 0 14px;white-space:nowrap;">Smooth, the quiet way.</h2>
+          <p style="font-size:13px;color:#6C6C66;line-height:1.5;margin:0 auto 22px;max-width:290px;">Smoothing that feels like skincare — considered, gentle, everyday.</p>
+          <a href="#2b" style="display:inline-block;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;padding:16px 34px;">Shop the range</a>
+        </div>
+
+        <!-- BEST SELLERS -->
+        <div style="padding:72px 0 0;">
+          <div class="eyebrow" style="margin-bottom:18px;">Shop the edit</div>
+          <div style="display:flex;justify-content:center;gap:24px;margin-bottom:6px;">
+            <sc-for list="{{ tabItems }}" as="t" hint-placeholder-count="3">
+              <button data-index="{{ t.index }}" onClick="{{ selectTab }}" style="{{ t.style }}">{{ t.label }}</button>
+            </sc-for>
+          </div>
+          <div class="snap" style="display:flex;gap:2px;overflow-x:auto;padding:16px 10px 6px;scroll-padding-left:10px;">
+            <sc-for list="{{ currentProducts }}" as="p" hint-placeholder-count="4">
+              <div style="flex:0 0 248px;scroll-snap-align:start;">
+                <div style="border:1px solid #e6e4e0;">
+                  <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;overflow:hidden;">
+                    <sc-if value="{{ p.badge }}" hint-placeholder-val="{{ true }}">
+                      <span class="lab" style="position:absolute;top:12px;left:12px;color:#1d1d1b;font-size:9px;">{{ p.badge }}</span>
+                    </sc-if>
+                  </div>
+                  <button style="width:100%;display:flex;align-items:center;justify-content:space-between;border:none;border-top:1px solid #e6e4e0;background:#f4f4f2;color:#1d1d1b;padding:14px 14px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;transition:all .18s;" style-hover="width:100%;display:flex;align-items:center;justify-content:space-between;border:none;border-top:1px solid #1d1d1b;background:#1d1d1b;color:#fff;padding:14px 14px;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;"><span>Add to cart</span><span style="font-size:16px;line-height:1;">+</span></button>
+                </div>
+                <div style="padding:14px 2px 4px;">
+                  <div style="font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:1.25;">{{ p.name }}</div>
+                  <div style="font-size:12px;color:#8A8A84;margin-top:4px;line-height:1.3;">{{ p.cutline }}</div>
+                  <div style="font-size:11px;color:#1d1d1b;margin-top:8px;">★★★★★ <span style="color:#A8A8A2;text-decoration:underline;">({{ p.reviews }})</span></div>
+                  <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px;">
+                    <span style="font-size:13px;color:#1d1d1b;">{{ p.price }}</span>
+                    <sc-if value="{{ p.compareAt }}" hint-placeholder-val="{{ true }}">
+                      <span style="font-size:12px;color:#A8A8A2;text-decoration:line-through;">{{ p.compareAt }}</span>
+                    </sc-if>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="text-align:center;margin-top:20px;">
+            <a href="#2b" style="display:inline-block;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;padding:15px 40px;">Shop all</a>
+          </div>
+        </div>
+
+        <!-- STATEMENT moment -->
+        <div style="padding:72px 28px 0;text-align:center;">
+          <p class="donovan" style="font-size:29px;line-height:1.1;letter-spacing:-0.01em;margin:0;">Smoothing that feels like skincare.</p>
+          <div style="width:40px;height:2px;background:#b5e3d9;margin:22px auto 0;"></div>
+        </div>
+
+        <!-- SHOP BY CATEGORY -->
+        <div style="padding:72px 0 0;">
+          <div class="eyebrow" style="margin-bottom:24px;">Shop by category</div>
+          <div class="snap" style="display:flex;gap:2px;overflow-x:auto;">
+            <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="5">
+              <a href="#2b" style="flex:0 0 300px;scroll-snap-align:start;">
+                <div style="aspect-ratio:4/5;background:repeating-linear-gradient(120deg,#eceae6 0 15px,#f4f2ee 15px 30px);position:relative;overflow:hidden;">
+                  <div style="position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(to top,rgba(20,18,15,0.4),transparent);"></div>
+                  <span class="lab" style="position:absolute;bottom:16px;left:16px;font-size:13px;letter-spacing:0.18em;color:#fff;">{{ cat.name }}</span>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- PRESS band -->
+        <div style="padding:72px 20px 0;text-align:center;">
+          <div class="donovan" style="display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;color:#1d1d1b;font-size:21px;line-height:1;">
+            <span>Vogue</span><span>Elle</span><span>Grazia</span><span>Stylist</span>
+          </div>
+          <div class="lab" style="color:#9A9A94;margin-top:16px;letter-spacing:0.22em;">As seen in · Winner, Beauty Awards 2025</div>
+        </div>
+
+        <!-- FOUNDER story -->
+        <div style="padding:72px 0 0;">
+          <div style="aspect-ratio:5/6;background:repeating-linear-gradient(120deg,#e9e4dd 0 15px,#f1ece5 15px 30px);position:relative;">
+            <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-style:italic;color:#b0a99f;font-size:12px;font-family:Georgia,serif;">founder portrait</span>
+          </div>
+          <div style="padding:28px 24px 0;text-align:center;">
+            <p class="donovan" style="font-size:25px;line-height:1.16;letter-spacing:-0.01em;margin:0 0 22px;">“I wanted smoothing that felt considered — gentle, everyday, yours.”</p>
+            <a href="#2b" style="display:inline-block;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;padding:15px 36px;">Read more</a>
+          </div>
+        </div>
+
+        <!-- WATCH & SHOP -->
+        <div style="padding:72px 0 0;">
+          <div class="eyebrow" style="margin-bottom:24px;">Watch &amp; shop</div>
+          <div class="snap" style="display:flex;gap:2px;overflow-x:auto;">
+            <sc-for list="{{ videos }}" as="v" hint-placeholder-count="3">
+              <a href="#2b" style="flex:0 0 240px;scroll-snap-align:start;">
+                <div style="aspect-ratio:9/16;background:repeating-linear-gradient(120deg,#e6e2dc 0 15px,#eee9e3 15px 30px);position:relative;overflow:hidden;">
+                  <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:12px;color:#1d1d1b;">▶</span>
+                  <span style="position:absolute;left:14px;right:14px;bottom:52px;color:#fff;font-size:13px;font-weight:500;line-height:1.2;text-shadow:0 1px 5px rgba(0,0,0,0.5);">{{ v.title }}</span>
+                  <span style="position:absolute;left:14px;bottom:14px;background:#fff;color:#1d1d1b;padding:8px 14px;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;">Shop {{ v.price }}</span>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- REVIEWS (touchpoint 3) -->
+        <div style="padding:72px 0 0;">
+          <div style="text-align:center;margin-bottom:30px;">
+            <div class="donovan" style="font-size:72px;line-height:0.9;">4.7</div>
+            <div style="font-size:15px;letter-spacing:0.14em;margin:10px 0 8px;">★★★★★</div>
+            <div class="lab" style="color:#9A9A94;">460+ verified reviews</div>
+          </div>
+          <div class="snap" style="display:flex;gap:2px;overflow-x:auto;">
+            <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="4">
+              <div style="flex:0 0 260px;scroll-snap-align:start;">
+                <div style="aspect-ratio:1/1;background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);position:relative;">
+                  <span class="lab" style="position:absolute;bottom:14px;left:14px;background:#fff;color:#1d1d1b;padding:6px 10px;font-size:8.5px;">Shop {{ r.product }}</span>
+                </div>
+                <div style="padding:14px;">
+                  <div style="font-size:12px;letter-spacing:0.1em;margin-bottom:10px;">★★★★★</div>
+                  <p style="font-size:14px;line-height:1.4;margin:0 0 12px;color:#1d1d1b;">“{{ r.quote }}”</p>
+                  <div class="lab" style="color:#A8A8A2;font-size:9px;">{{ r.name }} · Verified buyer</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="text-align:center;margin-top:26px;">
+            <a href="#2b" style="display:inline-block;border:1px solid #1d1d1b;background:transparent;color:#1d1d1b;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;padding:14px 34px;">Read all 460 reviews</a>
+          </div>
+        </div>
+
+        <!-- FOOTER (newsletter merged, Refy-style) -->
+        <div style="margin-top:72px;padding:52px 24px 40px;background:#1d1d1b;color:#B9B9B2;">
+          <img src="assets/logo-white.png" alt="The Smooth Company" style="height:30px;width:auto;display:block;margin-bottom:14px;">
+          <div class="lab" style="color:#8f8f88;margin-bottom:32px;letter-spacing:0.24em;">Smooth, the quiet way.</div>
+          <p style="font-size:12.5px;color:#C9C9C2;margin:0 0 16px;line-height:1.5;">Be the first to hear about new launches, early access and 10% off your first order.</p>
+          <div style="margin-bottom:36px;">
+            <input placeholder="Email address" style="width:100%;border:1px solid #3a3a36;background:transparent;padding:14px 16px;font-size:13px;font-family:inherit;color:#fff;margin-bottom:8px;">
+            <button style="width:100%;background:#fff;color:#1d1d1b;border:none;padding:15px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:inherit;cursor:pointer;">Subscribe</button>
+          </div>
+          <div style="border-top:1px solid #333330;">
+            <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+              <div style="border-bottom:1px solid #333330;">
+                <button data-key="{{ col.key }}" onClick="{{ toggleFooter }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;padding:18px 0;font-family:inherit;cursor:pointer;color:#fff;">
+                  <span class="lab" style="font-size:11px;letter-spacing:0.16em;">{{ col.title }}</span>
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" style="{{ col.caretStyle }}"><path d="M1 1.5 6 6.5 11 1.5" stroke="#B9B9B2" stroke-width="1.3"/></svg>
+                </button>
+                <sc-if value="{{ col.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:0 0 18px;font-size:13px;line-height:2.1;color:#B9B9B2;">
+                    <sc-for list="{{ col.links }}" as="lnk" hint-placeholder-count="3">
+                      <div><a href="#2b">{{ lnk }}</a></div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:30px;padding-top:20px;border-top:1px solid #333330;display:flex;justify-content:space-between;align-items:center;">
+            <span class="lab" style="color:#6A6A63;">© The Smooth Company</span>
+            <span class="lab" style="color:#6A6A63;">IG · TT · YT</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 0, footerOpen: { shop: true } };
+  renderVals() {
+    const cols = [
+      { key: 'shop', title: 'Shop', links: ['Sticks', 'Creams', 'Tools', 'Travel', 'Gifting'] },
+      { key: 'learn', title: 'Learn', links: ['Smooth School →', 'Our story', 'Ingredients'] },
+      { key: 'help', title: 'Help', links: ['Contact', 'Shipping', 'Returns'] },
+    ];
+    const footerCols = cols.map(c => {
+      const open = !!this.state.footerOpen[c.key];
+      return { ...c, open, caretStyle: 'transition:transform .2s;transform:rotate(' + (open ? '180deg' : '0deg') + ');' };
+    });
+    const tabs = ['Best sellers', 'New in', 'Bundles'];
+    const catalog = [
+      [
+        { name: 'The Smoothing Stick', cutline: 'Frizz + flyaways, on the go', price: '£24', reviews: '312', badge: 'Bestseller' },
+        { name: 'Frizz Cream', cutline: 'Lightweight daily smoothing', price: '£18', compareAt: '£22', reviews: '208', badge: 'Save £4' },
+        { name: 'Finishing Balm', cutline: 'Polish + shine, no crunch', price: '£20', reviews: '156', badge: 'New' },
+        { name: 'Detangle Brush', cutline: 'Gentle, glide-through', price: '£18', reviews: '98', badge: '' },
+      ],
+      [
+        { name: 'The Finishing Balm', cutline: 'Just landed', price: '£20', reviews: '156', badge: 'New' },
+        { name: 'Silk Pillow Set', cutline: 'Overnight smoothing', price: '£45', reviews: '42', badge: 'New' },
+        { name: 'Travel Stick', cutline: 'Pocket-size ritual', price: '£14', reviews: '61', badge: 'New' },
+        { name: 'Heat Mist', cutline: 'Protect + smooth', price: '£21', reviews: '30', badge: 'New' },
+      ],
+      [
+        { name: 'The Smooth Duo', cutline: 'Stick + cream', price: '£40', reviews: '124', badge: 'Save £6' },
+        { name: 'Full Ritual Set', cutline: 'Everything, boxed', price: '£72', reviews: '88', badge: 'Save £14' },
+        { name: 'Travel Duo', cutline: 'Your ritual, mini', price: '£30', reviews: '74', badge: 'Save £4' },
+        { name: 'Gift Box · Medium', cutline: 'Build your own', price: '£55', reviews: '51', badge: '' },
+      ],
+    ];
+    const baseTab = 'background:none;border:none;padding:0 0 8px;margin:0;font-family:inherit;font-size:11px;cursor:pointer;letter-spacing:0.14em;text-transform:uppercase;';
+    const tabItems = tabs.map((label, i) => ({
+      label,
+      index: i,
+      style: i === this.state.tab
+        ? baseTab + 'color:#1d1d1b;font-weight:600;border-bottom:1.5px solid #1d1d1b;'
+        : baseTab + 'color:#9A9A94;font-weight:500;',
+    }));
+    return {
+      tabItems,
+      footerCols,
+      toggleFooter: (e) => { const k = e.currentTarget.dataset.key; this.setState(s => ({ footerOpen: { ...s.footerOpen, [k]: !s.footerOpen[k] } })); },
+      selectTab: (e) => this.setState({ tab: +e.currentTarget.dataset.index }),
+      currentProducts: catalog[this.state.tab],
+      categories: [
+        { name: 'Sticks' }, { name: 'Creams' }, { name: 'Tools' }, { name: 'Travel' }, { name: 'Gifting' },
+      ],
+      videos: [
+        { title: 'Tame flyaways in 60s', price: '£24' },
+        { title: 'The polished slick', price: '£22' },
+        { title: 'Travel-ready hair', price: '£30' },
+      ],
+      reviews: [
+        { quote: 'My hair has never looked so polished.', name: 'Amara K.', product: 'Stick' },
+        { quote: 'The stick lives in my bag now.', name: 'Priya S.', product: 'Stick' },
+        { quote: 'Frizz gone in seconds, no crunch.', name: 'Jo M.', product: 'Cream' },
+        { quote: 'Feels like skincare for my hair.', name: 'Elle R.', product: 'Balm' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
