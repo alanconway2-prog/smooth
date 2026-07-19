@@ -1,0 +1,203 @@
+{% liquid 
+  assign content_alignment = section.settings.content_alignment
+  assign heading = section.settings.heading | escape
+  assign logo_size = section.settings.logo_size
+  assign block_count = section.blocks.size
+  assign mobile_column_count = section.settings.mobile_columns | times: 1
+  assign remaining_blocks_mobile = block_count | modulo: mobile_column_count
+%}
+
+<section
+  data-component="logo-list"
+  data-component-type="section"
+  {% if tag != blank %}data-component-tag="{{ tag }}"
+  {% endif %}class="logo-list"
+  style="
+    --local-background-color: {{ section.settings.background_color }};
+  "
+>
+  <section-wrapper {% if section.settings.wide %}width="wide"{% endif %}>
+    <section-content>
+      <div class="logo-list__wrapper">
+        <div
+          class="
+            logo-list__content
+            logo-list__content--alignment-{{ content_alignment }}
+          "
+        >
+          {% if heading != blank %}
+            <h1 class="logo-list__heading">{{- heading -}}</h1>
+          {% endif %}
+          
+          <div
+            class="
+              logo-list__logos
+              logo-list__logos--{{ logo_size }}-blocks
+              logo-list__logos--{{ mobile_column_count }}-mobile
+              {% if remaining_blocks_mobile > 0 %}
+              logo-list__logos--last-row-has-{{ remaining_blocks_mobile }}-mobile
+              {% endif %}
+            "
+          >
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'logo' %}
+                  {% comment %}Component block-logo:default begin{% endcomment %}
+                  <div data-component="block-logo" data-component-type="block" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="block-logo" {{ block.shopify_attributes }}>
+                    {% if block.settings.link != blank %}
+                    <a class="block-logo__link" href="{{ block.settings.link }}">
+                    {% endif %}
+                  
+                      <div class="block-logo__image">
+                        {% if block.settings.image != blank %}
+                          {% comment %}Component lazy-img:default begin{% endcomment %}
+                          {% render 'lazy-img', img: block.settings.image, size: '150x', canvas: true, lazy: true %}
+                          {% comment %}Component lazy-img:default end{% endcomment %}
+                        {% else %}
+                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                        {% endif %}
+                      </div>
+                      
+                    {% if block.settings.link != blank %}
+                    </a>
+                    {% endif %}
+                  </div>
+                  
+                  {% comment %}Component block-logo:default end{% endcomment %}
+              {% endcase %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section-content>
+  </section-wrapper>
+</section>
+{% schema %}
+{
+  "name": "t:common.component.logo_list",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "wide",
+      "label": "t:common.size.wide_display",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:common.text.heading",
+      "default": "Logo list"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:component.logo_list.content_alignment.label",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:common.layout.left"
+        },
+        {
+          "value": "center",
+          "label": "t:common.layout.center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "t:component.logo_list.mobile_columns.label",
+      "options": [
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "logo_size",
+      "label": "t:component.logo_list.logo_size.label",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:common.size.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:common.size.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:common.size.large"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "header",
+      "content": "t:common.style.color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:common.style.background_color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:common.component.logo_list",
+      "blocks": [
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "*"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:common.image.logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:common.image.image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:common.component.link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

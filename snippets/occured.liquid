@@ -1,0 +1,48 @@
+<script>
+  new MutationObserver(function (e) {
+      e.forEach(function (e) {
+          e.addedNodes.forEach(function (e) {
+            if(e.tagName=="DIV" && e.classList.contains('pf-media-slider')&&window.innerWidth<767){
+              e.querySelectorAll('img').forEach((el,i)=>{
+                if(i>0){
+                  el.setAttribute('data-src-load',el.src)
+                  el.removeAttribute('src')
+                  el.setAttribute('data-srcset-load',el.getAttribute('srcset'))
+                  el.removeAttribute('srcset')
+                }
+              })
+            }
+
+          })
+  })
+  }).observe(document.documentElement,{childList:!0,subtree:!0});
+       let t=500;
+         document.addEventListener("DOMContentLoaded",()=>{
+        setTimeout(()=>{
+          const interval=setInterval(()=>{
+          let loadSrc=document.querySelectorAll('[data-src-load]')
+          if(loadSrc.length==0){
+        	clearInterval(interval)
+            console.log('load end')
+          }else{
+            loadSrc[0].src=loadSrc[0].getAttribute('data-src-load')
+            loadSrc[0].removeAttribute('data-src-load')
+            if(loadSrc[0].getAttribute('data-srcset-load').length>4){
+               loadSrc[0].setAttribute('srcset',loadSrc[0].getAttribute('data-srcset-load'))
+               loadSrc[0].removeAttribute('data-srcset-load')
+            }
+          }
+        },t)
+        },3000)
+     });
+</script>
+<style>
+  @media(max-width:767px){
+    .pf-media-slider:has([data-src-load]){
+      overflow:hidden !important
+    }
+    .pf-media-slider:has([data-src-load]) *{
+      pointer-events:none !important
+    }
+  }
+</style>

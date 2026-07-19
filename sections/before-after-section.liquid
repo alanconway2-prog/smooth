@@ -1,0 +1,157 @@
+<div class="before-after-section {% if section.settings.swap_columns %}columns-swapped{% endif %}">
+  <div class="column-wrapper">
+    <div class="text-column" style="background-color: {{ section.settings.background_color }};">
+      <h2>{{ section.settings.title }}</h2>
+      <div class="description">{{ section.settings.description }}</div>
+    </div>
+    <div class="media-column">
+      {% if section.settings.content_type == 'comparison' %}
+        <div class="image-comparison">
+          <img src="{{ section.settings.before_image | img_url: 'master' }}" alt="Before" class="before-image">
+          <img src="{{ section.settings.after_image | img_url: 'master' }}" alt="After" class="after-image">
+          <input type="range" min="0" max="100" value="50" class="slider" id="comparison-slider">
+          <div class="slider-line"><div class="slider-button"></div></div>
+        </div>
+      {% elsif section.settings.content_type == 'video' %}
+        <div class="video-wrapper">
+          {% if section.settings.video_source == 'custom_field' %}
+            {% assign video_file = product.metafields.custom.video.value %}
+            {% if video_file != blank %}
+              <video controls>
+                <source src="{{ video_file.value.url }}" type="{{ video_file.value.content_type }}">
+                Your browser does not support the video tag.
+              </video>
+            {% else %}
+              <p>No video file found.</p>
+            {% endif %}
+          {% else %}
+            <video controls>
+              <source src="{{ section.settings.video_url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          {% endif %}
+        </div>
+      {% else %}
+        {% if section.settings.image != blank %}
+          <img src="{{ section.settings.image | img_url: 'master' }}" alt="{{ section.settings.image.alt | escape }}">
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Media Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Your Title Here"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Your description here</p>"
+    },
+    {
+      "type": "select",
+      "id": "content_type",
+      "label": "Content Type",
+      "options": [
+        { "value": "image", "label": "Single Image" },
+        { "value": "comparison", "label": "Before/After Comparison" },
+        { "value": "video", "label": "Video" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (Single Image Mode)"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Before Image (Comparison Mode)"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "After Image (Comparison Mode)"
+    },
+    {
+      "type": "select",
+      "id": "video_source",
+      "label": "Video Source",
+      "options": [
+        { "value": "url", "label": "Direct URL" },
+        { "value": "custom_field", "label": "Custom Field" }
+      ],
+      "default": "url"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "swap_columns",
+      "label": "Swap column order",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Text Column Background Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Media Section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  /* Add your styles here */
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+    height: 100%;
+    background-color: black
+  }
+  .video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.getElementById('comparison-slider');
+  const afterImage = document.querySelector('.after-image');
+  const sliderLine = document.querySelector('.slider-line');
+
+  if (slider && afterImage && sliderLine) {
+    slider.addEventListener('input', function() {
+      const value = this.value + '%';
+      afterImage.style.clipPath = `inset(0 ${100 - this.value}% 0 0)`;
+      sliderLine.style.left = value;
+    });
+  }
+});
+</script>

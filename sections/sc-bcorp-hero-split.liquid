@@ -1,0 +1,136 @@
+{%- assign heading = section.settings.hs_heading | strip -%}
+{%- assign sub = section.settings.hs_sub | strip -%}
+{%- assign alt = section.settings.hs_image.alt | default: heading | escape -%}
+{%- assign img_order = 2 -%}
+{%- if section.settings.hs_position == 'left' -%}{%- assign img_order = 0 -%}{%- endif -%}
+
+<style>
+  .wlm-content .shopify-section,
+  #site-main .shopify-section { margin: 0 !important; padding: 0 !important; }
+  wlm.wlm-content { display: contents; }
+  #site-main .shopify-section > section { margin: 0 !important; }
+  #site-main { gap: 0 !important; row-gap: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .wlm-content { gap: 0 !important; }
+
+  #schs-{{ section.id }} {
+    background-color: {{ section.settings.hs_bg }};
+    color: {{ section.settings.hs_ink }};
+  }
+
+  #schs-{{ section.id }} .schs__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #schs-{{ section.id }} .schs__inner,
+  #schs-{{ section.id }} .schs__inner * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    animation: none !important;
+    clip-path: none !important;
+  }
+
+  #schs-{{ section.id }} .schs__media {
+    width: 100%;
+    aspect-ratio: {{ section.settings.hs_ratio_m }};
+    overflow: hidden;
+    background-color: {{ section.settings.hs_placeholder }};
+  }
+  #schs-{{ section.id }} .schs__media img,
+  #schs-{{ section.id }} .schs__media svg {
+    width: 100%; height: 100%; object-fit: cover; object-position: {{ section.settings.hs_focal }}; display: block;
+  }
+
+  #schs-{{ section.id }} .schs__content {
+    padding: {{ section.settings.hs_pad_m }}px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #schs-{{ section.id }} .schs__heading {
+    margin: 0;
+    font-size: {{ section.settings.hs_size_m }}px;
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  #schs-{{ section.id }} .schs__sub {
+    margin: {{ section.settings.hs_gap_sub }}px 0 0;
+    font-size: {{ section.settings.hs_sub_size_m }}px;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85 !important;
+    max-width: 34ch;
+  }
+
+  @media screen and (min-width: 860px) {
+    #schs-{{ section.id }} .schs__inner {
+      grid-template-columns: {{ section.settings.hs_text_w }}fr {{ 100 | minus: section.settings.hs_text_w }}fr;
+      align-items: stretch;
+      min-height: {{ section.settings.hs_min_h }}px;
+    }
+    #schs-{{ section.id }} .schs__media {
+      aspect-ratio: auto;
+      height: 100%;
+      order: {{ img_order }};
+    }
+    #schs-{{ section.id }} .schs__content {
+      padding: {{ section.settings.hs_pad_d }}px {{ section.settings.hs_pad_inline_d }}px;
+    }
+    #schs-{{ section.id }} .schs__heading { font-size: {{ section.settings.hs_size_d }}px; }
+    #schs-{{ section.id }} .schs__sub { font-size: {{ section.settings.hs_sub_size_d }}px; }
+  }
+</style>
+
+<section id="schs-{{ section.id }}" class="schs" {{ section.shopify_attributes }}>
+  <div class="schs__inner">
+    <div class="schs__media">
+      {%- if section.settings.hs_image != blank -%}
+        {{ section.settings.hs_image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 860px) 50vw, 100vw', widths: '480, 768, 1000, 1400, 1600', alt: alt }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+    <div class="schs__content">
+      {%- if heading != blank -%}<h2 class="schs__heading">{{ heading }}</h2>{%- endif -%}
+      {%- if sub != blank -%}<p class="schs__sub">{{ sub }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B Corp: Hero split",
+  "tag": "section",
+  "class": "schs-section",
+  "settings": [
+    { "type": "text", "id": "hs_heading", "label": "Heading", "default": "Certified B Corp" },
+    { "type": "textarea", "id": "hs_sub", "label": "Supporting line", "default": "We're making glossy waves, for all the right reasons." },
+    { "type": "header", "content": "Photo" },
+    { "type": "image_picker", "id": "hs_image", "label": "Photo" },
+    { "type": "select", "id": "hs_position", "label": "Photo position, desktop", "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ], "default": "right" },
+    { "type": "select", "id": "hs_focal", "label": "Photo focal point", "options": [ { "value": "left center", "label": "Left" }, { "value": "center center", "label": "Centre" }, { "value": "right center", "label": "Right" }, { "value": "center top", "label": "Top" } ], "default": "center center" },
+    { "type": "select", "id": "hs_ratio_m", "label": "Photo ratio, mobile", "options": [ { "value": "1 / 1", "label": "Square" }, { "value": "4 / 5", "label": "Portrait 4:5" }, { "value": "4 / 3", "label": "Landscape 4:3" } ], "default": "4 / 3" },
+    { "type": "color", "id": "hs_placeholder", "label": "Placeholder colour", "default": "#e8f1ee" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "hs_text_w", "label": "Text column width, desktop", "min": 40, "max": 60, "step": 5, "unit": "%", "default": 50 },
+    { "type": "range", "id": "hs_min_h", "label": "Minimum height, desktop", "min": 320, "max": 800, "step": 20, "unit": "px", "default": 560 },
+    { "type": "range", "id": "hs_pad_d", "label": "Text padding vertical, desktop", "min": 24, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "hs_pad_inline_d", "label": "Text padding side, desktop", "min": 24, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "hs_pad_m", "label": "Text padding, mobile", "min": 24, "max": 96, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "hs_gap_sub", "label": "Gap under heading", "min": 12, "max": 56, "step": 2, "unit": "px", "default": 24 },
+    { "type": "header", "content": "Colour and type" },
+    { "type": "color", "id": "hs_bg", "label": "Background", "default": "#eef4f2" },
+    { "type": "color", "id": "hs_ink", "label": "Text", "default": "#1d1d1b" },
+    { "type": "range", "id": "hs_size_d", "label": "Heading size, desktop", "min": 40, "max": 120, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "hs_size_m", "label": "Heading size, mobile", "min": 28, "max": 72, "step": 2, "unit": "px", "default": 48 },
+    { "type": "range", "id": "hs_sub_size_d", "label": "Supporting size, desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 13 },
+    { "type": "range", "id": "hs_sub_size_m", "label": "Supporting size, mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 12 }
+  ],
+  "presets": [ { "name": "B Corp: Hero split" } ]
+}
+{% endschema %}

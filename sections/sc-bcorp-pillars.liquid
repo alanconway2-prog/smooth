@@ -1,0 +1,446 @@
+{% comment %}
+  SOAP. / The Smooth Company
+  sc-bcorp-pillars
+
+  "Why B Corp matters" as a small tracked label. The four standards are the
+  hero, large, inheriting the theme heading serif. Short rule, then a closing
+  line. All centred over a full bleed image (redwood crop), even padding.
+  Setting ids prefixed pl_, block ids pli_.
+{% endcomment %}
+
+{%- liquid
+  assign s = section.settings
+  assign alt_bg = s.pl_image.alt | default: 'Certified B Corporation'
+  assign label = s.pl_label | strip
+  assign close = s.pl_close | strip
+-%}
+
+<style>
+  /* Page scoped section gap reset */
+  .wlm-content .shopify-section,
+  #site-main .shopify-section { margin: 0 !important; padding: 0 !important; }
+  wlm.wlm-content { display: contents; }
+  #site-main .shopify-section > section { margin: 0 !important; }
+  #site-main { gap: 0 !important; row-gap: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .wlm-content { gap: 0 !important; }
+
+  #scpl-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    background-color: {{ s.pl_fallback }};
+    color: {{ s.pl_ink }};
+    padding: {{ s.pl_pad_m }}px 24px;
+  }
+
+  #scpl-{{ section.id }} .scpl__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ s.pl_focal }};
+    z-index: 0;
+  }
+
+  #scpl-{{ section.id }} .scpl__scrim {
+    position: absolute;
+    inset: 0;
+    background-color: {{ s.pl_scrim }};
+    opacity: {{ s.pl_scrim_op | divided_by: 100.0 }};
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  #scpl-{{ section.id }} .scpl__inner {
+    position: relative;
+    z-index: 2;
+    max-width: {{ s.pl_max }}px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* Tailor hides content until its observer fires */
+  #scpl-{{ section.id }} .scpl__inner,
+  #scpl-{{ section.id }} .scpl__inner * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    animation: none !important;
+    clip-path: none !important;
+  }
+
+  #scpl-{{ section.id }} .scpl__label,
+  #scpl-{{ section.id }} .scpl__close,
+  #scpl-{{ section.id }} .scpl__word {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Label: a signpost, not a peer of the words. Small, tracked, quiet. */
+  #scpl-{{ section.id }} .scpl__label {
+    font-size: 24px;
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: {{ s.pl_heading_color }};
+    margin: 0 auto {{ s.pl_gap_label }}px;
+  }
+
+  #scpl-{{ section.id }} .scpl__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: {{ s.pl_row_gap_m }}px;
+  }
+
+  /* Words inherit the theme heading serif. No font-family set. */
+  #scpl-{{ section.id }} .scpl__word {
+    font-size: {{ s.pl_word_size_m }}px;
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  #scpl-{{ section.id }} .scpl__rule {
+    width: 40px;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.4;
+    border: 0;
+    margin: {{ s.pl_gap_rule }}px auto 0;
+  }
+
+  #scpl-{{ section.id }} .scpl__close {
+    margin: {{ s.pl_gap_close }}px auto 0;
+    font-size: {{ s.pl_close_size_m }}px;
+    line-height: 1.5;
+    opacity: 0.9 !important;
+    max-width: 40ch;
+  }
+
+  @media screen and (min-width: 768px) {
+    #scpl-{{ section.id }} {
+      padding: {{ s.pl_pad_d }}px 48px;
+    }
+    #scpl-{{ section.id }} .scpl__label {
+      font-size: 32px;
+    }
+    #scpl-{{ section.id }} .scpl__list {
+      gap: {{ s.pl_row_gap_d }}px;
+    }
+    #scpl-{{ section.id }} .scpl__word {
+      font-size: {{ s.pl_word_size_d }}px;
+    }
+    #scpl-{{ section.id }} .scpl__close {
+      font-size: {{ s.pl_close_size_d }}px;
+    }
+  }
+</style>
+
+<section id="scpl-{{ section.id }}" class="scpl" {{ section.shopify_attributes }}>
+  {%- if s.pl_image != blank -%}
+    {{
+      s.pl_image
+      | image_url: width: 2400
+      | image_tag: loading: 'lazy', sizes: '100vw', widths: '800, 1200, 1800, 2400', alt: alt_bg, class: 'scpl__bg'
+    }}
+  {%- endif -%}
+
+  {%- if s.pl_scrim_op > 0 -%}
+    <div class="scpl__scrim"></div>
+  {%- endif -%}
+
+  <div class="scpl__inner">
+    {%- if label != blank -%}
+      <h2 class="scpl__label">{{ label }}</h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="scpl__list">
+        {%- for block in section.blocks -%}
+          {%- assign w = block.settings.pli_word | strip -%}
+          {%- if w != blank -%}
+            <li class="scpl__word" {{ block.shopify_attributes }}>{{ w }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if s.pl_show_rule -%}
+      <hr class="scpl__rule">
+    {%- endif -%}
+
+    {%- if close != blank -%}
+      <p class="scpl__close">{{ close }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B Corp: Pillars",
+  "tag": "section",
+  "class": "scpl-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "pl_label",
+      "label": "Label",
+      "info": "Small tracked signpost above the standards.",
+      "default": "Why B Corp matters"
+    },
+    {
+      "type": "checkbox",
+      "id": "pl_show_rule",
+      "label": "Show short rule below standards",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pl_close",
+      "label": "Closing line",
+      "info": "Optional. Sits below the rule.",
+      "default": "A higher standard of business, the Smooth way."
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "pl_image",
+      "label": "Background image",
+      "info": "Use the redwood hero crop so it bookends the top of the page."
+    },
+    {
+      "type": "select",
+      "id": "pl_focal",
+      "label": "Image focal point",
+      "options": [
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center center",
+          "label": "Centre"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "color",
+      "id": "pl_fallback",
+      "label": "Fallback colour, behind image",
+      "default": "#2f3d34"
+    },
+    {
+      "type": "color",
+      "id": "pl_scrim",
+      "label": "Overlay colour",
+      "default": "#1d2b22"
+    },
+    {
+      "type": "range",
+      "id": "pl_scrim_op",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "pl_gap_label",
+      "label": "Gap under label",
+      "min": 16,
+      "max": 88,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "pl_row_gap_d",
+      "label": "Gap between standards, desktop",
+      "min": 6,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "pl_row_gap_m",
+      "label": "Gap between standards, mobile",
+      "min": 6,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "pl_gap_rule",
+      "label": "Gap above rule",
+      "min": 16,
+      "max": 88,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "pl_gap_close",
+      "label": "Gap above closing line",
+      "min": 12,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "pl_pad_d",
+      "label": "Section padding, desktop",
+      "min": 40,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 128
+    },
+    {
+      "type": "range",
+      "id": "pl_pad_m",
+      "label": "Section padding, mobile",
+      "min": 24,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "pl_max",
+      "label": "Content max width",
+      "min": 600,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 820
+    },
+    {
+      "type": "header",
+      "content": "Type"
+    },
+    {
+      "type": "color",
+      "id": "pl_ink",
+      "label": "Text colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pl_heading_color",
+      "label": "Heading colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "pl_word_size_d",
+      "label": "Standard size, desktop",
+      "min": 22,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "pl_word_size_m",
+      "label": "Standard size, mobile",
+      "min": 18,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "pl_close_size_d",
+      "label": "Closing line size, desktop",
+      "min": 13,
+      "max": 26,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "pl_close_size_m",
+      "label": "Closing line size, mobile",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    }
+  ],
+  "blocks": [
+    {
+      "type": "word",
+      "name": "Standard",
+      "settings": [
+        {
+          "type": "text",
+          "id": "pli_word",
+          "label": "Standard"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "B Corp: Pillars",
+      "blocks": [
+        {
+          "type": "word",
+          "settings": {
+            "pli_word": "Social impact"
+          }
+        },
+        {
+          "type": "word",
+          "settings": {
+            "pli_word": "Environmental responsibility"
+          }
+        },
+        {
+          "type": "word",
+          "settings": {
+            "pli_word": "Transparency"
+          }
+        },
+        {
+          "type": "word",
+          "settings": {
+            "pli_word": "Accountability"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

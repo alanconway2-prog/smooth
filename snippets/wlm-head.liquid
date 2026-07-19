@@ -1,0 +1,129 @@
+<script type='text/javascript' src='/apps/wlm/js/wlm-1.1.js?v=2.0'></script>
+{% assign wlmEnabled = true %}
+{% assign wlmLockON = false %}
+{% assign wlmRedirectURL = '' %} 
+{% assign wlmPnfHead = '' %} 
+{% assign wlmPnfMsg = '' %}
+{% assign wlmPwdForm = false %}
+{% assign wlmPwdMsg = '' %}
+{% assign wlmSuperPage = false %}
+
+{% if template == 'customers/login' or template == 'customers/activate_account' or template == 'customers/reset_password' or canonical_url contains 'challenge' %}
+
+{% unless canonical_url contains '/products/' or canonical_url contains '/collection/' or canonical_url contains '/collections/' or canonical_url contains '/search' %} {% assign wlmSuperPage = true %}
+ {% endunless %}{% endif %}
+
+{% capture wlm_check %}{% include 'super_page_access' %}{% endcapture %}{% unless wlm_check contains 'Liquid error' %}{% include 'super_page_access' %}{% endunless %}
+{% if wlmEnabled %}
+<style type="text/css">.wlm-message-pnf{text-align:center}#wlm-pwd-form{padding:30px 0;text-align:center}#wlm-wrapper{display:inline-block}#wlm-pwd-error{display:none;color:#FB8077;text-align:left;margin-top:10px;font-size:1.3rem}#wlm-pwd-error.wlm-error{border:1px solid #FB8077}#wlm-pwd-form-button{display:inline-block !important;height:auto !important;padding:8px 15px !important;background:black;border-radius:0 !important;color:#fff !important;text-decoration:none !important;vertical-align:top}.wlm-instantclick-fix,.wlm-item-selector{position:absolute;z-index:-999;display:none;height:0;width:0;font-size:0;line-height:0}#wlm-pwd-msg{margin-bottom:20px;text-align:left}#wlm-pwd-msg>p{margin-top:0;margin-bottom:0}.wlm-form-holder{display:flex}#wlm-pwd{border-color:black;border-width:1px;border-right:0;padding:0 10px}#wlm-pwd:focus-visible{outline:0}</style>
+
+{% assign wlmLockedTags375176 = false %}
+{% assign wlmLockedTags375177 = false %}
+{% assign wlmLockedTags375179 = false %}
+{% assign wlmLockedTags375178 = false %}
+{% assign wlmLockedTags375182 = false %}
+{% assign wlmLockedTags375183 = false %}
+{% assign wlmLockedTags375185 = false %}
+{% assign wlmLockedTags375184 = false %}
+{% for tag in customer.tags %}
+{% if tag == 'wholesaleireland' %}{% assign wlmLockedTags375176 = true %}{% endif %}
+{% if tag == 'wholesaleuk' %}{% assign wlmLockedTags375177 = true %}{% endif %}
+{% if tag == 'wholesaleusa' %}{% assign wlmLockedTags375179 = true %}{% endif %}
+{% if tag == 'wholesaleeu' %}{% assign wlmLockedTags375178 = true %}{% endif %}
+{% if tag == 'wholesaleireland' %}{% assign wlmLockedTags375182 = true %}{% endif %}
+{% if tag == 'wholesaleuk' %}{% assign wlmLockedTags375183 = true %}{% endif %}
+{% if tag == 'wholesaleworld' %}{% assign wlmLockedTags375185 = true %}{% endif %}
+{% if tag == 'wholesaleeu' %}{% assign wlmLockedTags375184 = true %}{% endif %}
+{% endfor %}
+
+{% unless wlmLockON or wlmSuperPage or template == 'customers/register' %}
+{% assign wlmLockedContent = false %}
+{% if template contains "collection" or template contains "product" %}
+{% if product.collections %}
+{% for c in product.collections %}
+{% if c.id == 607969575254 %} 
+{% assign wlmLockedContent = true %}{% break %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if template contains 'collection' or template contains 'product' %}
+{% if collection %}
+{% if   collection.handle == 'wholesale-collection' %}
+{% assign wlmLockedContent = true %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if wlmLockedContent %}
+{% unless customer %}
+{% assign wlmLockON = true %}
+{% capture wlmPnfHead %}Page not found{% endcapture %}
+{% capture wlmPnfMsg %}<p>Sorry, we couldn't find this page.</p>{% endcapture %}
+{% capture wlmRedirectURL %}/account/login{% endcapture %}
+{% else %}
+{% unless wlmLockedTags375176 or wlmLockedTags375177 or wlmLockedTags375178 or wlmLockedTags375179 %}{% assign wlmLockON = true %}{% endunless %}
+{% if wlmLockON %}
+{% capture wlmPnfHead %}Page not found{% endcapture %}
+{% capture wlmPnfMsg %}<p>Sorry, we couldn't find this page.</p>{% endcapture %}
+{% capture wlmRedirectURL %}/account/login{% endcapture %}
+{% endif %}
+{% else %}
+{% assign wlmLockON = true %}
+{% capture wlmPnfHead %}Page not found{% endcapture %}
+{% capture wlmPnfMsg %}<p>Sorry, we couldn't find this page.</p>{% endcapture %}
+{% capture wlmRedirectURL %}/account/login{% endcapture %}
+{% endunless %}
+{% endif %}
+{% endunless %}
+
+
+{% unless wlmLockON or wlmSuperPage or template == 'customers/register' %}
+{% assign wlmLockedContent = false %}
+{% if template contains "collection" or template contains "product" %}
+{% if product.collections %}
+{% for c in product.collections %}
+{% if c.id == 643642360150 or c.id == 271609528475 or c.id == 283638464667 or c.id == 283638628507 or c.id == 283638595739 or c.id == 286671896731 or c.id == 642519892310 or c.id == 638007640406 or c.id == 609480114518 or c.id == 283638497435 or c.id == 283638562971 %} 
+{% assign wlmLockedContent = true %}{% break %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if template contains 'collection' or template contains 'product' %}
+{% if collection %}
+{% if   collection.handle == 'new' or  collection.handle == 'shopall' or  collection.handle == 'spo-filter-3f960fec865dab23adfdf47ad0079f8a' or  collection.handle == 'spo-filter-58023b4490e956be1bb742816f000278' or  collection.handle == 'spo-filter-6ec8a1279ccc31530b0b977d71164fc6' or  collection.handle == 'value-packs' or  collection.handle == 'best-seller' or  collection.handle == 'black-friday-bundle' or  collection.handle == 'gifting' or  collection.handle == 'spo-filter-cee5b992b0d8b661e96cfd7c427e3b13' or  collection.handle == 'spo-filter-eb4e4ad52867b6f4d95f01cd2a8f1c8a' %}
+{% assign wlmLockedContent = true %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if wlmLockedContent %}
+{% if customer %}
+{% if wlmLockedTags375182 or wlmLockedTags375183 or wlmLockedTags375184 or wlmLockedTags375185 %}{% assign wlmLockON = true %}{% else %}{% assign wlmLockON = false %}{% endif %}
+{% if wlmLockON %}
+{% capture wlmPnfHead %}Page not found{% endcapture %}
+{% capture wlmPnfMsg %}<p>Sorry, we couldn't find this page.</p>{% endcapture %}
+{% capture wlmRedirectURL %}/account/login{% endcapture %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endunless %}
+
+
+{% endif %}
+
+{% capture wlm_check_hide %}{% include 'wlm-hideByLink' %}{% endcapture %}{% unless wlm_check_hide contains 'Liquid error' %}{% include 'wlm-hideByLink' %}{% endunless %}
+
+{% if wlmLockON %}<meta name='robots' content='NOINDEX,NOFOLLOW,NOARCHIVE,NOSNIPPET,NOODP,NOYDIR' />{% endif %}
+<script type='text/javascript'>
+{% if wlmLockON %}
+wlm.navigate('{{ wlmRedirectURL}}');
+{% else %}
+wlm.navigateByLocation();
+{% endif %}
+wlm.jq(document).ready(function(){
+wlm.removeLinks();
+});
+</script>
+{% capture wlm_hide_price_check %}{% include "wlm-hide-price" %}{% endcapture %}
+{% unless wlm_hide_price_check contains 'Liquid error' %}
+{% include "wlm-hide-price" %}
+{% endunless %}

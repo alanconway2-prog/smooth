@@ -1,0 +1,3237 @@
+<section data-component="customer-addresses" data-component-type="section" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="customer-addresses">
+  <section-wrapper width="constrained">
+    <section-header class="customer-addresses__header">
+      <a href="{{ routes.account_url }}" class="customer-addresses__back">&larr; {{ 'general.customer.return' | t }}</a>
+
+      <h1 class="customer-addresses__heading">{{ 'customer.addresses.title' | t }}</h1>
+    </section-header>
+  </section-wrapper>
+  <section-wrapper width="constrained">
+    <section-content>
+    {%- paginate customer.addresses by 5 -%}
+      <div class="customer-addresses__new-address" data-address-item>
+        {% comment %}Component customer-address-form:default begin{% endcomment %}
+        {% comment %}
+          @param address
+            The address to be edited. If blank, it will generate a new address.
+        
+          @param index
+            The index of the address in a list of addresses.
+        
+        {% endcomment %}
+        
+        {% assign new_text = 'customer.addresses.add_new' | t  %}
+        {% assign edit_text = 'customer.addresses.edit' | t %}
+        {% assign delete_text = 'customer.addresses.delete' | t %}
+        {% assign create_new_address = false %}
+        {% unless address %}
+          {% assign create_new_address = true %}
+        {% endunless %}
+        {% assign address = address | default: customer.new_address %}
+        
+        <div data-component="customer-address-form" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="customer-address-form">
+          {% capture edit_attributes %}
+            aria-label="{{ edit_text }} {{ index }}" aria-expanded="false" aria-controls="edit-address-{{ address.id }}"
+          {% endcapture %}
+        
+          {% capture delete_attributes %}
+            aria-label="{{ delete_text }} {{ index }}"
+            data-target="{{ address.url }}"
+            data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
+          {% endcapture %}
+        
+          {% if create_new_address %}
+            {% comment %}Component button:default begin{% endcomment %}
+            {% liquid
+              assign tag_b69eb9ed = tag
+              assign tag = 'edit-address'
+              assign style_b69eb9ed = style
+              assign style = 'secondary'
+              assign size_b69eb9ed = size
+              assign size = 'small'
+              assign text_b69eb9ed = text
+              assign text = new_text
+              assign attributes_b69eb9ed = attributes
+              assign attributes = 'aria-expanded="false" aria-controls="new-address"'
+            %}
+            {% comment %}
+              @param style [Required]
+                This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+            
+              @param size [Required]
+                This defines the size of the button: small, medium, or large. Default medium.
+            
+              @param text [Required]
+                This is the text to be included in the button.
+            
+              @param attributes [Optional]
+                This will include any additional attributes that the button needs. For example, aria-controls.
+            {% endcomment %}
+            
+            <button
+              data-component="button"
+              data-component-type="component"
+              {% if tag != blank %}data-component-tag="{{ tag }}"
+              {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+              {{ attributes }}
+            >
+              {{ text }}
+            </button>
+            
+            {% liquid
+              assign tag = tag_b69eb9ed
+              assign tag_b69eb9ed = nil
+              assign style = style_b69eb9ed
+              assign style_b69eb9ed = nil
+              assign size = size_b69eb9ed
+              assign size_b69eb9ed = nil
+              assign text = text_b69eb9ed
+              assign text_b69eb9ed = nil
+              assign attributes = attributes_b69eb9ed
+              assign attributes_b69eb9ed = nil
+            %}
+            {% comment %}Component button:default end{% endcomment %}
+          {% else %}
+            {% comment %}Component customer-address:default begin{% endcomment %}
+            {% comment %}
+              @param address
+                The address to be displayed.
+            {% endcomment %}
+            
+            <div data-component="customer-address" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="customer-address">
+              {{ address.first_name }} {{ address.last_name }}<br>
+              {% if address.company != blank %}{{ address.company }}<br>{% endif %}
+              {{ address.address1 }}<br>
+              {% if address.address2 != blank %}{{ address.address2 }}<br>{% endif %}
+              {{ address.city }} {% if address.province_code != blank %}{{ address.province_code }}{% endif %} {{ address.zip }}<br>
+              {{ address.country }}
+              {% if address.phone != blank %}<br>{{ address.phone }}{% endif %}
+            </div>
+            
+            {% comment %}Component customer-address:default end{% endcomment %}
+        
+            <div class="customer-address-form__actions" data-address-item-actions>
+              {% comment %}Component button:default begin{% endcomment %}
+              {% liquid
+                assign tag_8c4f6e3e = tag
+                assign tag = 'edit-address'
+                assign style_8c4f6e3e = style
+                assign style = 'primary'
+                assign size_8c4f6e3e = size
+                assign size = 'small'
+                assign text_8c4f6e3e = text
+                assign text = edit_text
+                assign attributes_8c4f6e3e = attributes
+                assign attributes = edit_attributes
+              %}
+              {% comment %}
+                @param style [Required]
+                  This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+              
+                @param size [Required]
+                  This defines the size of the button: small, medium, or large. Default medium.
+              
+                @param text [Required]
+                  This is the text to be included in the button.
+              
+                @param attributes [Optional]
+                  This will include any additional attributes that the button needs. For example, aria-controls.
+              {% endcomment %}
+              
+              <button
+                data-component="button"
+                data-component-type="component"
+                {% if tag != blank %}data-component-tag="{{ tag }}"
+                {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                {{ attributes }}
+              >
+                {{ text }}
+              </button>
+              
+              {% liquid
+                assign tag = tag_8c4f6e3e
+                assign tag_8c4f6e3e = nil
+                assign style = style_8c4f6e3e
+                assign style_8c4f6e3e = nil
+                assign size = size_8c4f6e3e
+                assign size_8c4f6e3e = nil
+                assign text = text_8c4f6e3e
+                assign text_8c4f6e3e = nil
+                assign attributes = attributes_8c4f6e3e
+                assign attributes_8c4f6e3e = nil
+              %}
+              {% comment %}Component button:default end{% endcomment %}
+        
+              {% comment %}Component button:default begin{% endcomment %}
+              {% liquid
+                assign tag_8c4f6e3e = tag
+                assign tag = 'delete-address'
+                assign style_8c4f6e3e = style
+                assign style = 'secondary'
+                assign size_8c4f6e3e = size
+                assign size = 'small'
+                assign text_8c4f6e3e = text
+                assign text = delete_text
+                assign attributes_8c4f6e3e = attributes
+                assign attributes = delete_attributes
+              %}
+              {% comment %}
+                @param style [Required]
+                  This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+              
+                @param size [Required]
+                  This defines the size of the button: small, medium, or large. Default medium.
+              
+                @param text [Required]
+                  This is the text to be included in the button.
+              
+                @param attributes [Optional]
+                  This will include any additional attributes that the button needs. For example, aria-controls.
+              {% endcomment %}
+              
+              <button
+                data-component="button"
+                data-component-type="component"
+                {% if tag != blank %}data-component-tag="{{ tag }}"
+                {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                {{ attributes }}
+              >
+                {{ text }}
+              </button>
+              
+              {% liquid
+                assign tag = tag_8c4f6e3e
+                assign tag_8c4f6e3e = nil
+                assign style = style_8c4f6e3e
+                assign style_8c4f6e3e = nil
+                assign size = size_8c4f6e3e
+                assign size_8c4f6e3e = nil
+                assign text = text_8c4f6e3e
+                assign text_8c4f6e3e = nil
+                assign attributes = attributes_8c4f6e3e
+                assign attributes_8c4f6e3e = nil
+              %}
+              {% comment %}Component button:default end{% endcomment %}
+            </div>
+          {% endif %}
+        
+          <div
+            class="customer-address-form__edit-address"
+            id="edit-address-{{address.id}}"
+            data-edit-address-modal
+          >
+            <h2 class="customer-address-form__edit-address-header">{% if create_new_address %}{{ new_text }}{% else %}{{ edit_text }}{% endif %}</h2>
+        
+            <div class="customer-address-form__wrapper">
+              {% form 'customer_address', address, class: 'customer-address-form__form' %}
+                {% assign label_text = 'general.customer.first_name' | t %}
+                {% comment %}Component input-field:default begin{% endcomment %}
+                {% liquid
+                  assign input_type_701ae4fd = input_type
+                  assign input_type = 'text'
+                  assign form_namespace_701ae4fd = form_namespace
+                  assign form_namespace = 'address'
+                  assign field_name_701ae4fd = field_name
+                  assign field_name = 'first_name'
+                %}
+                {% comment %}
+                  @param form [Required]
+                    The form that the input lives in.
+                
+                  @param form_namespace [Required]
+                    The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                
+                  @param field_name [Required]
+                    The field name for the form. Will be used for the "name" attribute.
+                
+                  @param input_type [Required]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param input_id [Optional]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param label_text [Required]
+                    The text for the label to be included.
+                
+                  @param placeholder [Optional]
+                    The placeholder for the input field.
+                
+                  @param attributes [Optional]
+                    Additional attributes to append to the input field.
+                {% endcomment %}
+                
+                {% if input_id == blank %}
+                  {% comment %}UUID input_id begin{% endcomment %}
+                  {% assign input_id = '04bf3bc7-e1bf-4330-a338-8cea4d5513d5' %}
+                  {% comment %}UUID input_id end{% endcomment %}
+                {% endif %}
+                
+                <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                  <label for="{{ input_id }}">{{ label_text }}</label>
+                  <input
+                    id="{{ input_id }}"
+                    type="{{ input_type }}"
+                    name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                    value="{{ form[field_name] }}"
+                    placeholder="{{ placeholder }}"
+                    {{ attributes }}
+                  >
+                </div>
+                
+                {% liquid
+                  assign input_type = input_type_701ae4fd
+                  assign input_type_701ae4fd = nil
+                  assign form_namespace = form_namespace_701ae4fd
+                  assign form_namespace_701ae4fd = nil
+                  assign field_name = field_name_701ae4fd
+                  assign field_name_701ae4fd = nil
+                %}
+                {% comment %}Component input-field:default end{% endcomment %}
+        
+                {% assign label_text = 'general.customer.last_name' | t %}
+                {% comment %}Component input-field:default begin{% endcomment %}
+                {% liquid
+                  assign input_type_701ae4fd = input_type
+                  assign input_type = 'text'
+                  assign form_namespace_701ae4fd = form_namespace
+                  assign form_namespace = 'address'
+                  assign field_name_701ae4fd = field_name
+                  assign field_name = 'last_name'
+                %}
+                {% comment %}
+                  @param form [Required]
+                    The form that the input lives in.
+                
+                  @param form_namespace [Required]
+                    The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                
+                  @param field_name [Required]
+                    The field name for the form. Will be used for the "name" attribute.
+                
+                  @param input_type [Required]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param input_id [Optional]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param label_text [Required]
+                    The text for the label to be included.
+                
+                  @param placeholder [Optional]
+                    The placeholder for the input field.
+                
+                  @param attributes [Optional]
+                    Additional attributes to append to the input field.
+                {% endcomment %}
+                
+                {% if input_id == blank %}
+                  {% comment %}UUID input_id begin{% endcomment %}
+                  {% assign input_id = '7fdefb00-7dc2-4207-b374-1720fdfcf8ff' %}
+                  {% comment %}UUID input_id end{% endcomment %}
+                {% endif %}
+                
+                <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                  <label for="{{ input_id }}">{{ label_text }}</label>
+                  <input
+                    id="{{ input_id }}"
+                    type="{{ input_type }}"
+                    name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                    value="{{ form[field_name] }}"
+                    placeholder="{{ placeholder }}"
+                    {{ attributes }}
+                  >
+                </div>
+                
+                {% liquid
+                  assign input_type = input_type_701ae4fd
+                  assign input_type_701ae4fd = nil
+                  assign form_namespace = form_namespace_701ae4fd
+                  assign form_namespace_701ae4fd = nil
+                  assign field_name = field_name_701ae4fd
+                  assign field_name_701ae4fd = nil
+                %}
+                {% comment %}Component input-field:default end{% endcomment %}
+        
+                <div class="customer-address-form__long-field">
+                  {% assign label_text = 'customer.addresses.company' | t %}
+                  {% comment %}Component input-field:default begin{% endcomment %}
+                  {% liquid
+                    assign input_type_701ae4fd = input_type
+                    assign input_type = 'text'
+                    assign form_namespace_701ae4fd = form_namespace
+                    assign form_namespace = 'address'
+                    assign field_name_701ae4fd = field_name
+                    assign field_name = 'company'
+                  %}
+                  {% comment %}
+                    @param form [Required]
+                      The form that the input lives in.
+                  
+                    @param form_namespace [Required]
+                      The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                  
+                    @param field_name [Required]
+                      The field name for the form. Will be used for the "name" attribute.
+                  
+                    @param input_type [Required]
+                      The type of field that is being rendered. Usually text, password, number, etc.
+                  
+                    @param input_id [Optional]
+                      The type of field that is being rendered. Usually text, password, number, etc.
+                  
+                    @param label_text [Required]
+                      The text for the label to be included.
+                  
+                    @param placeholder [Optional]
+                      The placeholder for the input field.
+                  
+                    @param attributes [Optional]
+                      Additional attributes to append to the input field.
+                  {% endcomment %}
+                  
+                  {% if input_id == blank %}
+                    {% comment %}UUID input_id begin{% endcomment %}
+                    {% assign input_id = '96d75104-f131-490a-86be-93bdf9c34eb3' %}
+                    {% comment %}UUID input_id end{% endcomment %}
+                  {% endif %}
+                  
+                  <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                    <label for="{{ input_id }}">{{ label_text }}</label>
+                    <input
+                      id="{{ input_id }}"
+                      type="{{ input_type }}"
+                      name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                      value="{{ form[field_name] }}"
+                      placeholder="{{ placeholder }}"
+                      {{ attributes }}
+                    >
+                  </div>
+                  
+                  {% liquid
+                    assign input_type = input_type_701ae4fd
+                    assign input_type_701ae4fd = nil
+                    assign form_namespace = form_namespace_701ae4fd
+                    assign form_namespace_701ae4fd = nil
+                    assign field_name = field_name_701ae4fd
+                    assign field_name_701ae4fd = nil
+                  %}
+                  {% comment %}Component input-field:default end{% endcomment %}
+                </div>
+        
+                <div class="customer-address-form__long-field">
+                  {% assign label_text = 'customer.addresses.address_1' | t %}
+                  {% comment %}Component input-field:default begin{% endcomment %}
+                  {% liquid
+                    assign input_type_701ae4fd = input_type
+                    assign input_type = 'text'
+                    assign form_namespace_701ae4fd = form_namespace
+                    assign form_namespace = 'address'
+                    assign field_name_701ae4fd = field_name
+                    assign field_name = 'address1'
+                  %}
+                  {% comment %}
+                    @param form [Required]
+                      The form that the input lives in.
+                  
+                    @param form_namespace [Required]
+                      The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                  
+                    @param field_name [Required]
+                      The field name for the form. Will be used for the "name" attribute.
+                  
+                    @param input_type [Required]
+                      The type of field that is being rendered. Usually text, password, number, etc.
+                  
+                    @param input_id [Optional]
+                      The type of field that is being rendered. Usually text, password, number, etc.
+                  
+                    @param label_text [Required]
+                      The text for the label to be included.
+                  
+                    @param placeholder [Optional]
+                      The placeholder for the input field.
+                  
+                    @param attributes [Optional]
+                      Additional attributes to append to the input field.
+                  {% endcomment %}
+                  
+                  {% if input_id == blank %}
+                    {% comment %}UUID input_id begin{% endcomment %}
+                    {% assign input_id = '5cb2afdf-9163-424a-b3fb-61bbd1509ef5' %}
+                    {% comment %}UUID input_id end{% endcomment %}
+                  {% endif %}
+                  
+                  <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                    <label for="{{ input_id }}">{{ label_text }}</label>
+                    <input
+                      id="{{ input_id }}"
+                      type="{{ input_type }}"
+                      name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                      value="{{ form[field_name] }}"
+                      placeholder="{{ placeholder }}"
+                      {{ attributes }}
+                    >
+                  </div>
+                  
+                  {% liquid
+                    assign input_type = input_type_701ae4fd
+                    assign input_type_701ae4fd = nil
+                    assign form_namespace = form_namespace_701ae4fd
+                    assign form_namespace_701ae4fd = nil
+                    assign field_name = field_name_701ae4fd
+                    assign field_name_701ae4fd = nil
+                  %}
+                  {% comment %}Component input-field:default end{% endcomment %}
+                </div>
+        
+                <div class="customer-address-form__long-field">
+                  {% assign label_text = 'customer.addresses.address_2' | t %}
+                  {% comment %}Component input-field:default begin{% endcomment %}
+                  {% liquid
+                    assign input_type_701ae4fd = input_type
+                    assign input_type = 'text'
+                    assign form_namespace_701ae4fd = form_namespace
+                    assign form_namespace = 'address'
+                    assign field_name_701ae4fd = field_name
+                    assign field_name = 'address2'
+                  %}
+                  {% comment %}
+                    @param form [Required]
+                      The form that the input lives in.
+                  
+                    @param form_namespace [Required]
+                      The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                  
+                    @param field_name [Required]
+                      The field name for the form. Will be used for the "name" attribute.
+                  
+                    @param input_type [Required]
+                      The type of field that is being rendered. Usually text, password, number, etc.
+                  
+                    @param input_id [Optional]
+                      The type of field that is being rendered. Usually text, password, number, etc.
+                  
+                    @param label_text [Required]
+                      The text for the label to be included.
+                  
+                    @param placeholder [Optional]
+                      The placeholder for the input field.
+                  
+                    @param attributes [Optional]
+                      Additional attributes to append to the input field.
+                  {% endcomment %}
+                  
+                  {% if input_id == blank %}
+                    {% comment %}UUID input_id begin{% endcomment %}
+                    {% assign input_id = '547515f1-158d-44d8-aaf9-af2be5b38bd5' %}
+                    {% comment %}UUID input_id end{% endcomment %}
+                  {% endif %}
+                  
+                  <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                    <label for="{{ input_id }}">{{ label_text }}</label>
+                    <input
+                      id="{{ input_id }}"
+                      type="{{ input_type }}"
+                      name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                      value="{{ form[field_name] }}"
+                      placeholder="{{ placeholder }}"
+                      {{ attributes }}
+                    >
+                  </div>
+                  
+                  {% liquid
+                    assign input_type = input_type_701ae4fd
+                    assign input_type_701ae4fd = nil
+                    assign form_namespace = form_namespace_701ae4fd
+                    assign form_namespace_701ae4fd = nil
+                    assign field_name = field_name_701ae4fd
+                    assign field_name_701ae4fd = nil
+                  %}
+                  {% comment %}Component input-field:default end{% endcomment %}
+                </div>
+        
+                {% assign label_text = 'customer.addresses.city' | t %}
+                {% comment %}Component input-field:default begin{% endcomment %}
+                {% liquid
+                  assign input_type_701ae4fd = input_type
+                  assign input_type = 'text'
+                  assign form_namespace_701ae4fd = form_namespace
+                  assign form_namespace = 'address'
+                  assign field_name_701ae4fd = field_name
+                  assign field_name = 'city'
+                %}
+                {% comment %}
+                  @param form [Required]
+                    The form that the input lives in.
+                
+                  @param form_namespace [Required]
+                    The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                
+                  @param field_name [Required]
+                    The field name for the form. Will be used for the "name" attribute.
+                
+                  @param input_type [Required]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param input_id [Optional]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param label_text [Required]
+                    The text for the label to be included.
+                
+                  @param placeholder [Optional]
+                    The placeholder for the input field.
+                
+                  @param attributes [Optional]
+                    Additional attributes to append to the input field.
+                {% endcomment %}
+                
+                {% if input_id == blank %}
+                  {% comment %}UUID input_id begin{% endcomment %}
+                  {% assign input_id = '8b8ef852-e92d-4ecd-a00d-c1dc36c20afc' %}
+                  {% comment %}UUID input_id end{% endcomment %}
+                {% endif %}
+                
+                <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                  <label for="{{ input_id }}">{{ label_text }}</label>
+                  <input
+                    id="{{ input_id }}"
+                    type="{{ input_type }}"
+                    name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                    value="{{ form[field_name] }}"
+                    placeholder="{{ placeholder }}"
+                    {{ attributes }}
+                  >
+                </div>
+                
+                {% liquid
+                  assign input_type = input_type_701ae4fd
+                  assign input_type_701ae4fd = nil
+                  assign form_namespace = form_namespace_701ae4fd
+                  assign form_namespace_701ae4fd = nil
+                  assign field_name = field_name_701ae4fd
+                  assign field_name_701ae4fd = nil
+                %}
+                {% comment %}Component input-field:default end{% endcomment %}
+        
+                <div data-address-form-country>
+                  {% assign label_text = 'customer.addresses.country' | t %}
+                  {% comment %}Component input-select:default begin{% endcomment %}
+                  {% liquid
+                    assign input_id_af8223ab = input_id
+                    assign input_id = 'AddressCountryNew'
+                    assign options_af8223ab = options
+                    assign options = country_option_tags
+                    assign field_name_af8223ab = field_name
+                    assign field_name = 'address[country]'
+                  %}
+                  {% comment %}
+                    @param label_text [Required]
+                      The text for the label to be included.
+                  
+                    @param options [Required]
+                      The list of options to include in the select.
+                  
+                    @param form_id [Optional]
+                      The form id to associate with
+                  
+                    @param input_id [Optional]
+                      The option id to apply to the label and input
+                  
+                    @param field_name [Optional]
+                      The field name for the form. Will be used for the "name" attribute.
+                  
+                    @param attributes [Optional]
+                      Additional attributes to append to the input field.
+                  {% endcomment %}
+                  
+                  {% if input_id == blank %}
+                    {% comment %}UUID input_id begin{% endcomment %}
+                    {% assign input_id = '5eed4077-fd56-4562-a62b-0acb1949e811' %}
+                    {% comment %}UUID input_id end{% endcomment %}
+                  {% endif %}
+                  
+                  <div data-component="input-select" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-select">
+                    <label class="input-select__label" for="{{ input_id }}" data-label>{{ label_text }}</label>
+                    <div class="input-select__wrapper">
+                      <select
+                        id="{{ input_id }}"
+                        class="input-select__select"
+                        {% if form_id != blank %}form="{{ form_id }}"{% endif %}
+                        {% if field_name != blank %}name="{{ field_name }}"{% endif %}
+                        {{ attributes }}
+                        data-input
+                      >
+                        {{ options }}
+                      </select>
+                    </div>
+                  </div>
+                  
+                  {% liquid
+                    assign input_id = input_id_af8223ab
+                    assign input_id_af8223ab = nil
+                    assign options = options_af8223ab
+                    assign options_af8223ab = nil
+                    assign field_name = field_name_af8223ab
+                    assign field_name_af8223ab = nil
+                  %}
+                  {% comment %}Component input-select:default end{% endcomment %}
+                </div>
+        
+                <div id="form-address-province-{{ form.id }}" data-address-form-province>
+                  {% assign label_text = 'customer.addresses.state' | t %}
+                  {% comment %}Component input-select:default begin{% endcomment %}
+                  {% liquid
+                    assign input_id_af8223ab = input_id
+                    assign input_id = 'AddressProvinceNew'
+                    assign field_name_af8223ab = field_name
+                    assign field_name = 'address[province]'
+                  %}
+                  {% comment %}
+                    @param label_text [Required]
+                      The text for the label to be included.
+                  
+                    @param options [Required]
+                      The list of options to include in the select.
+                  
+                    @param form_id [Optional]
+                      The form id to associate with
+                  
+                    @param input_id [Optional]
+                      The option id to apply to the label and input
+                  
+                    @param field_name [Optional]
+                      The field name for the form. Will be used for the "name" attribute.
+                  
+                    @param attributes [Optional]
+                      Additional attributes to append to the input field.
+                  {% endcomment %}
+                  
+                  {% if input_id == blank %}
+                    {% comment %}UUID input_id begin{% endcomment %}
+                    {% assign input_id = '3d6ccf4d-07af-47c1-9bb4-8121b7427a7f' %}
+                    {% comment %}UUID input_id end{% endcomment %}
+                  {% endif %}
+                  
+                  <div data-component="input-select" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-select">
+                    <label class="input-select__label" for="{{ input_id }}" data-label>{{ label_text }}</label>
+                    <div class="input-select__wrapper">
+                      <select
+                        id="{{ input_id }}"
+                        class="input-select__select"
+                        {% if form_id != blank %}form="{{ form_id }}"{% endif %}
+                        {% if field_name != blank %}name="{{ field_name }}"{% endif %}
+                        {{ attributes }}
+                        data-input
+                      >
+                        {{ options }}
+                      </select>
+                    </div>
+                  </div>
+                  
+                  {% liquid
+                    assign input_id = input_id_af8223ab
+                    assign input_id_af8223ab = nil
+                    assign field_name = field_name_af8223ab
+                    assign field_name_af8223ab = nil
+                  %}
+                  {% comment %}Component input-select:default end{% endcomment %}
+                </div>
+        
+                {% assign label_text = 'customer.addresses.zip' | t %}
+                {% comment %}Component input-field:default begin{% endcomment %}
+                {% liquid
+                  assign input_type_8b44ae13 = input_type
+                  assign input_type = 'text'
+                  assign form_namespace_8b44ae13 = form_namespace
+                  assign form_namespace = 'address'
+                  assign field_name_8b44ae13 = field_name
+                  assign field_name = 'zip'
+                  assign attributes_8b44ae13 = attributes
+                  assign attributes = 'autocapitalize="characters"'
+                %}
+                {% comment %}
+                  @param form [Required]
+                    The form that the input lives in.
+                
+                  @param form_namespace [Required]
+                    The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                
+                  @param field_name [Required]
+                    The field name for the form. Will be used for the "name" attribute.
+                
+                  @param input_type [Required]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param input_id [Optional]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param label_text [Required]
+                    The text for the label to be included.
+                
+                  @param placeholder [Optional]
+                    The placeholder for the input field.
+                
+                  @param attributes [Optional]
+                    Additional attributes to append to the input field.
+                {% endcomment %}
+                
+                {% if input_id == blank %}
+                  {% comment %}UUID input_id begin{% endcomment %}
+                  {% assign input_id = '8d1fa507-4145-4dab-a4d2-c5a126349e8f' %}
+                  {% comment %}UUID input_id end{% endcomment %}
+                {% endif %}
+                
+                <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                  <label for="{{ input_id }}">{{ label_text }}</label>
+                  <input
+                    id="{{ input_id }}"
+                    type="{{ input_type }}"
+                    name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                    value="{{ form[field_name] }}"
+                    placeholder="{{ placeholder }}"
+                    {{ attributes }}
+                  >
+                </div>
+                
+                {% liquid
+                  assign input_type = input_type_8b44ae13
+                  assign input_type_8b44ae13 = nil
+                  assign form_namespace = form_namespace_8b44ae13
+                  assign form_namespace_8b44ae13 = nil
+                  assign field_name = field_name_8b44ae13
+                  assign field_name_8b44ae13 = nil
+                  assign attributes = attributes_8b44ae13
+                  assign attributes_8b44ae13 = nil
+                %}
+                {% comment %}Component input-field:default end{% endcomment %}
+        
+                {% assign label_text = 'customer.addresses.phone' | t %}
+                {% comment %}Component input-field:default begin{% endcomment %}
+                {% liquid
+                  assign input_type_8b44ae13 = input_type
+                  assign input_type = 'tel'
+                  assign form_namespace_8b44ae13 = form_namespace
+                  assign form_namespace = 'address'
+                  assign field_name_8b44ae13 = field_name
+                  assign field_name = 'phone'
+                %}
+                {% comment %}
+                  @param form [Required]
+                    The form that the input lives in.
+                
+                  @param form_namespace [Required]
+                    The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                
+                  @param field_name [Required]
+                    The field name for the form. Will be used for the "name" attribute.
+                
+                  @param input_type [Required]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param input_id [Optional]
+                    The type of field that is being rendered. Usually text, password, number, etc.
+                
+                  @param label_text [Required]
+                    The text for the label to be included.
+                
+                  @param placeholder [Optional]
+                    The placeholder for the input field.
+                
+                  @param attributes [Optional]
+                    Additional attributes to append to the input field.
+                {% endcomment %}
+                
+                {% if input_id == blank %}
+                  {% comment %}UUID input_id begin{% endcomment %}
+                  {% assign input_id = '0605d31c-830a-4931-91e2-22945e9d99c7' %}
+                  {% comment %}UUID input_id end{% endcomment %}
+                {% endif %}
+                
+                <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                  <label for="{{ input_id }}">{{ label_text }}</label>
+                  <input
+                    id="{{ input_id }}"
+                    type="{{ input_type }}"
+                    name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                    value="{{ form[field_name] }}"
+                    placeholder="{{ placeholder }}"
+                    {{ attributes }}
+                  >
+                </div>
+                
+                {% liquid
+                  assign input_type = input_type_8b44ae13
+                  assign input_type_8b44ae13 = nil
+                  assign form_namespace = form_namespace_8b44ae13
+                  assign form_namespace_8b44ae13 = nil
+                  assign field_name = field_name_8b44ae13
+                  assign field_name_8b44ae13 = nil
+                %}
+                {% comment %}Component input-field:default end{% endcomment %}
+        
+                {% if address != customer.default_address %}
+                  <div class="customer-address-form__long-field">
+                    <div class="customer-address-form__default">
+                      {% assign label_text = 'customer.addresses.set_default' | t %}
+                      {% comment %}Component input-checkbox:default begin{% endcomment %}
+                      {% liquid
+                        assign form_namespace_52da4255 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_52da4255 = field_name
+                        assign field_name = 'default'
+                        assign field_value_52da4255 = field_value
+                        assign field_value = '1'
+                      %}
+                      {% comment %}
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param form_id [Optional]
+                      
+                        @param hide_label [Optional]
+                          Hide the label text as an aria-label
+                      
+                        @param field_value [Optional]
+                          The value for the checkbox.
+                      
+                        @param checked [Optional]
+                          Boolean. If true, the checkbox will appear checked.
+                      
+                        @param disabled [Optional]
+                          Boolean. If true, the checkbox will appear disabled.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      <div
+                        data-component="input-checkbox"
+                        data-component-type="component"
+                        {% if tag != blank %}data-component-tag="{{ tag }}"
+                        {% endif %}class="
+                          input-checkbox
+                          {% if checked %}input-checkbox--checked{% endif %}
+                          {% if disabled %}input-checkbox--disabled{% endif %}
+                        "
+                      >
+                        {% unless hide_label %}
+                          <label class="input-checkbox__label">
+                            <input
+                              class="input-checkbox__checkbox"
+                              type="checkbox"
+                              name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                              {% if form_id %}form="{{ form_id }}"{% endif %}
+                              {% if field_value %}value="{{ field_value }}"{% endif %}
+                              {% if checked %}checked{% endif %}
+                              {% if disabled %}disabled{% endif %}
+                              {{ attributes }}
+                            >
+                            {{ label_text }}
+                          </label>
+                        {% else %}
+                          <input
+                            class="input-checkbox__checkbox"
+                            type="checkbox"
+                            name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                            {% if form_id %}form="{{ form_id }}"{% endif %}
+                            {% if field_value %}value="{{ field_value }}"{% endif %}
+                            {% if checked %}checked{% endif %}
+                            {% if disabled %}disabled{% endif %}
+                            aria-label="{{ label_text }}"
+                            {{ attributes }}
+                          >
+                        {% endunless %}
+                      </div>
+                      
+                      {% liquid
+                        assign form_namespace = form_namespace_52da4255
+                        assign form_namespace_52da4255 = nil
+                        assign field_name = field_name_52da4255
+                        assign field_name_52da4255 = nil
+                        assign field_value = field_value_52da4255
+                        assign field_value_52da4255 = nil
+                      %}
+                      {% comment %}Component input-checkbox:default end{% endcomment %}
+                    </div>
+                  </div>
+                {% endif %}
+        
+                <div class="customer-address-form__form-actions">
+                  {% assign button_text = 'customer.addresses.save' | t %}
+                  {% comment %}Component button:default begin{% endcomment %}
+                  {% liquid
+                    assign tag_5e2f526a = tag
+                    assign tag = 'save-address'
+                    assign style_5e2f526a = style
+                    assign style = 'primary'
+                    assign size_5e2f526a = size
+                    assign size = 'medium'
+                    assign text_5e2f526a = text
+                    assign text = button_text
+                  %}
+                  {% comment %}
+                    @param style [Required]
+                      This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                  
+                    @param size [Required]
+                      This defines the size of the button: small, medium, or large. Default medium.
+                  
+                    @param text [Required]
+                      This is the text to be included in the button.
+                  
+                    @param attributes [Optional]
+                      This will include any additional attributes that the button needs. For example, aria-controls.
+                  {% endcomment %}
+                  
+                  <button
+                    data-component="button"
+                    data-component-type="component"
+                    {% if tag != blank %}data-component-tag="{{ tag }}"
+                    {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                    {{ attributes }}
+                  >
+                    {{ text }}
+                  </button>
+                  
+                  {% liquid
+                    assign tag = tag_5e2f526a
+                    assign tag_5e2f526a = nil
+                    assign style = style_5e2f526a
+                    assign style_5e2f526a = nil
+                    assign size = size_5e2f526a
+                    assign size_5e2f526a = nil
+                    assign text = text_5e2f526a
+                    assign text_5e2f526a = nil
+                  %}
+                  {% comment %}Component button:default end{% endcomment %}
+        
+                  {% assign button_text = 'general.cancel' | t %}
+                  {% comment %}Component button:default begin{% endcomment %}
+                  {% liquid
+                    assign tag_5e2f526a = tag
+                    assign tag = 'reset-address'
+                    assign style_5e2f526a = style
+                    assign style = 'secondary'
+                    assign size_5e2f526a = size
+                    assign size = 'medium'
+                    assign text_5e2f526a = text
+                    assign text = button_text
+                    assign attributes_5e2f526a = attributes
+                    assign attributes = 'type="reset"'
+                  %}
+                  {% comment %}
+                    @param style [Required]
+                      This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                  
+                    @param size [Required]
+                      This defines the size of the button: small, medium, or large. Default medium.
+                  
+                    @param text [Required]
+                      This is the text to be included in the button.
+                  
+                    @param attributes [Optional]
+                      This will include any additional attributes that the button needs. For example, aria-controls.
+                  {% endcomment %}
+                  
+                  <button
+                    data-component="button"
+                    data-component-type="component"
+                    {% if tag != blank %}data-component-tag="{{ tag }}"
+                    {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                    {{ attributes }}
+                  >
+                    {{ text }}
+                  </button>
+                  
+                  {% liquid
+                    assign tag = tag_5e2f526a
+                    assign tag_5e2f526a = nil
+                    assign style = style_5e2f526a
+                    assign style_5e2f526a = nil
+                    assign size = size_5e2f526a
+                    assign size_5e2f526a = nil
+                    assign text = text_5e2f526a
+                    assign text_5e2f526a = nil
+                    assign attributes = attributes_5e2f526a
+                    assign attributes_5e2f526a = nil
+                  %}
+                  {% comment %}Component button:default end{% endcomment %}
+                </div>
+              {% endform %}
+            </div>
+          </div>
+        </div>
+        
+        {% comment %}Component customer-address-form:default end{% endcomment %}
+      </div>
+
+      {% if customer.addresses.size > 0 %}
+        <ul class="customer-addresses__address-list">
+          <li class="customer-addresses__item" data-address-item>
+            <p class="customer-addresses__default">{{ 'customer.addresses.default' | t }}</p>
+
+            {% comment %}Component customer-address-form:default begin{% endcomment %}
+            {% liquid
+              assign address_697aa7c3 = address
+              assign address = customer.default_address
+            %}
+            {% comment %}
+              @param address
+                The address to be edited. If blank, it will generate a new address.
+            
+              @param index
+                The index of the address in a list of addresses.
+            
+            {% endcomment %}
+            
+            {% assign new_text = 'customer.addresses.add_new' | t  %}
+            {% assign edit_text = 'customer.addresses.edit' | t %}
+            {% assign delete_text = 'customer.addresses.delete' | t %}
+            {% assign create_new_address = false %}
+            {% unless address %}
+              {% assign create_new_address = true %}
+            {% endunless %}
+            {% assign address = address | default: customer.new_address %}
+            
+            <div data-component="customer-address-form" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="customer-address-form">
+              {% capture edit_attributes %}
+                aria-label="{{ edit_text }} {{ index }}" aria-expanded="false" aria-controls="edit-address-{{ address.id }}"
+              {% endcapture %}
+            
+              {% capture delete_attributes %}
+                aria-label="{{ delete_text }} {{ index }}"
+                data-target="{{ address.url }}"
+                data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
+              {% endcapture %}
+            
+              {% if create_new_address %}
+                {% comment %}Component button:default begin{% endcomment %}
+                {% liquid
+                  assign tag_5e2f526a = tag
+                  assign tag = 'edit-address'
+                  assign style_5e2f526a = style
+                  assign style = 'secondary'
+                  assign size_5e2f526a = size
+                  assign size = 'small'
+                  assign text_5e2f526a = text
+                  assign text = new_text
+                  assign attributes_5e2f526a = attributes
+                  assign attributes = 'aria-expanded="false" aria-controls="new-address"'
+                %}
+                {% comment %}
+                  @param style [Required]
+                    This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                
+                  @param size [Required]
+                    This defines the size of the button: small, medium, or large. Default medium.
+                
+                  @param text [Required]
+                    This is the text to be included in the button.
+                
+                  @param attributes [Optional]
+                    This will include any additional attributes that the button needs. For example, aria-controls.
+                {% endcomment %}
+                
+                <button
+                  data-component="button"
+                  data-component-type="component"
+                  {% if tag != blank %}data-component-tag="{{ tag }}"
+                  {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                  {{ attributes }}
+                >
+                  {{ text }}
+                </button>
+                
+                {% liquid
+                  assign tag = tag_5e2f526a
+                  assign tag_5e2f526a = nil
+                  assign style = style_5e2f526a
+                  assign style_5e2f526a = nil
+                  assign size = size_5e2f526a
+                  assign size_5e2f526a = nil
+                  assign text = text_5e2f526a
+                  assign text_5e2f526a = nil
+                  assign attributes = attributes_5e2f526a
+                  assign attributes_5e2f526a = nil
+                %}
+                {% comment %}Component button:default end{% endcomment %}
+              {% else %}
+                {% comment %}Component customer-address:default begin{% endcomment %}
+                {% comment %}
+                  @param address
+                    The address to be displayed.
+                {% endcomment %}
+                
+                <div data-component="customer-address" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="customer-address">
+                  {{ address.first_name }} {{ address.last_name }}<br>
+                  {% if address.company != blank %}{{ address.company }}<br>{% endif %}
+                  {{ address.address1 }}<br>
+                  {% if address.address2 != blank %}{{ address.address2 }}<br>{% endif %}
+                  {{ address.city }} {% if address.province_code != blank %}{{ address.province_code }}{% endif %} {{ address.zip }}<br>
+                  {{ address.country }}
+                  {% if address.phone != blank %}<br>{{ address.phone }}{% endif %}
+                </div>
+                
+                {% comment %}Component customer-address:default end{% endcomment %}
+            
+                <div class="customer-address-form__actions" data-address-item-actions>
+                  {% comment %}Component button:default begin{% endcomment %}
+                  {% liquid
+                    assign tag_5e2f526a = tag
+                    assign tag = 'edit-address'
+                    assign style_5e2f526a = style
+                    assign style = 'primary'
+                    assign size_5e2f526a = size
+                    assign size = 'small'
+                    assign text_5e2f526a = text
+                    assign text = edit_text
+                    assign attributes_5e2f526a = attributes
+                    assign attributes = edit_attributes
+                  %}
+                  {% comment %}
+                    @param style [Required]
+                      This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                  
+                    @param size [Required]
+                      This defines the size of the button: small, medium, or large. Default medium.
+                  
+                    @param text [Required]
+                      This is the text to be included in the button.
+                  
+                    @param attributes [Optional]
+                      This will include any additional attributes that the button needs. For example, aria-controls.
+                  {% endcomment %}
+                  
+                  <button
+                    data-component="button"
+                    data-component-type="component"
+                    {% if tag != blank %}data-component-tag="{{ tag }}"
+                    {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                    {{ attributes }}
+                  >
+                    {{ text }}
+                  </button>
+                  
+                  {% liquid
+                    assign tag = tag_5e2f526a
+                    assign tag_5e2f526a = nil
+                    assign style = style_5e2f526a
+                    assign style_5e2f526a = nil
+                    assign size = size_5e2f526a
+                    assign size_5e2f526a = nil
+                    assign text = text_5e2f526a
+                    assign text_5e2f526a = nil
+                    assign attributes = attributes_5e2f526a
+                    assign attributes_5e2f526a = nil
+                  %}
+                  {% comment %}Component button:default end{% endcomment %}
+            
+                  {% comment %}Component button:default begin{% endcomment %}
+                  {% liquid
+                    assign tag_5e2f526a = tag
+                    assign tag = 'delete-address'
+                    assign style_5e2f526a = style
+                    assign style = 'secondary'
+                    assign size_5e2f526a = size
+                    assign size = 'small'
+                    assign text_5e2f526a = text
+                    assign text = delete_text
+                    assign attributes_5e2f526a = attributes
+                    assign attributes = delete_attributes
+                  %}
+                  {% comment %}
+                    @param style [Required]
+                      This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                  
+                    @param size [Required]
+                      This defines the size of the button: small, medium, or large. Default medium.
+                  
+                    @param text [Required]
+                      This is the text to be included in the button.
+                  
+                    @param attributes [Optional]
+                      This will include any additional attributes that the button needs. For example, aria-controls.
+                  {% endcomment %}
+                  
+                  <button
+                    data-component="button"
+                    data-component-type="component"
+                    {% if tag != blank %}data-component-tag="{{ tag }}"
+                    {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                    {{ attributes }}
+                  >
+                    {{ text }}
+                  </button>
+                  
+                  {% liquid
+                    assign tag = tag_5e2f526a
+                    assign tag_5e2f526a = nil
+                    assign style = style_5e2f526a
+                    assign style_5e2f526a = nil
+                    assign size = size_5e2f526a
+                    assign size_5e2f526a = nil
+                    assign text = text_5e2f526a
+                    assign text_5e2f526a = nil
+                    assign attributes = attributes_5e2f526a
+                    assign attributes_5e2f526a = nil
+                  %}
+                  {% comment %}Component button:default end{% endcomment %}
+                </div>
+              {% endif %}
+            
+              <div
+                class="customer-address-form__edit-address"
+                id="edit-address-{{address.id}}"
+                data-edit-address-modal
+              >
+                <h2 class="customer-address-form__edit-address-header">{% if create_new_address %}{{ new_text }}{% else %}{{ edit_text }}{% endif %}</h2>
+            
+                <div class="customer-address-form__wrapper">
+                  {% form 'customer_address', address, class: 'customer-address-form__form' %}
+                    {% assign label_text = 'general.customer.first_name' | t %}
+                    {% comment %}Component input-field:default begin{% endcomment %}
+                    {% liquid
+                      assign input_type_8335ee36 = input_type
+                      assign input_type = 'text'
+                      assign form_namespace_8335ee36 = form_namespace
+                      assign form_namespace = 'address'
+                      assign field_name_8335ee36 = field_name
+                      assign field_name = 'first_name'
+                    %}
+                    {% comment %}
+                      @param form [Required]
+                        The form that the input lives in.
+                    
+                      @param form_namespace [Required]
+                        The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                    
+                      @param field_name [Required]
+                        The field name for the form. Will be used for the "name" attribute.
+                    
+                      @param input_type [Required]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param input_id [Optional]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param label_text [Required]
+                        The text for the label to be included.
+                    
+                      @param placeholder [Optional]
+                        The placeholder for the input field.
+                    
+                      @param attributes [Optional]
+                        Additional attributes to append to the input field.
+                    {% endcomment %}
+                    
+                    {% if input_id == blank %}
+                      {% comment %}UUID input_id begin{% endcomment %}
+                      {% assign input_id = 'bb0a92ea-e512-4934-af95-4ad06cc9adcc' %}
+                      {% comment %}UUID input_id end{% endcomment %}
+                    {% endif %}
+                    
+                    <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                      <label for="{{ input_id }}">{{ label_text }}</label>
+                      <input
+                        id="{{ input_id }}"
+                        type="{{ input_type }}"
+                        name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                        value="{{ form[field_name] }}"
+                        placeholder="{{ placeholder }}"
+                        {{ attributes }}
+                      >
+                    </div>
+                    
+                    {% liquid
+                      assign input_type = input_type_8335ee36
+                      assign input_type_8335ee36 = nil
+                      assign form_namespace = form_namespace_8335ee36
+                      assign form_namespace_8335ee36 = nil
+                      assign field_name = field_name_8335ee36
+                      assign field_name_8335ee36 = nil
+                    %}
+                    {% comment %}Component input-field:default end{% endcomment %}
+            
+                    {% assign label_text = 'general.customer.last_name' | t %}
+                    {% comment %}Component input-field:default begin{% endcomment %}
+                    {% liquid
+                      assign input_type_8335ee36 = input_type
+                      assign input_type = 'text'
+                      assign form_namespace_8335ee36 = form_namespace
+                      assign form_namespace = 'address'
+                      assign field_name_8335ee36 = field_name
+                      assign field_name = 'last_name'
+                    %}
+                    {% comment %}
+                      @param form [Required]
+                        The form that the input lives in.
+                    
+                      @param form_namespace [Required]
+                        The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                    
+                      @param field_name [Required]
+                        The field name for the form. Will be used for the "name" attribute.
+                    
+                      @param input_type [Required]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param input_id [Optional]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param label_text [Required]
+                        The text for the label to be included.
+                    
+                      @param placeholder [Optional]
+                        The placeholder for the input field.
+                    
+                      @param attributes [Optional]
+                        Additional attributes to append to the input field.
+                    {% endcomment %}
+                    
+                    {% if input_id == blank %}
+                      {% comment %}UUID input_id begin{% endcomment %}
+                      {% assign input_id = 'ce3fc32a-c792-475c-9154-a81feb018079' %}
+                      {% comment %}UUID input_id end{% endcomment %}
+                    {% endif %}
+                    
+                    <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                      <label for="{{ input_id }}">{{ label_text }}</label>
+                      <input
+                        id="{{ input_id }}"
+                        type="{{ input_type }}"
+                        name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                        value="{{ form[field_name] }}"
+                        placeholder="{{ placeholder }}"
+                        {{ attributes }}
+                      >
+                    </div>
+                    
+                    {% liquid
+                      assign input_type = input_type_8335ee36
+                      assign input_type_8335ee36 = nil
+                      assign form_namespace = form_namespace_8335ee36
+                      assign form_namespace_8335ee36 = nil
+                      assign field_name = field_name_8335ee36
+                      assign field_name_8335ee36 = nil
+                    %}
+                    {% comment %}Component input-field:default end{% endcomment %}
+            
+                    <div class="customer-address-form__long-field">
+                      {% assign label_text = 'customer.addresses.company' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'text'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'company'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '03d3d6fb-f58c-4a98-8c25-d1f409fc0463' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+                    </div>
+            
+                    <div class="customer-address-form__long-field">
+                      {% assign label_text = 'customer.addresses.address_1' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'text'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'address1'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = 'c6e5392f-1fdd-4137-a47e-0d705a262abf' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+                    </div>
+            
+                    <div class="customer-address-form__long-field">
+                      {% assign label_text = 'customer.addresses.address_2' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'text'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'address2'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '0c7467c2-6e42-4a3a-95ee-c68346dc1601' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+                    </div>
+            
+                    {% assign label_text = 'customer.addresses.city' | t %}
+                    {% comment %}Component input-field:default begin{% endcomment %}
+                    {% liquid
+                      assign input_type_8335ee36 = input_type
+                      assign input_type = 'text'
+                      assign form_namespace_8335ee36 = form_namespace
+                      assign form_namespace = 'address'
+                      assign field_name_8335ee36 = field_name
+                      assign field_name = 'city'
+                    %}
+                    {% comment %}
+                      @param form [Required]
+                        The form that the input lives in.
+                    
+                      @param form_namespace [Required]
+                        The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                    
+                      @param field_name [Required]
+                        The field name for the form. Will be used for the "name" attribute.
+                    
+                      @param input_type [Required]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param input_id [Optional]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param label_text [Required]
+                        The text for the label to be included.
+                    
+                      @param placeholder [Optional]
+                        The placeholder for the input field.
+                    
+                      @param attributes [Optional]
+                        Additional attributes to append to the input field.
+                    {% endcomment %}
+                    
+                    {% if input_id == blank %}
+                      {% comment %}UUID input_id begin{% endcomment %}
+                      {% assign input_id = 'ac32cd22-ebeb-4623-bc69-a086c5723f7e' %}
+                      {% comment %}UUID input_id end{% endcomment %}
+                    {% endif %}
+                    
+                    <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                      <label for="{{ input_id }}">{{ label_text }}</label>
+                      <input
+                        id="{{ input_id }}"
+                        type="{{ input_type }}"
+                        name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                        value="{{ form[field_name] }}"
+                        placeholder="{{ placeholder }}"
+                        {{ attributes }}
+                      >
+                    </div>
+                    
+                    {% liquid
+                      assign input_type = input_type_8335ee36
+                      assign input_type_8335ee36 = nil
+                      assign form_namespace = form_namespace_8335ee36
+                      assign form_namespace_8335ee36 = nil
+                      assign field_name = field_name_8335ee36
+                      assign field_name_8335ee36 = nil
+                    %}
+                    {% comment %}Component input-field:default end{% endcomment %}
+            
+                    <div data-address-form-country>
+                      {% assign label_text = 'customer.addresses.country' | t %}
+                      {% comment %}Component input-select:default begin{% endcomment %}
+                      {% liquid
+                        assign input_id_c68dff97 = input_id
+                        assign input_id = 'AddressCountryNew'
+                        assign options_c68dff97 = options
+                        assign options = country_option_tags
+                        assign field_name_c68dff97 = field_name
+                        assign field_name = 'address[country]'
+                      %}
+                      {% comment %}
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param options [Required]
+                          The list of options to include in the select.
+                      
+                        @param form_id [Optional]
+                          The form id to associate with
+                      
+                        @param input_id [Optional]
+                          The option id to apply to the label and input
+                      
+                        @param field_name [Optional]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '43d8521a-ff39-4ffd-954f-3bbe0adf1317' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-select" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-select">
+                        <label class="input-select__label" for="{{ input_id }}" data-label>{{ label_text }}</label>
+                        <div class="input-select__wrapper">
+                          <select
+                            id="{{ input_id }}"
+                            class="input-select__select"
+                            {% if form_id != blank %}form="{{ form_id }}"{% endif %}
+                            {% if field_name != blank %}name="{{ field_name }}"{% endif %}
+                            {{ attributes }}
+                            data-input
+                          >
+                            {{ options }}
+                          </select>
+                        </div>
+                      </div>
+                      
+                      {% liquid
+                        assign input_id = input_id_c68dff97
+                        assign input_id_c68dff97 = nil
+                        assign options = options_c68dff97
+                        assign options_c68dff97 = nil
+                        assign field_name = field_name_c68dff97
+                        assign field_name_c68dff97 = nil
+                      %}
+                      {% comment %}Component input-select:default end{% endcomment %}
+                    </div>
+            
+                    <div id="form-address-province-{{ form.id }}" data-address-form-province>
+                      {% assign label_text = 'customer.addresses.state' | t %}
+                      {% comment %}Component input-select:default begin{% endcomment %}
+                      {% liquid
+                        assign input_id_c68dff97 = input_id
+                        assign input_id = 'AddressProvinceNew'
+                        assign field_name_c68dff97 = field_name
+                        assign field_name = 'address[province]'
+                      %}
+                      {% comment %}
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param options [Required]
+                          The list of options to include in the select.
+                      
+                        @param form_id [Optional]
+                          The form id to associate with
+                      
+                        @param input_id [Optional]
+                          The option id to apply to the label and input
+                      
+                        @param field_name [Optional]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '977cf7ae-a250-467e-8f4c-d99b5133ae47' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-select" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-select">
+                        <label class="input-select__label" for="{{ input_id }}" data-label>{{ label_text }}</label>
+                        <div class="input-select__wrapper">
+                          <select
+                            id="{{ input_id }}"
+                            class="input-select__select"
+                            {% if form_id != blank %}form="{{ form_id }}"{% endif %}
+                            {% if field_name != blank %}name="{{ field_name }}"{% endif %}
+                            {{ attributes }}
+                            data-input
+                          >
+                            {{ options }}
+                          </select>
+                        </div>
+                      </div>
+                      
+                      {% liquid
+                        assign input_id = input_id_c68dff97
+                        assign input_id_c68dff97 = nil
+                        assign field_name = field_name_c68dff97
+                        assign field_name_c68dff97 = nil
+                      %}
+                      {% comment %}Component input-select:default end{% endcomment %}
+                    </div>
+            
+                    {% assign label_text = 'customer.addresses.zip' | t %}
+                    {% comment %}Component input-field:default begin{% endcomment %}
+                    {% liquid
+                      assign input_type_8335ee36 = input_type
+                      assign input_type = 'text'
+                      assign form_namespace_8335ee36 = form_namespace
+                      assign form_namespace = 'address'
+                      assign field_name_8335ee36 = field_name
+                      assign field_name = 'zip'
+                      assign attributes_8335ee36 = attributes
+                      assign attributes = 'autocapitalize="characters"'
+                    %}
+                    {% comment %}
+                      @param form [Required]
+                        The form that the input lives in.
+                    
+                      @param form_namespace [Required]
+                        The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                    
+                      @param field_name [Required]
+                        The field name for the form. Will be used for the "name" attribute.
+                    
+                      @param input_type [Required]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param input_id [Optional]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param label_text [Required]
+                        The text for the label to be included.
+                    
+                      @param placeholder [Optional]
+                        The placeholder for the input field.
+                    
+                      @param attributes [Optional]
+                        Additional attributes to append to the input field.
+                    {% endcomment %}
+                    
+                    {% if input_id == blank %}
+                      {% comment %}UUID input_id begin{% endcomment %}
+                      {% assign input_id = '443d7b73-99df-43e5-bdf8-e334a812a2ad' %}
+                      {% comment %}UUID input_id end{% endcomment %}
+                    {% endif %}
+                    
+                    <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                      <label for="{{ input_id }}">{{ label_text }}</label>
+                      <input
+                        id="{{ input_id }}"
+                        type="{{ input_type }}"
+                        name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                        value="{{ form[field_name] }}"
+                        placeholder="{{ placeholder }}"
+                        {{ attributes }}
+                      >
+                    </div>
+                    
+                    {% liquid
+                      assign input_type = input_type_8335ee36
+                      assign input_type_8335ee36 = nil
+                      assign form_namespace = form_namespace_8335ee36
+                      assign form_namespace_8335ee36 = nil
+                      assign field_name = field_name_8335ee36
+                      assign field_name_8335ee36 = nil
+                      assign attributes = attributes_8335ee36
+                      assign attributes_8335ee36 = nil
+                    %}
+                    {% comment %}Component input-field:default end{% endcomment %}
+            
+                    {% assign label_text = 'customer.addresses.phone' | t %}
+                    {% comment %}Component input-field:default begin{% endcomment %}
+                    {% liquid
+                      assign input_type_8335ee36 = input_type
+                      assign input_type = 'tel'
+                      assign form_namespace_8335ee36 = form_namespace
+                      assign form_namespace = 'address'
+                      assign field_name_8335ee36 = field_name
+                      assign field_name = 'phone'
+                    %}
+                    {% comment %}
+                      @param form [Required]
+                        The form that the input lives in.
+                    
+                      @param form_namespace [Required]
+                        The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                    
+                      @param field_name [Required]
+                        The field name for the form. Will be used for the "name" attribute.
+                    
+                      @param input_type [Required]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param input_id [Optional]
+                        The type of field that is being rendered. Usually text, password, number, etc.
+                    
+                      @param label_text [Required]
+                        The text for the label to be included.
+                    
+                      @param placeholder [Optional]
+                        The placeholder for the input field.
+                    
+                      @param attributes [Optional]
+                        Additional attributes to append to the input field.
+                    {% endcomment %}
+                    
+                    {% if input_id == blank %}
+                      {% comment %}UUID input_id begin{% endcomment %}
+                      {% assign input_id = '84aa045c-1e7c-400c-9879-fab8ba7921b0' %}
+                      {% comment %}UUID input_id end{% endcomment %}
+                    {% endif %}
+                    
+                    <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                      <label for="{{ input_id }}">{{ label_text }}</label>
+                      <input
+                        id="{{ input_id }}"
+                        type="{{ input_type }}"
+                        name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                        value="{{ form[field_name] }}"
+                        placeholder="{{ placeholder }}"
+                        {{ attributes }}
+                      >
+                    </div>
+                    
+                    {% liquid
+                      assign input_type = input_type_8335ee36
+                      assign input_type_8335ee36 = nil
+                      assign form_namespace = form_namespace_8335ee36
+                      assign form_namespace_8335ee36 = nil
+                      assign field_name = field_name_8335ee36
+                      assign field_name_8335ee36 = nil
+                    %}
+                    {% comment %}Component input-field:default end{% endcomment %}
+            
+                    {% if address != customer.default_address %}
+                      <div class="customer-address-form__long-field">
+                        <div class="customer-address-form__default">
+                          {% assign label_text = 'customer.addresses.set_default' | t %}
+                          {% comment %}Component input-checkbox:default begin{% endcomment %}
+                          {% liquid
+                            assign form_namespace_52da4255 = form_namespace
+                            assign form_namespace = 'address'
+                            assign field_name_52da4255 = field_name
+                            assign field_name = 'default'
+                            assign field_value_52da4255 = field_value
+                            assign field_value = '1'
+                          %}
+                          {% comment %}
+                            @param label_text [Required]
+                              The text for the label to be included.
+                          
+                            @param form_namespace [Required]
+                              The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                          
+                            @param field_name [Required]
+                              The field name for the form. Will be used for the "name" attribute.
+                          
+                            @param form_id [Optional]
+                          
+                            @param hide_label [Optional]
+                              Hide the label text as an aria-label
+                          
+                            @param field_value [Optional]
+                              The value for the checkbox.
+                          
+                            @param checked [Optional]
+                              Boolean. If true, the checkbox will appear checked.
+                          
+                            @param disabled [Optional]
+                              Boolean. If true, the checkbox will appear disabled.
+                          
+                            @param attributes [Optional]
+                              Additional attributes to append to the input field.
+                          {% endcomment %}
+                          
+                          <div
+                            data-component="input-checkbox"
+                            data-component-type="component"
+                            {% if tag != blank %}data-component-tag="{{ tag }}"
+                            {% endif %}class="
+                              input-checkbox
+                              {% if checked %}input-checkbox--checked{% endif %}
+                              {% if disabled %}input-checkbox--disabled{% endif %}
+                            "
+                          >
+                            {% unless hide_label %}
+                              <label class="input-checkbox__label">
+                                <input
+                                  class="input-checkbox__checkbox"
+                                  type="checkbox"
+                                  name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                                  {% if form_id %}form="{{ form_id }}"{% endif %}
+                                  {% if field_value %}value="{{ field_value }}"{% endif %}
+                                  {% if checked %}checked{% endif %}
+                                  {% if disabled %}disabled{% endif %}
+                                  {{ attributes }}
+                                >
+                                {{ label_text }}
+                              </label>
+                            {% else %}
+                              <input
+                                class="input-checkbox__checkbox"
+                                type="checkbox"
+                                name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                                {% if form_id %}form="{{ form_id }}"{% endif %}
+                                {% if field_value %}value="{{ field_value }}"{% endif %}
+                                {% if checked %}checked{% endif %}
+                                {% if disabled %}disabled{% endif %}
+                                aria-label="{{ label_text }}"
+                                {{ attributes }}
+                              >
+                            {% endunless %}
+                          </div>
+                          
+                          {% liquid
+                            assign form_namespace = form_namespace_52da4255
+                            assign form_namespace_52da4255 = nil
+                            assign field_name = field_name_52da4255
+                            assign field_name_52da4255 = nil
+                            assign field_value = field_value_52da4255
+                            assign field_value_52da4255 = nil
+                          %}
+                          {% comment %}Component input-checkbox:default end{% endcomment %}
+                        </div>
+                      </div>
+                    {% endif %}
+            
+                    <div class="customer-address-form__form-actions">
+                      {% assign button_text = 'customer.addresses.save' | t %}
+                      {% comment %}Component button:default begin{% endcomment %}
+                      {% liquid
+                        assign tag_5e2f526a = tag
+                        assign tag = 'save-address'
+                        assign style_5e2f526a = style
+                        assign style = 'primary'
+                        assign size_5e2f526a = size
+                        assign size = 'medium'
+                        assign text_5e2f526a = text
+                        assign text = button_text
+                      %}
+                      {% comment %}
+                        @param style [Required]
+                          This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                      
+                        @param size [Required]
+                          This defines the size of the button: small, medium, or large. Default medium.
+                      
+                        @param text [Required]
+                          This is the text to be included in the button.
+                      
+                        @param attributes [Optional]
+                          This will include any additional attributes that the button needs. For example, aria-controls.
+                      {% endcomment %}
+                      
+                      <button
+                        data-component="button"
+                        data-component-type="component"
+                        {% if tag != blank %}data-component-tag="{{ tag }}"
+                        {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                        {{ attributes }}
+                      >
+                        {{ text }}
+                      </button>
+                      
+                      {% liquid
+                        assign tag = tag_5e2f526a
+                        assign tag_5e2f526a = nil
+                        assign style = style_5e2f526a
+                        assign style_5e2f526a = nil
+                        assign size = size_5e2f526a
+                        assign size_5e2f526a = nil
+                        assign text = text_5e2f526a
+                        assign text_5e2f526a = nil
+                      %}
+                      {% comment %}Component button:default end{% endcomment %}
+            
+                      {% assign button_text = 'general.cancel' | t %}
+                      {% comment %}Component button:default begin{% endcomment %}
+                      {% liquid
+                        assign tag_5e2f526a = tag
+                        assign tag = 'reset-address'
+                        assign style_5e2f526a = style
+                        assign style = 'secondary'
+                        assign size_5e2f526a = size
+                        assign size = 'medium'
+                        assign text_5e2f526a = text
+                        assign text = button_text
+                        assign attributes_5e2f526a = attributes
+                        assign attributes = 'type="reset"'
+                      %}
+                      {% comment %}
+                        @param style [Required]
+                          This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                      
+                        @param size [Required]
+                          This defines the size of the button: small, medium, or large. Default medium.
+                      
+                        @param text [Required]
+                          This is the text to be included in the button.
+                      
+                        @param attributes [Optional]
+                          This will include any additional attributes that the button needs. For example, aria-controls.
+                      {% endcomment %}
+                      
+                      <button
+                        data-component="button"
+                        data-component-type="component"
+                        {% if tag != blank %}data-component-tag="{{ tag }}"
+                        {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                        {{ attributes }}
+                      >
+                        {{ text }}
+                      </button>
+                      
+                      {% liquid
+                        assign tag = tag_5e2f526a
+                        assign tag_5e2f526a = nil
+                        assign style = style_5e2f526a
+                        assign style_5e2f526a = nil
+                        assign size = size_5e2f526a
+                        assign size_5e2f526a = nil
+                        assign text = text_5e2f526a
+                        assign text_5e2f526a = nil
+                        assign attributes = attributes_5e2f526a
+                        assign attributes_5e2f526a = nil
+                      %}
+                      {% comment %}Component button:default end{% endcomment %}
+                    </div>
+                  {% endform %}
+                </div>
+              </div>
+            </div>
+            
+            {% liquid
+              assign address = address_697aa7c3
+              assign address_697aa7c3 = nil
+            %}
+            {% comment %}Component customer-address-form:default end{% endcomment %}
+          </li>
+
+          {% for address in customer.addresses %}
+            {% if address == customer.default_address %}
+              {% continue %}
+            {% endif %}
+
+            <li class="customer-addresses__item" data-address-item>
+              {% comment %}Component customer-address-form:default begin{% endcomment %}
+              {% liquid
+                assign index_697aa7c3 = index
+                assign index = forloop.index
+              %}
+              {% comment %}
+                @param address
+                  The address to be edited. If blank, it will generate a new address.
+              
+                @param index
+                  The index of the address in a list of addresses.
+              
+              {% endcomment %}
+              
+              {% assign new_text = 'customer.addresses.add_new' | t  %}
+              {% assign edit_text = 'customer.addresses.edit' | t %}
+              {% assign delete_text = 'customer.addresses.delete' | t %}
+              {% assign create_new_address = false %}
+              {% unless address %}
+                {% assign create_new_address = true %}
+              {% endunless %}
+              {% assign address = address | default: customer.new_address %}
+              
+              <div data-component="customer-address-form" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="customer-address-form">
+                {% capture edit_attributes %}
+                  aria-label="{{ edit_text }} {{ index }}" aria-expanded="false" aria-controls="edit-address-{{ address.id }}"
+                {% endcapture %}
+              
+                {% capture delete_attributes %}
+                  aria-label="{{ delete_text }} {{ index }}"
+                  data-target="{{ address.url }}"
+                  data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
+                {% endcapture %}
+              
+                {% if create_new_address %}
+                  {% comment %}Component button:default begin{% endcomment %}
+                  {% liquid
+                    assign tag_5e2f526a = tag
+                    assign tag = 'edit-address'
+                    assign style_5e2f526a = style
+                    assign style = 'secondary'
+                    assign size_5e2f526a = size
+                    assign size = 'small'
+                    assign text_5e2f526a = text
+                    assign text = new_text
+                    assign attributes_5e2f526a = attributes
+                    assign attributes = 'aria-expanded="false" aria-controls="new-address"'
+                  %}
+                  {% comment %}
+                    @param style [Required]
+                      This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                  
+                    @param size [Required]
+                      This defines the size of the button: small, medium, or large. Default medium.
+                  
+                    @param text [Required]
+                      This is the text to be included in the button.
+                  
+                    @param attributes [Optional]
+                      This will include any additional attributes that the button needs. For example, aria-controls.
+                  {% endcomment %}
+                  
+                  <button
+                    data-component="button"
+                    data-component-type="component"
+                    {% if tag != blank %}data-component-tag="{{ tag }}"
+                    {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                    {{ attributes }}
+                  >
+                    {{ text }}
+                  </button>
+                  
+                  {% liquid
+                    assign tag = tag_5e2f526a
+                    assign tag_5e2f526a = nil
+                    assign style = style_5e2f526a
+                    assign style_5e2f526a = nil
+                    assign size = size_5e2f526a
+                    assign size_5e2f526a = nil
+                    assign text = text_5e2f526a
+                    assign text_5e2f526a = nil
+                    assign attributes = attributes_5e2f526a
+                    assign attributes_5e2f526a = nil
+                  %}
+                  {% comment %}Component button:default end{% endcomment %}
+                {% else %}
+                  {% comment %}Component customer-address:default begin{% endcomment %}
+                  {% comment %}
+                    @param address
+                      The address to be displayed.
+                  {% endcomment %}
+                  
+                  <div data-component="customer-address" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="customer-address">
+                    {{ address.first_name }} {{ address.last_name }}<br>
+                    {% if address.company != blank %}{{ address.company }}<br>{% endif %}
+                    {{ address.address1 }}<br>
+                    {% if address.address2 != blank %}{{ address.address2 }}<br>{% endif %}
+                    {{ address.city }} {% if address.province_code != blank %}{{ address.province_code }}{% endif %} {{ address.zip }}<br>
+                    {{ address.country }}
+                    {% if address.phone != blank %}<br>{{ address.phone }}{% endif %}
+                  </div>
+                  
+                  {% comment %}Component customer-address:default end{% endcomment %}
+              
+                  <div class="customer-address-form__actions" data-address-item-actions>
+                    {% comment %}Component button:default begin{% endcomment %}
+                    {% liquid
+                      assign tag_5e2f526a = tag
+                      assign tag = 'edit-address'
+                      assign style_5e2f526a = style
+                      assign style = 'primary'
+                      assign size_5e2f526a = size
+                      assign size = 'small'
+                      assign text_5e2f526a = text
+                      assign text = edit_text
+                      assign attributes_5e2f526a = attributes
+                      assign attributes = edit_attributes
+                    %}
+                    {% comment %}
+                      @param style [Required]
+                        This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                    
+                      @param size [Required]
+                        This defines the size of the button: small, medium, or large. Default medium.
+                    
+                      @param text [Required]
+                        This is the text to be included in the button.
+                    
+                      @param attributes [Optional]
+                        This will include any additional attributes that the button needs. For example, aria-controls.
+                    {% endcomment %}
+                    
+                    <button
+                      data-component="button"
+                      data-component-type="component"
+                      {% if tag != blank %}data-component-tag="{{ tag }}"
+                      {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                      {{ attributes }}
+                    >
+                      {{ text }}
+                    </button>
+                    
+                    {% liquid
+                      assign tag = tag_5e2f526a
+                      assign tag_5e2f526a = nil
+                      assign style = style_5e2f526a
+                      assign style_5e2f526a = nil
+                      assign size = size_5e2f526a
+                      assign size_5e2f526a = nil
+                      assign text = text_5e2f526a
+                      assign text_5e2f526a = nil
+                      assign attributes = attributes_5e2f526a
+                      assign attributes_5e2f526a = nil
+                    %}
+                    {% comment %}Component button:default end{% endcomment %}
+              
+                    {% comment %}Component button:default begin{% endcomment %}
+                    {% liquid
+                      assign tag_5e2f526a = tag
+                      assign tag = 'delete-address'
+                      assign style_5e2f526a = style
+                      assign style = 'secondary'
+                      assign size_5e2f526a = size
+                      assign size = 'small'
+                      assign text_5e2f526a = text
+                      assign text = delete_text
+                      assign attributes_5e2f526a = attributes
+                      assign attributes = delete_attributes
+                    %}
+                    {% comment %}
+                      @param style [Required]
+                        This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                    
+                      @param size [Required]
+                        This defines the size of the button: small, medium, or large. Default medium.
+                    
+                      @param text [Required]
+                        This is the text to be included in the button.
+                    
+                      @param attributes [Optional]
+                        This will include any additional attributes that the button needs. For example, aria-controls.
+                    {% endcomment %}
+                    
+                    <button
+                      data-component="button"
+                      data-component-type="component"
+                      {% if tag != blank %}data-component-tag="{{ tag }}"
+                      {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                      {{ attributes }}
+                    >
+                      {{ text }}
+                    </button>
+                    
+                    {% liquid
+                      assign tag = tag_5e2f526a
+                      assign tag_5e2f526a = nil
+                      assign style = style_5e2f526a
+                      assign style_5e2f526a = nil
+                      assign size = size_5e2f526a
+                      assign size_5e2f526a = nil
+                      assign text = text_5e2f526a
+                      assign text_5e2f526a = nil
+                      assign attributes = attributes_5e2f526a
+                      assign attributes_5e2f526a = nil
+                    %}
+                    {% comment %}Component button:default end{% endcomment %}
+                  </div>
+                {% endif %}
+              
+                <div
+                  class="customer-address-form__edit-address"
+                  id="edit-address-{{address.id}}"
+                  data-edit-address-modal
+                >
+                  <h2 class="customer-address-form__edit-address-header">{% if create_new_address %}{{ new_text }}{% else %}{{ edit_text }}{% endif %}</h2>
+              
+                  <div class="customer-address-form__wrapper">
+                    {% form 'customer_address', address, class: 'customer-address-form__form' %}
+                      {% assign label_text = 'general.customer.first_name' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'text'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'first_name'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '6dc07383-a0d9-4a14-bc88-6c5f9de3b340' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+              
+                      {% assign label_text = 'general.customer.last_name' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'text'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'last_name'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '0e7e5f2a-3a80-4b34-b6a5-da49985c3fa1' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+              
+                      <div class="customer-address-form__long-field">
+                        {% assign label_text = 'customer.addresses.company' | t %}
+                        {% comment %}Component input-field:default begin{% endcomment %}
+                        {% liquid
+                          assign input_type_8335ee36 = input_type
+                          assign input_type = 'text'
+                          assign form_namespace_8335ee36 = form_namespace
+                          assign form_namespace = 'address'
+                          assign field_name_8335ee36 = field_name
+                          assign field_name = 'company'
+                        %}
+                        {% comment %}
+                          @param form [Required]
+                            The form that the input lives in.
+                        
+                          @param form_namespace [Required]
+                            The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                        
+                          @param field_name [Required]
+                            The field name for the form. Will be used for the "name" attribute.
+                        
+                          @param input_type [Required]
+                            The type of field that is being rendered. Usually text, password, number, etc.
+                        
+                          @param input_id [Optional]
+                            The type of field that is being rendered. Usually text, password, number, etc.
+                        
+                          @param label_text [Required]
+                            The text for the label to be included.
+                        
+                          @param placeholder [Optional]
+                            The placeholder for the input field.
+                        
+                          @param attributes [Optional]
+                            Additional attributes to append to the input field.
+                        {% endcomment %}
+                        
+                        {% if input_id == blank %}
+                          {% comment %}UUID input_id begin{% endcomment %}
+                          {% assign input_id = '1d1a851f-7280-4240-b4bb-f270d1ae2a49' %}
+                          {% comment %}UUID input_id end{% endcomment %}
+                        {% endif %}
+                        
+                        <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                          <label for="{{ input_id }}">{{ label_text }}</label>
+                          <input
+                            id="{{ input_id }}"
+                            type="{{ input_type }}"
+                            name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                            value="{{ form[field_name] }}"
+                            placeholder="{{ placeholder }}"
+                            {{ attributes }}
+                          >
+                        </div>
+                        
+                        {% liquid
+                          assign input_type = input_type_8335ee36
+                          assign input_type_8335ee36 = nil
+                          assign form_namespace = form_namespace_8335ee36
+                          assign form_namespace_8335ee36 = nil
+                          assign field_name = field_name_8335ee36
+                          assign field_name_8335ee36 = nil
+                        %}
+                        {% comment %}Component input-field:default end{% endcomment %}
+                      </div>
+              
+                      <div class="customer-address-form__long-field">
+                        {% assign label_text = 'customer.addresses.address_1' | t %}
+                        {% comment %}Component input-field:default begin{% endcomment %}
+                        {% liquid
+                          assign input_type_8335ee36 = input_type
+                          assign input_type = 'text'
+                          assign form_namespace_8335ee36 = form_namespace
+                          assign form_namespace = 'address'
+                          assign field_name_8335ee36 = field_name
+                          assign field_name = 'address1'
+                        %}
+                        {% comment %}
+                          @param form [Required]
+                            The form that the input lives in.
+                        
+                          @param form_namespace [Required]
+                            The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                        
+                          @param field_name [Required]
+                            The field name for the form. Will be used for the "name" attribute.
+                        
+                          @param input_type [Required]
+                            The type of field that is being rendered. Usually text, password, number, etc.
+                        
+                          @param input_id [Optional]
+                            The type of field that is being rendered. Usually text, password, number, etc.
+                        
+                          @param label_text [Required]
+                            The text for the label to be included.
+                        
+                          @param placeholder [Optional]
+                            The placeholder for the input field.
+                        
+                          @param attributes [Optional]
+                            Additional attributes to append to the input field.
+                        {% endcomment %}
+                        
+                        {% if input_id == blank %}
+                          {% comment %}UUID input_id begin{% endcomment %}
+                          {% assign input_id = '462152dc-51fb-4569-bd26-54c1475b53f5' %}
+                          {% comment %}UUID input_id end{% endcomment %}
+                        {% endif %}
+                        
+                        <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                          <label for="{{ input_id }}">{{ label_text }}</label>
+                          <input
+                            id="{{ input_id }}"
+                            type="{{ input_type }}"
+                            name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                            value="{{ form[field_name] }}"
+                            placeholder="{{ placeholder }}"
+                            {{ attributes }}
+                          >
+                        </div>
+                        
+                        {% liquid
+                          assign input_type = input_type_8335ee36
+                          assign input_type_8335ee36 = nil
+                          assign form_namespace = form_namespace_8335ee36
+                          assign form_namespace_8335ee36 = nil
+                          assign field_name = field_name_8335ee36
+                          assign field_name_8335ee36 = nil
+                        %}
+                        {% comment %}Component input-field:default end{% endcomment %}
+                      </div>
+              
+                      <div class="customer-address-form__long-field">
+                        {% assign label_text = 'customer.addresses.address_2' | t %}
+                        {% comment %}Component input-field:default begin{% endcomment %}
+                        {% liquid
+                          assign input_type_8335ee36 = input_type
+                          assign input_type = 'text'
+                          assign form_namespace_8335ee36 = form_namespace
+                          assign form_namespace = 'address'
+                          assign field_name_8335ee36 = field_name
+                          assign field_name = 'address2'
+                        %}
+                        {% comment %}
+                          @param form [Required]
+                            The form that the input lives in.
+                        
+                          @param form_namespace [Required]
+                            The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                        
+                          @param field_name [Required]
+                            The field name for the form. Will be used for the "name" attribute.
+                        
+                          @param input_type [Required]
+                            The type of field that is being rendered. Usually text, password, number, etc.
+                        
+                          @param input_id [Optional]
+                            The type of field that is being rendered. Usually text, password, number, etc.
+                        
+                          @param label_text [Required]
+                            The text for the label to be included.
+                        
+                          @param placeholder [Optional]
+                            The placeholder for the input field.
+                        
+                          @param attributes [Optional]
+                            Additional attributes to append to the input field.
+                        {% endcomment %}
+                        
+                        {% if input_id == blank %}
+                          {% comment %}UUID input_id begin{% endcomment %}
+                          {% assign input_id = '54489f79-9a43-4868-be1d-cd540cf8026c' %}
+                          {% comment %}UUID input_id end{% endcomment %}
+                        {% endif %}
+                        
+                        <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                          <label for="{{ input_id }}">{{ label_text }}</label>
+                          <input
+                            id="{{ input_id }}"
+                            type="{{ input_type }}"
+                            name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                            value="{{ form[field_name] }}"
+                            placeholder="{{ placeholder }}"
+                            {{ attributes }}
+                          >
+                        </div>
+                        
+                        {% liquid
+                          assign input_type = input_type_8335ee36
+                          assign input_type_8335ee36 = nil
+                          assign form_namespace = form_namespace_8335ee36
+                          assign form_namespace_8335ee36 = nil
+                          assign field_name = field_name_8335ee36
+                          assign field_name_8335ee36 = nil
+                        %}
+                        {% comment %}Component input-field:default end{% endcomment %}
+                      </div>
+              
+                      {% assign label_text = 'customer.addresses.city' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'text'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'city'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '9393ab68-5886-44f8-a27b-5d8a960f977b' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+              
+                      <div data-address-form-country>
+                        {% assign label_text = 'customer.addresses.country' | t %}
+                        {% comment %}Component input-select:default begin{% endcomment %}
+                        {% liquid
+                          assign input_id_c68dff97 = input_id
+                          assign input_id = 'AddressCountryNew'
+                          assign options_c68dff97 = options
+                          assign options = country_option_tags
+                          assign field_name_c68dff97 = field_name
+                          assign field_name = 'address[country]'
+                        %}
+                        {% comment %}
+                          @param label_text [Required]
+                            The text for the label to be included.
+                        
+                          @param options [Required]
+                            The list of options to include in the select.
+                        
+                          @param form_id [Optional]
+                            The form id to associate with
+                        
+                          @param input_id [Optional]
+                            The option id to apply to the label and input
+                        
+                          @param field_name [Optional]
+                            The field name for the form. Will be used for the "name" attribute.
+                        
+                          @param attributes [Optional]
+                            Additional attributes to append to the input field.
+                        {% endcomment %}
+                        
+                        {% if input_id == blank %}
+                          {% comment %}UUID input_id begin{% endcomment %}
+                          {% assign input_id = 'ab16e096-8647-4378-a9a2-9e74cbb86283' %}
+                          {% comment %}UUID input_id end{% endcomment %}
+                        {% endif %}
+                        
+                        <div data-component="input-select" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-select">
+                          <label class="input-select__label" for="{{ input_id }}" data-label>{{ label_text }}</label>
+                          <div class="input-select__wrapper">
+                            <select
+                              id="{{ input_id }}"
+                              class="input-select__select"
+                              {% if form_id != blank %}form="{{ form_id }}"{% endif %}
+                              {% if field_name != blank %}name="{{ field_name }}"{% endif %}
+                              {{ attributes }}
+                              data-input
+                            >
+                              {{ options }}
+                            </select>
+                          </div>
+                        </div>
+                        
+                        {% liquid
+                          assign input_id = input_id_c68dff97
+                          assign input_id_c68dff97 = nil
+                          assign options = options_c68dff97
+                          assign options_c68dff97 = nil
+                          assign field_name = field_name_c68dff97
+                          assign field_name_c68dff97 = nil
+                        %}
+                        {% comment %}Component input-select:default end{% endcomment %}
+                      </div>
+              
+                      <div id="form-address-province-{{ form.id }}" data-address-form-province>
+                        {% assign label_text = 'customer.addresses.state' | t %}
+                        {% comment %}Component input-select:default begin{% endcomment %}
+                        {% liquid
+                          assign input_id_c68dff97 = input_id
+                          assign input_id = 'AddressProvinceNew'
+                          assign field_name_c68dff97 = field_name
+                          assign field_name = 'address[province]'
+                        %}
+                        {% comment %}
+                          @param label_text [Required]
+                            The text for the label to be included.
+                        
+                          @param options [Required]
+                            The list of options to include in the select.
+                        
+                          @param form_id [Optional]
+                            The form id to associate with
+                        
+                          @param input_id [Optional]
+                            The option id to apply to the label and input
+                        
+                          @param field_name [Optional]
+                            The field name for the form. Will be used for the "name" attribute.
+                        
+                          @param attributes [Optional]
+                            Additional attributes to append to the input field.
+                        {% endcomment %}
+                        
+                        {% if input_id == blank %}
+                          {% comment %}UUID input_id begin{% endcomment %}
+                          {% assign input_id = 'd727b0d2-bf43-4938-a6ec-001dfc97e82f' %}
+                          {% comment %}UUID input_id end{% endcomment %}
+                        {% endif %}
+                        
+                        <div data-component="input-select" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-select">
+                          <label class="input-select__label" for="{{ input_id }}" data-label>{{ label_text }}</label>
+                          <div class="input-select__wrapper">
+                            <select
+                              id="{{ input_id }}"
+                              class="input-select__select"
+                              {% if form_id != blank %}form="{{ form_id }}"{% endif %}
+                              {% if field_name != blank %}name="{{ field_name }}"{% endif %}
+                              {{ attributes }}
+                              data-input
+                            >
+                              {{ options }}
+                            </select>
+                          </div>
+                        </div>
+                        
+                        {% liquid
+                          assign input_id = input_id_c68dff97
+                          assign input_id_c68dff97 = nil
+                          assign field_name = field_name_c68dff97
+                          assign field_name_c68dff97 = nil
+                        %}
+                        {% comment %}Component input-select:default end{% endcomment %}
+                      </div>
+              
+                      {% assign label_text = 'customer.addresses.zip' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'text'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'zip'
+                        assign attributes_8335ee36 = attributes
+                        assign attributes = 'autocapitalize="characters"'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = '460cb755-9ad1-4495-9635-f427186691a4' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                        assign attributes = attributes_8335ee36
+                        assign attributes_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+              
+                      {% assign label_text = 'customer.addresses.phone' | t %}
+                      {% comment %}Component input-field:default begin{% endcomment %}
+                      {% liquid
+                        assign input_type_8335ee36 = input_type
+                        assign input_type = 'tel'
+                        assign form_namespace_8335ee36 = form_namespace
+                        assign form_namespace = 'address'
+                        assign field_name_8335ee36 = field_name
+                        assign field_name = 'phone'
+                      %}
+                      {% comment %}
+                        @param form [Required]
+                          The form that the input lives in.
+                      
+                        @param form_namespace [Required]
+                          The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                      
+                        @param field_name [Required]
+                          The field name for the form. Will be used for the "name" attribute.
+                      
+                        @param input_type [Required]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param input_id [Optional]
+                          The type of field that is being rendered. Usually text, password, number, etc.
+                      
+                        @param label_text [Required]
+                          The text for the label to be included.
+                      
+                        @param placeholder [Optional]
+                          The placeholder for the input field.
+                      
+                        @param attributes [Optional]
+                          Additional attributes to append to the input field.
+                      {% endcomment %}
+                      
+                      {% if input_id == blank %}
+                        {% comment %}UUID input_id begin{% endcomment %}
+                        {% assign input_id = 'ee4d6af7-7c04-4f23-8b61-40a17e3b22b0' %}
+                        {% comment %}UUID input_id end{% endcomment %}
+                      {% endif %}
+                      
+                      <div data-component="input-field" data-component-type="component" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="input-field">
+                        <label for="{{ input_id }}">{{ label_text }}</label>
+                        <input
+                          id="{{ input_id }}"
+                          type="{{ input_type }}"
+                          name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                          value="{{ form[field_name] }}"
+                          placeholder="{{ placeholder }}"
+                          {{ attributes }}
+                        >
+                      </div>
+                      
+                      {% liquid
+                        assign input_type = input_type_8335ee36
+                        assign input_type_8335ee36 = nil
+                        assign form_namespace = form_namespace_8335ee36
+                        assign form_namespace_8335ee36 = nil
+                        assign field_name = field_name_8335ee36
+                        assign field_name_8335ee36 = nil
+                      %}
+                      {% comment %}Component input-field:default end{% endcomment %}
+              
+                      {% if address != customer.default_address %}
+                        <div class="customer-address-form__long-field">
+                          <div class="customer-address-form__default">
+                            {% assign label_text = 'customer.addresses.set_default' | t %}
+                            {% comment %}Component input-checkbox:default begin{% endcomment %}
+                            {% liquid
+                              assign form_namespace_52da4255 = form_namespace
+                              assign form_namespace = 'address'
+                              assign field_name_52da4255 = field_name
+                              assign field_name = 'default'
+                              assign field_value_52da4255 = field_value
+                              assign field_value = '1'
+                            %}
+                            {% comment %}
+                              @param label_text [Required]
+                                The text for the label to be included.
+                            
+                              @param form_namespace [Required]
+                                The form's namespace that is used in "name" attribute as form_namespace[field_name].
+                            
+                              @param field_name [Required]
+                                The field name for the form. Will be used for the "name" attribute.
+                            
+                              @param form_id [Optional]
+                            
+                              @param hide_label [Optional]
+                                Hide the label text as an aria-label
+                            
+                              @param field_value [Optional]
+                                The value for the checkbox.
+                            
+                              @param checked [Optional]
+                                Boolean. If true, the checkbox will appear checked.
+                            
+                              @param disabled [Optional]
+                                Boolean. If true, the checkbox will appear disabled.
+                            
+                              @param attributes [Optional]
+                                Additional attributes to append to the input field.
+                            {% endcomment %}
+                            
+                            <div
+                              data-component="input-checkbox"
+                              data-component-type="component"
+                              {% if tag != blank %}data-component-tag="{{ tag }}"
+                              {% endif %}class="
+                                input-checkbox
+                                {% if checked %}input-checkbox--checked{% endif %}
+                                {% if disabled %}input-checkbox--disabled{% endif %}
+                              "
+                            >
+                              {% unless hide_label %}
+                                <label class="input-checkbox__label">
+                                  <input
+                                    class="input-checkbox__checkbox"
+                                    type="checkbox"
+                                    name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                                    {% if form_id %}form="{{ form_id }}"{% endif %}
+                                    {% if field_value %}value="{{ field_value }}"{% endif %}
+                                    {% if checked %}checked{% endif %}
+                                    {% if disabled %}disabled{% endif %}
+                                    {{ attributes }}
+                                  >
+                                  {{ label_text }}
+                                </label>
+                              {% else %}
+                                <input
+                                  class="input-checkbox__checkbox"
+                                  type="checkbox"
+                                  name="{% if form_namespace %}{{ form_namespace }}[{{ field_name }}]{% else %}{{ field_name }}{% endif %}"
+                                  {% if form_id %}form="{{ form_id }}"{% endif %}
+                                  {% if field_value %}value="{{ field_value }}"{% endif %}
+                                  {% if checked %}checked{% endif %}
+                                  {% if disabled %}disabled{% endif %}
+                                  aria-label="{{ label_text }}"
+                                  {{ attributes }}
+                                >
+                              {% endunless %}
+                            </div>
+                            
+                            {% liquid
+                              assign form_namespace = form_namespace_52da4255
+                              assign form_namespace_52da4255 = nil
+                              assign field_name = field_name_52da4255
+                              assign field_name_52da4255 = nil
+                              assign field_value = field_value_52da4255
+                              assign field_value_52da4255 = nil
+                            %}
+                            {% comment %}Component input-checkbox:default end{% endcomment %}
+                          </div>
+                        </div>
+                      {% endif %}
+              
+                      <div class="customer-address-form__form-actions">
+                        {% assign button_text = 'customer.addresses.save' | t %}
+                        {% comment %}Component button:default begin{% endcomment %}
+                        {% liquid
+                          assign tag_5e2f526a = tag
+                          assign tag = 'save-address'
+                          assign style_5e2f526a = style
+                          assign style = 'primary'
+                          assign size_5e2f526a = size
+                          assign size = 'medium'
+                          assign text_5e2f526a = text
+                          assign text = button_text
+                        %}
+                        {% comment %}
+                          @param style [Required]
+                            This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                        
+                          @param size [Required]
+                            This defines the size of the button: small, medium, or large. Default medium.
+                        
+                          @param text [Required]
+                            This is the text to be included in the button.
+                        
+                          @param attributes [Optional]
+                            This will include any additional attributes that the button needs. For example, aria-controls.
+                        {% endcomment %}
+                        
+                        <button
+                          data-component="button"
+                          data-component-type="component"
+                          {% if tag != blank %}data-component-tag="{{ tag }}"
+                          {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                          {{ attributes }}
+                        >
+                          {{ text }}
+                        </button>
+                        
+                        {% liquid
+                          assign tag = tag_5e2f526a
+                          assign tag_5e2f526a = nil
+                          assign style = style_5e2f526a
+                          assign style_5e2f526a = nil
+                          assign size = size_5e2f526a
+                          assign size_5e2f526a = nil
+                          assign text = text_5e2f526a
+                          assign text_5e2f526a = nil
+                        %}
+                        {% comment %}Component button:default end{% endcomment %}
+              
+                        {% assign button_text = 'general.cancel' | t %}
+                        {% comment %}Component button:default begin{% endcomment %}
+                        {% liquid
+                          assign tag_5e2f526a = tag
+                          assign tag = 'reset-address'
+                          assign style_5e2f526a = style
+                          assign style = 'secondary'
+                          assign size_5e2f526a = size
+                          assign size = 'medium'
+                          assign text_5e2f526a = text
+                          assign text = button_text
+                          assign attributes_5e2f526a = attributes
+                          assign attributes = 'type="reset"'
+                        %}
+                        {% comment %}
+                          @param style [Required]
+                            This is the style of the button: primary, secondary, tertiary, or text. Default primary.
+                        
+                          @param size [Required]
+                            This defines the size of the button: small, medium, or large. Default medium.
+                        
+                          @param text [Required]
+                            This is the text to be included in the button.
+                        
+                          @param attributes [Optional]
+                            This will include any additional attributes that the button needs. For example, aria-controls.
+                        {% endcomment %}
+                        
+                        <button
+                          data-component="button"
+                          data-component-type="component"
+                          {% if tag != blank %}data-component-tag="{{ tag }}"
+                          {% endif %}class="button button--{{ style }} button--{{ size }}{% if style == 'primary' or style == 'secondary' %} button--shadow{% endif %%}"
+                          {{ attributes }}
+                        >
+                          {{ text }}
+                        </button>
+                        
+                        {% liquid
+                          assign tag = tag_5e2f526a
+                          assign tag_5e2f526a = nil
+                          assign style = style_5e2f526a
+                          assign style_5e2f526a = nil
+                          assign size = size_5e2f526a
+                          assign size_5e2f526a = nil
+                          assign text = text_5e2f526a
+                          assign text_5e2f526a = nil
+                          assign attributes = attributes_5e2f526a
+                          assign attributes_5e2f526a = nil
+                        %}
+                        {% comment %}Component button:default end{% endcomment %}
+                      </div>
+                    {% endform %}
+                  </div>
+                </div>
+              </div>
+              
+              {% liquid
+                assign index = index_697aa7c3
+                assign index_697aa7c3 = nil
+              %}
+              {% comment %}Component customer-address-form:default end{% endcomment %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if paginate.parts.size > 1 %}
+        {% comment %}Component pagination:default begin{% endcomment %}
+        {% render 'pagination', paginate: paginate %}
+        {% comment %}Component pagination:default end{% endcomment %}
+      {% endif %}
+    {% endpaginate %}
+    </section-content>
+  </section-wrapper>
+</section>

@@ -1,0 +1,425 @@
+{% liquid
+  assign heading = section.settings.heading | escape
+  assign has_heading = false
+  if heading != blank
+    assign has_heading = true
+  endif
+
+  assign image = section.settings.image
+  assign mobile_image = section.settings.mobile_image
+  assign has_image = false
+  if image
+    assign has_image = true
+  endif
+
+  assign desktop_image_height = section.settings.desktop_image_height
+
+  # Colors
+  assign text_color = section.settings.color_text
+  assign text_color_alpha = text_color | color_extract: 'alpha'
+  assign border_color = text_color | color_modify: 'alpha', 0.15
+  assign background_color = section.settings.color_background
+  assign background_color_alpha = background_color | color_extract: 'alpha'
+%}
+
+<section
+  data-component="collapsible-content"
+  data-component-type="section"
+  {% if tag != blank %}data-component-tag="{{ tag }}"
+  {% endif %}class="
+    collapsible-content
+    collapsible-content--{{ section.settings.layout }}
+    collapsible-content--{{ section.settings.content_display }}
+    collapsible-content--has-image-{{ has_image }}
+    collapsible-content--has-heading-{{ has_heading }}
+    collapsible-content--image-align-{{ section.settings.desktop_image_position }}
+  "
+  style="
+    {% if text_color_alpha != 0 %}
+      --collapsible-content-text-color: {{ text_color }};
+      --collapsible-content-border-color: {{ border_color }};
+    {% endif %}
+    {% if background_color_alpha != 0 %}
+      --collapsible-content-background-color: {{ background_color }};
+    {% endif %}
+    --collapsible-content-desktop-image-height: {{ desktop_image_height }};
+    --collapsible-content-mobile-image-height: {{ section.settings.mobile_image_height }};
+  "
+>
+  <section-wrapper {% if section.settings.wide %}width="wide"{% endif %}>
+    <div class="collapsible-content__wrapper">
+      <section-content class="collapsible-content__grid">
+        <div class="collapsible-content__content">
+          <div class="collapsible-content__content-wrapper">
+            {% if heading != blank %}
+              <section-header>
+                <h2
+                  class="
+                    collapsible-content__heading
+                    collapsible-content__heading--align-{{ section.settings.heading_alignment }}
+                  "
+                >
+                  {{- heading -}}
+                </h2>
+              </section-header>
+            {% endif %}
+
+            {% if section.blocks.size > 0 %}
+              <div class="collapsible-content__tabs">
+                {% for block in section.blocks %}
+                  {% case block.type %}
+                    {% when 'collapsible_tab' %}
+                      {% comment %}Component block-collapsible-tab:default begin{% endcomment %}
+                      <div data-component="block-collapsible-tab" data-component-type="block" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="block-collapsible-tab" {{ block.shopify_attributes }}>
+                        {% comment %}Component collapsible-tab:default begin{% endcomment %}
+                        {% liquid
+                          assign show_tab_as_open_b3115a25 = show_tab_as_open
+                          assign show_tab_as_open = block.settings.show_tab_as_open
+                          assign heading_b3115a25 = heading
+                          assign heading = block.settings.heading
+                          assign content_b3115a25 = content
+                          assign content = block.settings.content
+                          assign page_b3115a25 = page
+                          assign page = block.settings.page
+                          assign is_sibling_b3115a25 = is_sibling
+                          assign is_sibling = true
+                        %}
+                        {% comment %}
+                          @param show_tab_as_open {Boolean}
+                            If true, open the tab by default.
+                        
+                         @param heading {String}
+                            The tab heading.
+                        
+                          @param content {String}
+                            The tab content.
+                        
+                          @param page {Object}
+                            The tab page.
+                        
+                          @param is_sibling {Boolean}
+                            If true, display the tab as a sibling.
+                        {% endcomment %}
+                        
+                        {% if heading != blank %}
+                        <details
+                          data-component="collapsible-tab"
+                          data-component-type="component"
+                          {% if tag != blank %}data-component-tag="{{ tag }}"
+                          {% endif %}class="
+                            collapsible-tab
+                            collapsible-tab--is-sibling-{{ is_sibling }}
+                          "
+                          {% if show_tab_as_open %}open{% endif %}
+                        >
+                          <summary class="collapsible-tab__label">
+                            <h2 class="collapsible-tab__heading">
+                              {{- heading -}}
+                            </h2>
+                            {% comment %}Icon chevron-small:default begin{% endcomment %}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"><path stroke="currentColor" stroke-width="1.75" d="m1 5 7 7 7-7"/></svg>
+                            {% comment %}Icon chevron-small:default end{% endcomment %}
+                          </summary>
+                        
+                          {% if content != blank or page != blank %}
+                            <div class="collapsible-tab__panel">
+                              {{- content -}}
+                              {% if page != blank %}
+                                <div class="collapsible-tab__page-content">
+                                  {{- page.content -}}
+                                </div>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+                        </details>
+                        {% endif %}
+                        
+                        {% liquid
+                          assign show_tab_as_open = show_tab_as_open_b3115a25
+                          assign show_tab_as_open_b3115a25 = nil
+                          assign heading = heading_b3115a25
+                          assign heading_b3115a25 = nil
+                          assign content = content_b3115a25
+                          assign content_b3115a25 = nil
+                          assign page = page_b3115a25
+                          assign page_b3115a25 = nil
+                          assign is_sibling = is_sibling_b3115a25
+                          assign is_sibling_b3115a25 = nil
+                        %}
+                        {% comment %}Component collapsible-tab:default end{% endcomment %}
+                      </div>
+                      
+                      {% comment %}Component block-collapsible-tab:default end{% endcomment %}
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if image %}
+          <div
+            class="
+              collapsible-content__image-wrapper
+              {% if desktop_image_height == 'auto' %}
+                collapsible-content__image-wrapper--natural
+              {% endif %}
+            "
+          >
+            <div
+              class="
+                collapsible-content__image
+                {% if mobile_image %}
+                  collapsible-content__image--desktop
+                {% endif %}
+              "
+            >
+              {% comment %}Component lazy-img:default begin{% endcomment %}
+              {% render 'lazy-img', img: image, size: '1200x', lazy: true, canvas: true, focal_point: image.presentation.focal_point %}
+              {% comment %}Component lazy-img:default end{% endcomment %}
+            </div>
+
+            {% if mobile_image %}
+              <div
+                class="
+                  collapsible-content__image
+                  {% if image %}
+                    collapsible-content__image--mobile
+                  {% endif %}
+                "
+              >
+                {% comment %}Component lazy-img:default begin{% endcomment %}
+                {% render 'lazy-img', img: mobile_image, size: '1200x', lazy: true, canvas: true, focal_point: mobile_image.presentation.focal_point %}
+                {% comment %}Component lazy-img:default end{% endcomment %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </section-content>
+    </div>
+  </section-wrapper>
+</section>
+{% schema %}
+{
+  "name": "t:common.component.collapsible_content",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "wide",
+      "label": "t:common.size.wide_display",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "content_display",
+      "label": "t:common.layout.content_display",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "t:common.size.full_width"
+        },
+        {
+          "value": "centered",
+          "label": "t:common.layout.centered"
+        }
+      ],
+      "default": "centered"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:common.text.heading",
+      "default": "Collapsible content"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "t:common.text.heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:common.layout.left"
+        },
+        {
+          "value": "center",
+          "label": "t:common.layout.center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "t:common.image.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:common.image.image"
+    },
+    {
+      "type": "select",
+      "id": "desktop_image_height",
+      "label": "t:common.size.desktop_height",
+      "options": [
+        {
+          "value": "auto",
+          "label": "t:common.size.natural"
+        },
+        {
+          "value": "400px",
+          "label": "t:common.size.400px"
+        },
+        {
+          "value": "500px",
+          "label": "t:common.size.500px"
+        },
+        {
+          "value": "600px",
+          "label": "t:common.size.600px"
+        },
+        {
+          "value": "700px",
+          "label": "t:common.size.700px"
+        },
+        {
+          "value": "800px",
+          "label": "t:common.size.800px"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "desktop_image_position",
+      "label": "t:common.layout.desktop_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:common.layout.left"
+        },
+        {
+          "value": "right",
+          "label": "t:common.layout.right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:common.layout.layout",
+      "options": [
+        {
+          "value": "padded",
+          "label": "t:component.collapsible_content.layout.option_1"
+        },
+        {
+          "value": "collage",
+          "label": "t:component.collapsible_content.layout.option_2"
+        }
+      ],
+      "default": "padded"
+    },
+    {
+      "type": "header",
+      "content": "t:common.layout.mobile"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "t:common.image.mobile_image"
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_height",
+      "label": "t:common.image.mobile_image_height",
+      "options": [
+        {
+          "value": "auto",
+          "label": "t:common.size.natural"
+        },
+        {
+          "value": "300px",
+          "label": "t:common.size.300px"
+        },
+        {
+          "value": "400px",
+          "label": "t:common.size.400px"
+        },
+        {
+          "value": "500px",
+          "label": "t:common.size.500px"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "header",
+      "content": "t:common.style.color"
+    },
+    {
+      "type": "color",
+      "id": "color_background",
+      "label": "t:common.style.background_color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "t:common.style.text_color",
+      "default": "transparent"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:common.component.collapsible_content",
+      "blocks": [
+        {
+          "type": "collapsible_tab"
+        },
+        {
+          "type": "collapsible_tab"
+        },
+        {
+          "type": "collapsible_tab"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "*"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "collapsible_tab",
+      "name": "t:common.component.collapsible_tab",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_tab_as_open",
+          "label": "t:common.component.show_tab_opened_default",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:common.text.heading",
+          "default": "Collapsible tab"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:common.text.text"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:common.component.page"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,481 @@
+{% comment %}
+  SOAP. / The Smooth Company
+  sc-bcorp-row
+  Image one side, short copy the other. Add this section three times and
+  alternate "Image position" to get the left, right, left rhythm.
+{% endcomment %}
+
+{%- liquid
+  assign s = section.settings
+  assign is_image_right = false
+  if s.image_position == 'right'
+    assign is_image_right = true
+  endif
+
+  assign heading_alt = s.heading | default: 'The Smooth Company' | escape
+  assign alt_image = s.image.alt | default: heading_alt
+-%}
+
+<style>
+  #sc-bcorp-row-{{ section.id }} {
+    background-color: {{ s.background_color }};
+    color: {{ s.text_color }};
+    padding-top: {{ s.rpad_top_v2 | times: 0.55 | round }}px;
+    padding-bottom: {{ s.rpad_bot_v2 | times: 0.55 | round }}px;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__inner {
+    max-width: {{ s.max_width }}px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: {{ s.valign_v2 }};
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ s.image_ratio_mobile }};
+    overflow: hidden;
+    background-color: {{ s.image_placeholder_color }};
+    border-radius: {{ s.corner_radius }}px;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__media img,
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ s.focal_point }};
+    display: block;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__content {
+    text-align: {{ s.text_align }};
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__index {
+    display: block;
+    margin: 0 0 16px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__heading {
+    margin: 0 0 16px;
+    font-size: 24px;
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__body {
+    font-size: {{ s.text_size_mobile }}px;
+    line-height: 1.65;
+    max-width: 48ch;
+    {% if s.text_align == 'center' %}margin-left: auto; margin-right: auto;{% endif %}
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__body p {
+    margin: 0 0 1.1em;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__body p:last-child {
+    margin-bottom: 0;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__link {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 3px;
+    transition: opacity 0.2s ease;
+  }
+
+  #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__link:hover {
+    opacity: 0.6;
+  }
+
+  @media screen and (min-width: 900px) {
+    #sc-bcorp-row-{{ section.id }} {
+      padding-top: {{ s.rpad_top_v2 }}px;
+      padding-bottom: {{ s.rpad_bot_v2 }}px;
+    }
+    #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__inner {
+      grid-template-columns: {{ s.media_width }}fr {{ 100 | minus: s.media_width }}fr;
+      gap: {{ s.column_gap }}px;
+      padding: 0 48px;
+    }
+    #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__media {
+      aspect-ratio: {{ s.image_ratio_desktop }};
+      {% if is_image_right %}order: 2;{% else %}order: 1;{% endif %}
+    }
+    #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__content {
+      {% if is_image_right %}order: 1;{% else %}order: 2;{% endif %}
+      padding: {{ s.content_inset }}px 0;
+    }
+    #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__heading {
+      font-size: 32px;
+    }
+    #sc-bcorp-row-{{ section.id }} .sc-bcorp-row__body {
+      font-size: {{ s.text_size_desktop }}px;
+    }
+  }
+</style>
+
+<section
+  id="sc-bcorp-row-{{ section.id }}"
+  class="sc-bcorp-row"
+  {{ section.shopify_attributes }}
+>
+  <div class="sc-bcorp-row__inner">
+    <div class="sc-bcorp-row__media">
+      {%- if s.image != blank -%}
+        {{
+          s.image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'lazy',
+            sizes: '(min-width: 900px) 50vw, 100vw',
+            widths: '480, 768, 1000, 1200, 1600',
+            alt: alt_image
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+
+    <div class="sc-bcorp-row__content">
+      {%- if s.index_label != blank -%}
+        <span class="sc-bcorp-row__index">{{ s.index_label }}</span>
+      {%- endif -%}
+
+      {%- if s.heading != blank -%}
+        <h2 class="sc-bcorp-row__heading">{{ s.heading }}</h2>
+      {%- endif -%}
+
+      {%- if s.body != blank -%}
+        <div class="sc-bcorp-row__body rte">{{ s.body }}</div>
+      {%- endif -%}
+
+      {%- if s.link_text != blank and s.link_url != blank -%}
+        <a class="sc-bcorp-row__link" href="{{ s.link_url }}">{{ s.link_text }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B Corp: Row",
+  "tag": "section",
+  "class": "sc-bcorp-row-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "index_label",
+      "label": "Small label above heading",
+      "info": "Optional. For example: 01, or What we make.",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What we make"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Every formula is developed to do one job well, with nothing added to make the list look longer. Fewer ingredients, better sourced, tested until they earn their place.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position, desktop",
+      "info": "Alternate this between rows: left, right, left.",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "focal_point",
+      "label": "Image focal point",
+      "options": [
+        {
+          "value": "left center",
+          "label": "Left"
+        },
+        {
+          "value": "center center",
+          "label": "Centre"
+        },
+        {
+          "value": "right center",
+          "label": "Right"
+        },
+        {
+          "value": "center top",
+          "label": "Top"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio_desktop",
+      "label": "Image ratio, desktop",
+      "options": [
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait 4:5"
+        },
+        {
+          "value": "3 / 4",
+          "label": "Portrait 3:4"
+        },
+        {
+          "value": "4 / 3",
+          "label": "Landscape 4:3"
+        },
+        {
+          "value": "16 / 9",
+          "label": "Landscape 16:9"
+        }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio_mobile",
+      "label": "Image ratio, mobile",
+      "options": [
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait 4:5"
+        },
+        {
+          "value": "4 / 3",
+          "label": "Landscape 4:3"
+        },
+        {
+          "value": "16 / 9",
+          "label": "Landscape 16:9"
+        }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "image_placeholder_color",
+      "label": "Placeholder colour",
+      "default": "#b5e3d9"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "media_width",
+      "label": "Image column width",
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Gap between columns",
+      "min": 16,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "content_inset",
+      "label": "Text vertical inset, desktop",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "valign_v2",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Centre"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Centre"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Section max width",
+      "min": 900,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1280
+    },
+    {
+      "type": "range",
+      "id": "rpad_top_v2",
+      "label": "Padding top, desktop",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "rpad_bot_v2",
+      "label": "Padding bottom, desktop",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Colour and type"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#1d1d1b"
+    },
+    {
+      "type": "range",
+      "id": "text_size_desktop",
+      "label": "Body size, desktop",
+      "min": 14,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Body size, mobile",
+      "min": 13,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "B Corp: Row"
+    }
+  ]
+}
+{% endschema %}

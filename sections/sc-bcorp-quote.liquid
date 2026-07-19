@@ -1,0 +1,439 @@
+{% comment %}
+  SOAP. / The Smooth Company
+  sc-bcorp-quote
+
+  Editorial pull quote. Two layouts:
+  - "portrait": photo one side, quote the other
+  - "centered": no photo, quote centred as a standalone statement
+
+  The quote is set in a serif. By default it uses the theme heading font
+  (var, then a serif fallback) rather than the body sans, so it reads as a
+  statement, not body copy. Paste a Typekit family name to override.
+
+  Setting ids prefixed q_ so nothing stale can map on.
+{% endcomment %}
+
+{%- liquid
+  assign s = section.settings
+  assign quote = s.q_quote | strip
+  assign name = s.q_name | strip
+  assign role = s.q_role | strip
+  assign alt_photo = s.q_image.alt | default: name | default: 'Founder portrait'
+
+  assign serif = s.q_font
+  if serif == blank
+    assign serif = 'var(--font-heading-family, var(--heading-font-family, Georgia, "Times New Roman", serif))'
+  endif
+
+  assign is_centered = false
+  if s.q_layout == 'centered'
+    assign is_centered = true
+  endif
+
+  assign photo_order = 1
+  assign text_order = 2
+  if s.q_position == 'right'
+    assign photo_order = 2
+    assign text_order = 1
+  endif
+-%}
+
+<style>
+  /* Page scoped section gap reset */
+  .wlm-content .shopify-section,
+  #site-main .shopify-section { margin: 0 !important; padding: 0 !important; }
+  wlm.wlm-content { display: contents; }
+  #site-main .shopify-section > section { margin: 0 !important; }
+  #site-main { gap: 0 !important; row-gap: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .wlm-content { gap: 0 !important; }
+
+  #scq-{{ section.id }} {
+    background-color: {{ s.q_bg }};
+    color: {{ s.q_ink }};
+    padding: {{ s.q_pad_m }}px 24px;
+  }
+
+  #scq-{{ section.id }} .scq__inner {
+    max-width: {{ s.q_max }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ s.q_gap_m }}px;
+    align-items: center;
+  }
+
+  /* Tailor hides content until its observer fires */
+  #scq-{{ section.id }} .scq__inner,
+  #scq-{{ section.id }} .scq__inner * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    animation: none !important;
+    clip-path: none !important;
+  }
+
+  #scq-{{ section.id }} .scq__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: {{ s.q_ratio }};
+    overflow: hidden;
+    background-color: {{ s.q_placeholder }};
+  }
+
+  #scq-{{ section.id }} .scq__media img,
+  #scq-{{ section.id }} .scq__media svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ s.q_focal }};
+  }
+
+  #scq-{{ section.id }} .scq__content {
+    {% if is_centered %}text-align: center; max-width: {{ s.q_measure }}ch; margin: 0 auto;{% endif %}
+  }
+
+  #scq-{{ section.id }} .scq__quote {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    font-family: {{ serif }};
+    font-size: {{ s.q_size_m }}px;
+    line-height: 1.32;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  /* Hanging opening mark, part of the type, not a clip-art block */
+  #scq-{{ section.id }} .scq__quote::before {
+    content: {% if s.q_show_mark %}'\201C'{% else %}''{% endif %};
+    position: absolute;
+    font-family: {{ serif }};
+    font-size: 1.15em;
+    line-height: 1;
+    color: {{ s.q_mark_color }};
+    {% if is_centered %}
+      left: 50%;
+      top: -0.9em;
+      transform: translateX(-50%);
+    {% else %}
+      left: -0.62em;
+      top: 0.06em;
+    {% endif %}
+  }
+
+  #scq-{{ section.id }} .scq__attr {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: {{ s.q_gap_attr }}px;
+    {% if is_centered %}justify-content: center;{% endif %}
+  }
+
+  #scq-{{ section.id }} .scq__attr::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.4;
+    flex: none;
+  }
+
+  #scq-{{ section.id }} .scq__name {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  #scq-{{ section.id }} .scq__role {
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.55;
+  }
+
+  @media screen and (min-width: 900px) {
+    #scq-{{ section.id }} {
+      padding: {{ s.q_pad_d }}px 48px;
+    }
+    {% unless is_centered %}
+    #scq-{{ section.id }} .scq__inner {
+      grid-template-columns: {{ s.q_media_w }}fr {{ 100 | minus: s.q_media_w }}fr;
+      gap: {{ s.q_gap_d }}px;
+    }
+    #scq-{{ section.id }} .scq__media { order: {{ photo_order }}; }
+    #scq-{{ section.id }} .scq__content { order: {{ text_order }}; }
+    {% endunless %}
+    #scq-{{ section.id }} .scq__quote {
+      font-size: {{ s.q_size_d }}px;
+    }
+  }
+</style>
+
+<section id="scq-{{ section.id }}" class="scq" {{ section.shopify_attributes }}>
+  <div class="scq__inner">
+    {%- unless is_centered -%}
+      <div class="scq__media">
+        {%- if s.q_image != blank -%}
+          {{
+            s.q_image
+            | image_url: width: 1400
+            | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 45vw, 100vw', widths: '480, 768, 1000, 1400', alt: alt_photo
+          }}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
+
+    <div class="scq__content">
+      {%- if quote != blank -%}
+        <blockquote class="scq__quote">{{ quote }}</blockquote>
+      {%- endif -%}
+
+      {%- if name != blank -%}
+        <div class="scq__attr">
+          <span class="scq__name">{{ name }}</span>
+          {%- if role != blank -%}
+            <span class="scq__role">{{ role }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B Corp: Quote",
+  "tag": "section",
+  "class": "scq-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "q_quote",
+      "label": "Quote",
+      "info": "No quotation marks. Use the quote mark toggle below.",
+      "default": "The Smooth Company was never just about creating products people love. It was about building a business that could make a positive impact."
+    },
+    {
+      "type": "text",
+      "id": "q_name",
+      "label": "Name",
+      "default": "Áine Kennedy"
+    },
+    {
+      "type": "text",
+      "id": "q_role",
+      "label": "Role",
+      "default": "Founder and CEO"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "q_layout",
+      "label": "Layout",
+      "options": [
+        { "value": "portrait", "label": "Photo and quote" },
+        { "value": "centered", "label": "Centred, no photo" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "checkbox",
+      "id": "q_show_mark",
+      "label": "Show opening quote mark",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "q_font",
+      "label": "Quote font family",
+      "info": "Optional. Leave empty to use the theme heading serif. Or paste the Typekit family name (kit ffy5vbd)."
+    },
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "image_picker",
+      "id": "q_image",
+      "label": "Photo"
+    },
+    {
+      "type": "select",
+      "id": "q_position",
+      "label": "Photo position, desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "q_ratio",
+      "label": "Photo ratio",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 5", "label": "Portrait 4:5" },
+        { "value": "3 / 4", "label": "Portrait 3:4" },
+        { "value": "4 / 3", "label": "Landscape 4:3" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "q_focal",
+      "label": "Photo focal point",
+      "options": [
+        { "value": "left center", "label": "Left" },
+        { "value": "center center", "label": "Centre" },
+        { "value": "right center", "label": "Right" },
+        { "value": "center top", "label": "Top" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "color",
+      "id": "q_placeholder",
+      "label": "Placeholder colour",
+      "default": "#b5e3d9"
+    },
+    {
+      "type": "range",
+      "id": "q_media_w",
+      "label": "Photo column width, desktop",
+      "min": 30,
+      "max": 55,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "q_gap_d",
+      "label": "Gap photo to quote, desktop",
+      "min": 24,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "q_gap_m",
+      "label": "Gap photo to quote, mobile",
+      "min": 12,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "q_gap_attr",
+      "label": "Gap above attribution",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "q_pad_d",
+      "label": "Section padding, desktop",
+      "min": 0,
+      "max": 220,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "q_pad_m",
+      "label": "Section padding, mobile",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "q_max",
+      "label": "Content max width",
+      "min": 700,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "q_measure",
+      "label": "Quote line length, centred layout",
+      "min": 20,
+      "max": 44,
+      "step": 1,
+      "unit": "ch",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colour and type"
+    },
+    {
+      "type": "color",
+      "id": "q_bg",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "q_ink",
+      "label": "Text",
+      "default": "#1d1d1b"
+    },
+    {
+      "type": "color",
+      "id": "q_mark_color",
+      "label": "Quote mark colour",
+      "default": "#b5e3d9"
+    },
+    {
+      "type": "range",
+      "id": "q_size_d",
+      "label": "Quote size, desktop",
+      "min": 20,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "q_size_m",
+      "label": "Quote size, mobile",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    }
+  ],
+  "presets": [
+    {
+      "name": "B Corp: Quote"
+    }
+  ]
+}
+{% endschema %}

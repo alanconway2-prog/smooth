@@ -1,0 +1,154 @@
+{%- assign s = section.settings -%}
+{%- assign label = s.stb_label | strip -%}
+{%- assign lead = s.stb_lead | strip -%}
+{%- assign close = s.stb_close | strip -%}
+{%- assign alt_bg = s.stb_image.alt | default: 'Certified B Corporation' -%}
+
+<style>
+  .wlm-content .shopify-section,
+  #site-main .shopify-section { margin: 0 !important; padding: 0 !important; }
+  wlm.wlm-content { display: contents; }
+  #site-main .shopify-section > section { margin: 0 !important; }
+  #site-main { gap: 0 !important; row-gap: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .wlm-content { gap: 0 !important; }
+
+  #scstb-{{ section.id }} {
+    position: relative; overflow: hidden;
+    background-color: {{ s.stb_bg }};
+    color: {{ s.stb_ink }};
+    padding: {{ s.stb_pad_m }}px 24px;
+  }
+  #scstb-{{ section.id }} .scstb__bg {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: {{ s.stb_focal }}; z-index: 0;
+  }
+  #scstb-{{ section.id }} .scstb__scrim {
+    position: absolute; inset: 0; background-color: {{ s.stb_scrim }}; opacity: {{ s.stb_scrim_op | divided_by: 100.0 }}; z-index: 1; pointer-events: none;
+  }
+  #scstb-{{ section.id }} .scstb__inner {
+    position: relative; z-index: 2; max-width: {{ s.stb_max }}px; margin: 0 auto; text-align: center;
+  }
+  #scstb-{{ section.id }} .scstb__inner,
+  #scstb-{{ section.id }} .scstb__inner * {
+    opacity: 1 !important; visibility: visible !important; transform: none !important; animation: none !important; clip-path: none !important;
+  }
+  #scstb-{{ section.id }} .scstb__label {
+    margin: 0 0 14px; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.75 !important;
+  }
+  #scstb-{{ section.id }} .scstb__lead {
+    margin: 0 auto {{ s.stb_gap_lead }}px; font-size: {{ s.stb_lead_size_m }}px; line-height: 1.4; max-width: 26ch; font-weight: 400;
+  }
+  #scstb-{{ section.id }} .scstb__grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: {{ s.stb_grid_gap_m }}px; max-width: 520px; margin: 0 auto;
+  }
+  #scstb-{{ section.id }} .scstb__item { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  #scstb-{{ section.id }} .scstb__icon { width: {{ s.stb_icon_size }}px; height: {{ s.stb_icon_size }}px; margin-bottom: 12px; color: {{ s.stb_icon_color }}; }
+  #scstb-{{ section.id }} .scstb__icon svg { width: 100%; height: 100%; display: block; }
+  #scstb-{{ section.id }} .scstb__item-label {
+    margin: 0; font-size: {{ s.stb_item_size_m }}px; line-height: 1.3; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500;
+  }
+  #scstb-{{ section.id }} .scstb__close {
+    margin: {{ s.stb_gap_close }}px auto 0; font-size: {{ s.stb_close_size_m }}px; line-height: 1.5; max-width: 32ch;
+  }
+
+  @media screen and (min-width: 768px) {
+    #scstb-{{ section.id }} { padding: {{ s.stb_pad_d }}px 48px; }
+    #scstb-{{ section.id }} .scstb__grid { grid-template-columns: repeat(4, 1fr); max-width: none; gap: {{ s.stb_grid_gap_d }}px; }
+    #scstb-{{ section.id }} .scstb__lead { font-size: {{ s.stb_lead_size_d }}px; }
+    #scstb-{{ section.id }} .scstb__item-label { font-size: {{ s.stb_item_size_d }}px; }
+    #scstb-{{ section.id }} .scstb__close { font-size: {{ s.stb_close_size_d }}px; }
+  }
+</style>
+
+<section id="scstb-{{ section.id }}" class="scstb" {{ section.shopify_attributes }}>
+  {%- if s.stb_image != blank -%}
+    {{ s.stb_image | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '800, 1200, 1800, 2400', alt: alt_bg, class: 'scstb__bg' }}
+  {%- endif -%}
+  {%- if s.stb_scrim_op > 0 -%}<div class="scstb__scrim"></div>{%- endif -%}
+
+  <div class="scstb__inner">
+    {%- if label != blank -%}<p class="scstb__label">{{ label }}</p>{%- endif -%}
+    {%- if lead != blank -%}<p class="scstb__lead">{{ lead }}</p>{%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="scstb__grid">
+        {%- for block in section.blocks -%}
+          {%- assign w = block.settings.stbi_label | strip -%}
+          <div class="scstb__item" {{ block.shopify_attributes }}>
+            {%- case block.settings.stbi_icon -%}
+              {%- when 'people' -%}
+                <span class="scstb__icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="17" r="6"/><circle cx="32" cy="19" r="5"/><path d="M8 38c0-6 5-10 10-10s10 4 10 10M28 30c1-2 4-4 7-4 5 0 8 4 8 9"/></svg></span>
+              {%- when 'leaf' -%}
+                <span class="scstb__icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 36C12 20 24 10 38 10c0 16-12 26-26 26ZM12 36c6-8 12-13 20-17"/></svg></span>
+              {%- when 'doc' -%}
+                <span class="scstb__icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 6h16l8 8v28H13Z"/><path d="M29 6v8h8M19 24h12M19 31h12"/></svg></span>
+              {%- when 'shield' -%}
+                <span class="scstb__icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M24 5 40 11v11c0 11-7 18-16 21-9-3-16-10-16-21V11Z"/><path d="M17 24l5 5 9-10"/></svg></span>
+            {%- endcase -%}
+            {%- if w != blank -%}<p class="scstb__item-label">{{ w }}</p>{%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if close != blank -%}<p class="scstb__close">{{ close }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B Corp: Standards band",
+  "tag": "section",
+  "class": "scstb-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "stb_label", "label": "Label", "default": "Why B Corp matters" },
+    { "type": "text", "id": "stb_lead", "label": "Lead line", "default": "B Corp Certification means we meet the highest standards of" },
+    { "type": "text", "id": "stb_close", "label": "Closing line", "default": "A higher standard of business, the Smooth way." },
+    { "type": "header", "content": "Background image" },
+    { "type": "image_picker", "id": "stb_image", "label": "Background image", "info": "Optional. Redwood crop works well." },
+    { "type": "select", "id": "stb_focal", "label": "Focal point", "options": [ { "value": "center top", "label": "Top" }, { "value": "center center", "label": "Centre" }, { "value": "center bottom", "label": "Bottom" } ], "default": "center center" },
+    { "type": "color", "id": "stb_scrim", "label": "Overlay colour", "default": "#1d2b22" },
+    { "type": "range", "id": "stb_scrim_op", "label": "Overlay opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 0 },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "stb_icon_size", "label": "Icon size", "min": 24, "max": 56, "step": 2, "unit": "px", "default": 34 },
+    { "type": "range", "id": "stb_grid_gap_d", "label": "Gap between standards, desktop", "min": 12, "max": 64, "step": 2, "unit": "px", "default": 32 },
+    { "type": "range", "id": "stb_grid_gap_m", "label": "Gap between standards, mobile", "min": 12, "max": 48, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "stb_gap_lead", "label": "Gap under lead", "min": 16, "max": 72, "step": 2, "unit": "px", "default": 44 },
+    { "type": "range", "id": "stb_gap_close", "label": "Gap above closing", "min": 16, "max": 72, "step": 2, "unit": "px", "default": 44 },
+    { "type": "range", "id": "stb_pad_d", "label": "Section padding, desktop", "min": 40, "max": 220, "step": 4, "unit": "px", "default": 112 },
+    { "type": "range", "id": "stb_pad_m", "label": "Section padding, mobile", "min": 24, "max": 140, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "stb_max", "label": "Content max width", "min": 700, "max": 1200, "step": 20, "unit": "px", "default": 900 },
+    { "type": "header", "content": "Colour and type" },
+    { "type": "color", "id": "stb_bg", "label": "Background", "default": "#b5e3d9" },
+    { "type": "color", "id": "stb_ink", "label": "Text", "default": "#1d1d1b" },
+    { "type": "color", "id": "stb_icon_color", "label": "Icon colour", "default": "#2f3d34" },
+    { "type": "range", "id": "stb_lead_size_d", "label": "Lead size, desktop", "min": 15, "max": 28, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "stb_lead_size_m", "label": "Lead size, mobile", "min": 14, "max": 22, "step": 1, "unit": "px", "default": 17 },
+    { "type": "range", "id": "stb_item_size_d", "label": "Standard size, desktop", "min": 11, "max": 16, "step": 1, "unit": "px", "default": 13 },
+    { "type": "range", "id": "stb_item_size_m", "label": "Standard size, mobile", "min": 11, "max": 15, "step": 1, "unit": "px", "default": 12 },
+    { "type": "range", "id": "stb_close_size_d", "label": "Closing size, desktop", "min": 13, "max": 20, "step": 1, "unit": "px", "default": 15 },
+    { "type": "range", "id": "stb_close_size_m", "label": "Closing size, mobile", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 14 }
+  ],
+  "blocks": [
+    {
+      "type": "standard",
+      "name": "Standard",
+      "settings": [
+        { "type": "select", "id": "stbi_icon", "label": "Icon", "options": [ { "value": "none", "label": "None" }, { "value": "people", "label": "People" }, { "value": "leaf", "label": "Leaf" }, { "value": "doc", "label": "Document" }, { "value": "shield", "label": "Shield" } ], "default": "none" },
+        { "type": "text", "id": "stbi_label", "label": "Standard" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "B Corp: Standards band",
+      "blocks": [
+        { "type": "standard", "settings": { "stbi_icon": "people", "stbi_label": "Social impact" } },
+        { "type": "standard", "settings": { "stbi_icon": "leaf", "stbi_label": "Environmental responsibility" } },
+        { "type": "standard", "settings": { "stbi_icon": "doc", "stbi_label": "Transparency" } },
+        { "type": "standard", "settings": { "stbi_icon": "shield", "stbi_label": "Accountability" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

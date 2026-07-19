@@ -1,0 +1,430 @@
+{% comment %}
+  SOAP. / The Smooth Company
+  sc-bcorp-voice
+
+  Founder quote as a mint feature band, matching the page's mint-block motif.
+  The quote is an <h2>, so it inherits the theme heading serif exactly like
+  "The Journey" and "What's Next". No font-family is set anywhere on the quote.
+  Photo framed within the band on one side, quote on the other.
+  Fresh id prefix v_ so nothing from earlier quote sections can map on.
+{% endcomment %}
+
+{%- liquid
+  assign s = section.settings
+  assign quote = s.v_quote | strip
+  assign name = s.v_name | strip
+  assign role = s.v_role | strip
+  assign alt_photo = s.v_image.alt | default: name | default: 'Founder portrait'
+
+  assign img_order = 1
+  assign txt_order = 2
+  if s.v_position == 'right'
+    assign img_order = 2
+    assign txt_order = 1
+  endif
+-%}
+
+<style>
+  /* Page scoped section gap reset */
+  .wlm-content .shopify-section,
+  #site-main .shopify-section { margin: 0 !important; padding: 0 !important; }
+  wlm.wlm-content { display: contents; }
+  #site-main .shopify-section > section { margin: 0 !important; }
+  #site-main { gap: 0 !important; row-gap: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .wlm-content { gap: 0 !important; }
+
+  #scv-{{ section.id }} {
+    background-color: {{ s.v_band }};
+    padding: {{ s.v_pad_m }}px 20px;
+  }
+
+  #scv-{{ section.id }} .scv__inner {
+    max-width: {{ s.v_max }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ s.v_gap_m }}px;
+    align-items: center;
+  }
+
+  /* Tailor hides content until its observer fires */
+  #scv-{{ section.id }} .scv__inner,
+  #scv-{{ section.id }} .scv__inner * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    animation: none !important;
+    clip-path: none !important;
+  }
+
+  #scv-{{ section.id }} .scv__media {
+    width: 100%;
+    aspect-ratio: {{ s.v_ratio_m }};
+    overflow: hidden;
+    background-color: {{ s.v_placeholder }};
+  }
+
+  #scv-{{ section.id }} .scv__media img,
+  #scv-{{ section.id }} .scv__media svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ s.v_focal }};
+  }
+
+  #scv-{{ section.id }} .scv__content {
+    color: {{ s.v_ink }};
+  }
+
+  #scv-{{ section.id }} .scv__mark {
+    display: block;
+    font-size: {{ s.v_mark_m }}px;
+    line-height: 0.6;
+    height: {{ s.v_mark_m | times: 0.52 | round }}px;
+    color: {{ s.v_mark_color }};
+    margin-bottom: {{ s.v_gap_mark }}px;
+    user-select: none;
+  }
+
+  /* Quote inherits the theme heading serif. No font-family here on purpose. */
+  #scv-{{ section.id }} .scv__quote {
+    margin: 0;
+    padding: 0;
+    font-size: {{ s.v_size_m }}px;
+    line-height: 1.3;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: {{ s.v_ink }};
+  }
+
+  #scv-{{ section.id }} .scv__attr {
+    margin-top: {{ s.v_gap_attr }}px;
+    padding-top: {{ s.v_gap_attr }}px;
+    border-top: 1px solid {{ s.v_ink }};
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  #scv-{{ section.id }} .scv__name {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: {{ s.v_ink }};
+  }
+
+  #scv-{{ section.id }} .scv__role {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ s.v_ink }};
+    opacity: 0.6;
+  }
+
+  @media screen and (min-width: 900px) {
+    #scv-{{ section.id }} {
+      padding: {{ s.v_pad_d2 }}px 48px;
+    }
+    #scv-{{ section.id }} .scv__inner {
+      grid-template-columns: {{ s.v_media_w }}fr {{ 100 | minus: s.v_media_w }}fr;
+      gap: {{ s.v_gap_d }}px;
+    }
+    #scv-{{ section.id }} .scv__media {
+      aspect-ratio: {{ s.v_ratio_d }};
+      order: {{ img_order }};
+    }
+    #scv-{{ section.id }} .scv__content {
+      order: {{ txt_order }};
+    }
+    #scv-{{ section.id }} .scv__mark {
+      font-size: {{ s.v_mark_d }}px;
+      height: {{ s.v_mark_d | times: 0.52 | round }}px;
+    }
+    #scv-{{ section.id }} .scv__quote {
+      font-size: {{ s.v_size_d }}px;
+    }
+  }
+</style>
+
+<section id="scv-{{ section.id }}" class="scv" {{ section.shopify_attributes }}>
+  <div class="scv__inner">
+    <div class="scv__media">
+      {%- if s.v_image != blank -%}
+        {{
+          s.v_image
+          | image_url: width: 1400
+          | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 45vw, 100vw', widths: '480, 768, 1000, 1400', alt: alt_photo
+        }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+
+    <div class="scv__content">
+      {%- if s.v_show_mark -%}
+        <span class="scv__mark" aria-hidden="true">&ldquo;</span>
+      {%- endif -%}
+
+      {%- if quote != blank -%}
+        <h2 class="scv__quote">{{ quote }}</h2>
+      {%- endif -%}
+
+      {%- if name != blank -%}
+        <div class="scv__attr">
+          <span class="scv__name">{{ name }}</span>
+          {%- if role != blank -%}
+            <span class="scv__role">{{ role }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B Corp: Founder voice",
+  "tag": "section",
+  "class": "scv-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "v_quote",
+      "label": "Quote",
+      "info": "No quotation marks. Use the mark toggle below.",
+      "default": "The Smooth Company was never just about creating products people love. It was about building a business that could make a positive impact."
+    },
+    {
+      "type": "text",
+      "id": "v_name",
+      "label": "Name",
+      "default": "Áine Kennedy"
+    },
+    {
+      "type": "text",
+      "id": "v_role",
+      "label": "Role",
+      "default": "Founder and CEO"
+    },
+    {
+      "type": "checkbox",
+      "id": "v_show_mark",
+      "label": "Show opening quote mark",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "image_picker",
+      "id": "v_image",
+      "label": "Photo"
+    },
+    {
+      "type": "select",
+      "id": "v_position",
+      "label": "Photo position, desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "v_focal",
+      "label": "Photo focal point",
+      "options": [
+        { "value": "left center", "label": "Left" },
+        { "value": "center center", "label": "Centre" },
+        { "value": "right center", "label": "Right" },
+        { "value": "center top", "label": "Top" },
+        { "value": "center bottom", "label": "Bottom" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "select",
+      "id": "v_ratio_d",
+      "label": "Photo ratio, desktop",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 5", "label": "Portrait 4:5" },
+        { "value": "3 / 4", "label": "Portrait 3:4" },
+        { "value": "5 / 4", "label": "Landscape 5:4" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "v_ratio_m",
+      "label": "Photo ratio, mobile",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 5", "label": "Portrait 4:5" },
+        { "value": "4 / 3", "label": "Landscape 4:3" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "color",
+      "id": "v_placeholder",
+      "label": "Placeholder colour",
+      "default": "#9ed3c4"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "v_media_w",
+      "label": "Photo column width, desktop",
+      "min": 35,
+      "max": 55,
+      "step": 5,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "v_gap_d",
+      "label": "Gap photo to quote, desktop",
+      "min": 24,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "v_gap_m",
+      "label": "Gap photo to quote, mobile",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "v_gap_mark",
+      "label": "Gap under quote mark",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "v_gap_attr",
+      "label": "Space around attribution rule",
+      "min": 12,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "v_pad_d2",
+      "label": "Band padding, desktop",
+      "min": 40,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "v_pad_m",
+      "label": "Band padding, mobile",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "v_max",
+      "label": "Content max width",
+      "min": 900,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "default": 1120
+    },
+    {
+      "type": "header",
+      "content": "Colour and type"
+    },
+    {
+      "type": "color",
+      "id": "v_band",
+      "label": "Band background",
+      "default": "#b5e3d9"
+    },
+    {
+      "type": "color",
+      "id": "v_ink",
+      "label": "Text colour",
+      "default": "#1d1d1b"
+    },
+    {
+      "type": "color",
+      "id": "v_mark_color",
+      "label": "Quote mark colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "v_mark_d",
+      "label": "Quote mark size, desktop",
+      "min": 40,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "v_mark_m",
+      "label": "Quote mark size, mobile",
+      "min": 32,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "v_size_d",
+      "label": "Quote size, desktop",
+      "min": 20,
+      "max": 44,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "v_size_m",
+      "label": "Quote size, mobile",
+      "min": 16,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    }
+  ],
+  "presets": [
+    {
+      "name": "B Corp: Founder voice"
+    }
+  ]
+}
+{% endschema %}

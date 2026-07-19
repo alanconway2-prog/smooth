@@ -1,0 +1,85 @@
+{%- assign s = section.settings -%}
+{%- assign label = s.si_label | strip -%}
+{%- assign heading = s.si_heading | strip -%}
+{%- assign body = s.si_body -%}
+{%- assign link_text = s.si_link_text | strip -%}
+{%- assign link_url = s.si_link_url -%}
+
+<style>
+  .wlm-content .shopify-section,
+  #site-main .shopify-section { margin: 0 !important; padding: 0 !important; }
+  wlm.wlm-content { display: contents; }
+  #site-main .shopify-section > section { margin: 0 !important; }
+  #site-main { gap: 0 !important; row-gap: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .wlm-content { gap: 0 !important; }
+
+  #scsi-{{ section.id }} {
+    background-color: {{ s.si_bg }};
+    color: {{ s.si_ink }};
+    padding: {{ s.si_pad_m }}px 24px;
+  }
+  #scsi-{{ section.id }} .scsi__inner {
+    max-width: {{ s.si_max }}px;
+    margin: 0 auto;
+    text-align: {{ s.si_align }};
+  }
+  #scsi-{{ section.id }} .scsi__inner,
+  #scsi-{{ section.id }} .scsi__inner * {
+    opacity: 1 !important; visibility: visible !important; transform: none !important; animation: none !important; clip-path: none !important;
+  }
+  #scsi-{{ section.id }} .scsi__label {
+    margin: 0 0 16px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6 !important;
+  }
+  #scsi-{{ section.id }} .scsi__heading {
+    margin: 0 0 20px; padding: 0; font-size: 26px; line-height: 1.15; font-weight: 400; letter-spacing: -0.01em;
+  }
+  #scsi-{{ section.id }} .scsi__body { font-size: {{ s.si_body_size_m }}px; line-height: 1.65; }
+  #scsi-{{ section.id }} .scsi__body p { margin: 0 0 1em; }
+  #scsi-{{ section.id }} .scsi__body p:last-child { margin-bottom: 0; }
+  #scsi-{{ section.id }} .scsi__link {
+    display: inline-block; margin-top: 28px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: {{ s.si_ink }}; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 3px; transition: opacity 0.2s ease;
+  }
+  #scsi-{{ section.id }} .scsi__link:hover { opacity: 0.6; }
+
+  @media screen and (min-width: 768px) {
+    #scsi-{{ section.id }} { padding: {{ s.si_pad_d }}px 48px; }
+    #scsi-{{ section.id }} .scsi__heading { font-size: 32px; }
+    #scsi-{{ section.id }} .scsi__body { font-size: {{ s.si_body_size_d }}px; }
+  }
+</style>
+
+<section id="scsi-{{ section.id }}" class="scsi" {{ section.shopify_attributes }}>
+  <div class="scsi__inner">
+    {%- if label != blank -%}<p class="scsi__label">{{ label }}</p>{%- endif -%}
+    {%- if heading != blank -%}<h2 class="scsi__heading">{{ heading }}</h2>{%- endif -%}
+    {%- if body != blank -%}<div class="scsi__body rte">{{ body }}</div>{%- endif -%}
+    {%- if link_text != blank and link_url != blank -%}<a class="scsi__link" href="{{ link_url }}">{{ link_text }}</a>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "B Corp: Intro",
+  "tag": "section",
+  "class": "scsi-section",
+  "settings": [
+    { "type": "text", "id": "si_label", "label": "Label", "default": "Becoming a B Corp" },
+    { "type": "text", "id": "si_heading", "label": "Heading" },
+    { "type": "richtext", "id": "si_body", "label": "Body", "default": "<p>We didn't start The Smooth Company to just make good hair days happen, we started it to help every day run that little bit smoother. So becoming a Certified B Corporation isn't a badge we're bolting on, it's proof of something we've believed since the beginning: that a smooth day for you shouldn't come at a cost to anyone else's.</p><p>Certified B Corporation status means we've been independently assessed on how we treat our people, our planet, and our customers, and we came through it. Not by scraping by, but because doing things properly has never been optional for us.</p><p>People over profit. Care over convenience. Better, even when better takes longer.</p>" },
+    { "type": "text", "id": "si_link_text", "label": "Link text", "default": "Learn more about B Corp" },
+    { "type": "url", "id": "si_link_url", "label": "Link URL" },
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "si_align", "label": "Alignment", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" } ], "default": "center" },
+    { "type": "range", "id": "si_max", "label": "Content max width", "min": 520, "max": 1000, "step": 20, "unit": "px", "default": 720 },
+    { "type": "range", "id": "si_pad_d", "label": "Section padding, desktop", "min": 40, "max": 200, "step": 4, "unit": "px", "default": 100 },
+    { "type": "range", "id": "si_pad_m", "label": "Section padding, mobile", "min": 24, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "header", "content": "Colour and type" },
+    { "type": "color", "id": "si_bg", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "si_ink", "label": "Text", "default": "#1d1d1b" },
+    { "type": "range", "id": "si_body_size_d", "label": "Body size, desktop", "min": 14, "max": 22, "step": 1, "unit": "px", "default": 16 },
+    { "type": "range", "id": "si_body_size_m", "label": "Body size, mobile", "min": 13, "max": 18, "step": 1, "unit": "px", "default": 15 }
+  ],
+  "presets": [ { "name": "B Corp: Intro" } ]
+}
+{% endschema %}

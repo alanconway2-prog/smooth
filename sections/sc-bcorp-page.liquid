@@ -1,0 +1,439 @@
+{%- assign s = section.settings -%}
+
+<style>
+  .wlm-content .shopify-section,
+  #site-main .shopify-section { margin: 0 !important; padding: 0 !important; }
+  wlm.wlm-content { display: contents; }
+  #site-main .shopify-section > section { margin: 0 !important; }
+  #site-main { gap: 0 !important; row-gap: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+  .wlm-content { gap: 0 !important; }
+
+  #bcp-{{ section.id }} {
+    --ink: {{ s.ink }};
+    --paper: {{ s.paper }};
+    --mint: {{ s.mint }};
+    --mint-soft: {{ s.mint_soft }};
+    --forest: {{ s.forest }};
+    --rule: {{ s.rule_color }};
+    color: var(--ink);
+    background: var(--paper);
+  }
+  #bcp-{{ section.id }} *,
+  #bcp-{{ section.id }} {
+    opacity: 1 !important; visibility: visible !important; transform: none !important; animation: none !important; clip-path: none !important;
+  }
+  #bcp-{{ section.id }} .bcp__wrap { max-width: {{ s.max }}px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+
+  /* shared type */
+  #bcp-{{ section.id }} .bcp__eyebrow { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.55; margin: 0; }
+  #bcp-{{ section.id }} h2.bcp__h2 { margin: 0; font-weight: 400; font-size: {{ s.heading_size_m | default: 24 }}px !important; line-height: 1.15; letter-spacing: -0.01em; }
+  #bcp-{{ section.id }} .bcp__tm { font-size: 0.4em; vertical-align: super; letter-spacing: 0; margin-left: 0.1em; opacity: 0.8; }
+  #bcp-{{ section.id }} .bcp__body { font-size: {{ s.body_size_m | default: 15 }}px; line-height: 1.6; }
+  #bcp-{{ section.id }} .bcp__body p { margin: 0 0 1em; }
+  #bcp-{{ section.id }} .bcp__body p:last-child { margin: 0; }
+  #bcp-{{ section.id }} .bcp__link { display: inline-flex; align-self: flex-start; width: auto; max-width: 100%; color: inherit; text-decoration: none; opacity: 0.75; transition: opacity .2s; }
+  #bcp-{{ section.id }} .bcp__link > span { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+  #bcp-{{ section.id }} .bcp__link:hover { opacity: .6; }
+  #bcp-{{ section.id }} .bcp__icon { display: inline-block; }
+  #bcp-{{ section.id }} .bcp__icon svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- HERO ---------- */
+  #bcp-{{ section.id }} .bcp-hero { display: grid; grid-template-columns: 1fr; background: var(--mint-soft); }
+  #bcp-{{ section.id }} .bcp-hero__media { aspect-ratio: 4/3; overflow: hidden; order: -1; background: var(--mint); }
+  #bcp-{{ section.id }} .bcp-hero__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #bcp-{{ section.id }} .bcp-hero__text { padding: 40px 24px 48px; display: flex; flex-direction: column; justify-content: center; }
+  #bcp-{{ section.id }} h1.bcp-hero__h { margin: 0; font-weight: 400; font-size: {{ s.hero_size_m | default: 38 }}px !important; line-height: 1.05; letter-spacing: -0.02em; }
+  #bcp-{{ section.id }} .bcp-hero__sub { margin: 20px 0 0; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.55; line-height: 1.7; max-width: none; }
+
+  /* ---------- DUO (equal cards) ---------- */
+  #bcp-{{ section.id }} .bcp-duo { padding: {{ s.pad_m }}px 0; }
+  #bcp-{{ section.id }} .bcp-duo__grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  #bcp-{{ section.id }} .bcp-card {
+    border: 1px solid var(--rule);
+    padding: 28px 24px;
+    display: flex; flex-direction: column;
+  }
+  #bcp-{{ section.id }} .bcp-card--mint { background: var(--mint); border-color: var(--mint); }
+  /* Mobile: clamp long card bodies with a read-more toggle */
+  #bcp-{{ section.id }} .bcp-more { display: none; }
+  #bcp-{{ section.id }} .bcp-more-label { display: none; }
+  @media screen and (max-width: 859px) {
+    #bcp-{{ section.id }} .bcp-card--clamp .bcp-card__body {
+      display: -webkit-box;
+      -webkit-line-clamp: {{ s.clamp_lines_m | default: 5 }};
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    #bcp-{{ section.id }} .bcp-more:checked ~ .bcp-card__body { -webkit-line-clamp: unset; overflow: visible; }
+    #bcp-{{ section.id }} .bcp-card--clamp .bcp-more-label {
+      display: inline-flex; align-self: flex-start; width: auto; max-width: 100%; margin-top: 12px;
+      cursor: pointer; opacity: 0.5;
+    }
+    #bcp-{{ section.id }} .bcp-card--clamp .bcp-more-label span { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+    #bcp-{{ section.id }} .bcp-card--clamp .bcp-more-label:hover { opacity: 0.85; }
+    #bcp-{{ section.id }} .bcp-more:checked ~ .bcp-more-label .bcp-more-open { display: none; }
+    #bcp-{{ section.id }} .bcp-more:not(:checked) ~ .bcp-more-label .bcp-more-close { display: none; }
+  }
+
+  #bcp-{{ section.id }} .bcp-card__icon { margin-bottom: 18px; width: {{ s.card_icon_size | default: 40 }}px; height: {{ s.card_icon_size | default: 40 }}px; color: {{ s.card_icon_color | default: "#2f3d34" }}; }
+  #bcp-{{ section.id }} .bcp-card__h { margin: 0 0 14px; }
+  #bcp-{{ section.id }} .bcp-card__link { margin-top: 20px; }
+  #bcp-{{ section.id }} .bcp-card__spacer { flex: 1 1 auto; }
+  #bcp-{{ section.id }} .bcp-stat { margin-top: 24px; background: var(--mint); display: flex; align-items: center; gap: 18px; padding: 20px; }
+  #bcp-{{ section.id }} .bcp-card--mint .bcp-stat { background: rgba(255,255,255,0.45); }
+  #bcp-{{ section.id }} .bcp-stat__logo { flex: 0 0 auto; width: 52px; color: {{ s.stat_logo_color | default: "#2f3d34" }}; display: block; }
+  #bcp-{{ section.id }} .bcp-stat__logo svg,
+  #bcp-{{ section.id }} .bcp-stat__logo img { width: 100%; height: auto; display: block; }
+  #bcp-{{ section.id }} .bcp-stat__text { font-size: 14px; line-height: 1.55; }
+
+  /* ---------- PRINT ---------- */
+  #bcp-{{ section.id }} .bcp-print { padding: {{ s.pad_m }}px 0; background: var(--mint-soft); }
+  #bcp-{{ section.id }} .bcp-print__title { text-align: center; font-size: 22px; font-style: italic; letter-spacing: -0.01em; margin: 0 0 36px; }
+  #bcp-{{ section.id }} .bcp-print__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-padding-left: 24px; padding: 0 24px; gap: 0; }
+  #bcp-{{ section.id }} .bcp-print__track::-webkit-scrollbar { display: none; }
+  #bcp-{{ section.id }} .bcp-print__item { scroll-snap-align: center; flex: 0 0 76%; max-width: 76%; padding: 0 16px; text-align: center; position: relative; }
+  #bcp-{{ section.id }} .bcp-print__item + .bcp-print__item::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: var(--rule); display: none; }
+  #bcp-{{ section.id }} .bcp-print__icon { margin: 0 auto 18px; width: {{ s.print_icon_size | default: 44 }}px; height: {{ s.print_icon_size | default: 44 }}px; color: {{ s.print_icon_color | default: "#2f3d34" }}; }
+  #bcp-{{ section.id }} .bcp-print__t { margin: 0 0 10px; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  #bcp-{{ section.id }} .bcp-print__d { margin: 0; font-size: 13px; line-height: 1.6; opacity: 0.7; }
+
+  /* ---------- STANDARDS BAND ---------- */
+  #bcp-{{ section.id }} .bcp-standards { background: var(--mint); padding: {{ s.pad_m }}px 24px; text-align: center; }
+  #bcp-{{ section.id }} .bcp-standards__inner { max-width: 860px; margin: 0 auto; }
+  #bcp-{{ section.id }} .bcp-standards__label { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.55; margin: 0 0 16px; }
+  #bcp-{{ section.id }} .bcp-standards__lead { margin: 0 auto 48px; font-size: 22px; line-height: 1.28; letter-spacing: -0.01em; max-width: 20ch; }
+  #bcp-{{ section.id }} .bcp-standards__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px 20px; max-width: 380px; margin: 0 auto; }
+  #bcp-{{ section.id }} .bcp-standards__item { display: flex; flex-direction: column; align-items: center; }
+  #bcp-{{ section.id }} .bcp-standards__item .bcp__icon { width: {{ s.std_icon_size | default: 38 }}px; height: {{ s.std_icon_size | default: 38 }}px; margin-bottom: 16px; color: {{ s.std_icon_color | default: "#2f3d34" }}; }
+  #bcp-{{ section.id }} .bcp-standards__item-label { margin: 0; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; line-height: 1.35; }
+  #bcp-{{ section.id }} .bcp-standards__close { margin: 0 auto; font-size: 16px; line-height: 1.6; max-width: none; }
+  #bcp-{{ section.id }} .bcp-standards__closewrap { position: relative; margin: 56px auto 0; padding-top: 40px; }
+  #bcp-{{ section.id }} .bcp-standards__closewrap::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 300px; max-width: 80%; height: 1px; background: rgba(0,0,0,0.12); }
+
+  /* ---------- FOUNDER ---------- */
+  #bcp-{{ section.id }} .bcp-founder { padding: {{ s.pad_m }}px 0; background: var(--mint-soft); }
+  #bcp-{{ section.id }} .bcp-founder__grid { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center; }
+  #bcp-{{ section.id }} .bcp-founder__media { aspect-ratio: 4/3; overflow: hidden; background: var(--mint); }
+  #bcp-{{ section.id }} .bcp-founder__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #bcp-{{ section.id }} .bcp-founder__quote { margin: 0; font-size: 19px; line-height: 1.55; font-style: italic; }
+  #bcp-{{ section.id }} .bcp-founder__attr { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.25); }
+  #bcp-{{ section.id }} .bcp-founder__name { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  #bcp-{{ section.id }} .bcp-founder__role { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.55; margin-top: 4px; }
+
+  /* ---------- SIGNOFF ---------- */
+  #bcp-{{ section.id }} .bcp-signoff { background: var(--mint); padding: 32px 16px; }
+  #bcp-{{ section.id }} .bcp-signoff__inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat({{ section.blocks | where: 'type', 'sign' | size }}, 1fr); align-items: center; }
+  #bcp-{{ section.id }} .bcp-signoff__item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 8px 6px; position: relative; }
+  #bcp-{{ section.id }} .bcp-signoff__item + .bcp-signoff__item::before { content: ''; position: absolute; left: 0; top: 12%; bottom: 12%; width: 1px; background: rgba(0,0,0,0.14); }
+  #bcp-{{ section.id }} .bcp-signoff__item .bcp__icon { width: {{ s.sign_icon_size | default: 26 }}px; height: {{ s.sign_icon_size | default: 26 }}px; color: {{ s.sign_icon_color | default: "#2f3d34" }}; }
+  #bcp-{{ section.id }} .bcp-signoff__label { margin: 0; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.3; }
+
+  /* ============ DESKTOP ============ */
+  @media screen and (min-width: 860px) {
+    #bcp-{{ section.id }} .bcp-hero { grid-template-columns: {{ s.hero_text_w }}fr {{ 100 | minus: s.hero_text_w }}fr; align-items: stretch; min-height: {{ s.hero_h }}px; }
+    #bcp-{{ section.id }} .bcp-hero__media { aspect-ratio: auto; height: 100%; order: 0; }
+    #bcp-{{ section.id }} .bcp-hero__text { padding: 64px; }
+    #bcp-{{ section.id }} h1.bcp-hero__h { font-size: {{ s.hero_size }}px !important; }
+    #bcp-{{ section.id }} .bcp-hero__sub { white-space: nowrap; }
+
+    #bcp-{{ section.id }} .bcp-duo, #bcp-{{ section.id }} .bcp-print, #bcp-{{ section.id }} .bcp-founder { padding-top: {{ s.pad_d }}px; padding-bottom: {{ s.pad_d }}px; }
+    #bcp-{{ section.id }} .bcp-standards { padding-top: {{ s.pad_d }}px; padding-bottom: {{ s.pad_d }}px; }
+
+    /* equal cards, guaranteed */
+    #bcp-{{ section.id }} .bcp-duo__grid { grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
+
+    #bcp-{{ section.id }} .bcp-print__track { display: grid; grid-template-columns: repeat({{ section.blocks | where: 'type', 'print' | size }}, 1fr); overflow: visible; }
+    #bcp-{{ section.id }} .bcp-print__item { flex: initial; max-width: none; padding: 0 20px; }
+    #bcp-{{ section.id }} .bcp-print__item + .bcp-print__item::before { display: block; }
+    #bcp-{{ section.id }} .bcp__body { font-size: 15px; }
+    #bcp-{{ section.id }} .bcp-print__title { font-size: 30px; }
+    #bcp-{{ section.id }} h2.bcp__h2 { font-size: 30px !important; }
+
+    #bcp-{{ section.id }} .bcp-standards__grid { grid-template-columns: repeat(4, 1fr); max-width: none; gap: 40px; }
+    #bcp-{{ section.id }} .bcp-standards__lead { font-size: 30px; max-width: 22ch; }
+
+    #bcp-{{ section.id }} .bcp-founder__grid { grid-template-columns: {{ s.founder_media_w }}fr {{ 100 | minus: s.founder_media_w }}fr; gap: 64px; }
+    #bcp-{{ section.id }} .bcp-founder__media { aspect-ratio: 4/5; }
+    #bcp-{{ section.id }} .bcp-founder__quote { font-size: 22px; }
+
+    #bcp-{{ section.id }} .bcp-signoff__item { flex-direction: row; gap: 16px; padding: 8px 24px; }
+    #bcp-{{ section.id }} .bcp-signoff__label { text-align: left; }
+  }
+</style>
+
+<section id="bcp-{{ section.id }}" class="bcp" {{ section.shopify_attributes }}>
+
+  {%- comment -%} HERO {%- endcomment -%}
+  <div class="bcp-hero">
+    <div class="bcp-hero__text">
+      {%- if s.hero_heading != blank -%}<h1 class="bcp-hero__h">{{ s.hero_heading | replace: "™", "<sup class='bcp__tm'>™</sup>" }}</h1>{%- endif -%}
+      {%- if s.hero_sub != blank -%}<p class="bcp-hero__sub">{{ s.hero_sub }}</p>{%- endif -%}
+    </div>
+    <div class="bcp-hero__media">
+      {%- if s.hero_image != blank -%}
+        {{ s.hero_image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width:860px) 55vw, 100vw', widths: '600,900,1200,1600', alt: s.hero_heading | escape }}
+      {%- else -%}{{ 'image' | placeholder_svg_tag }}{%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} BECOMING + JOURNEY {%- endcomment -%}
+  <div class="bcp-duo"><div class="bcp__wrap"><div class="bcp-duo__grid">
+
+    <div class="bcp-card bcp-card--clamp">
+      {%- if s.b1_heading != blank -%}<h2 class="bcp__h2 bcp-card__h">{{ s.b1_heading | replace: "™", "<sup class='bcp__tm'>™</sup>" }}</h2>{%- endif -%}
+      {%- if s.b1_body != blank -%}<input type="checkbox" id="more-b1-{{ section.id }}" class="bcp-more"><div class="bcp-card__body bcp__body rte">{{ s.b1_body }}</div><label for="more-b1-{{ section.id }}" class="bcp-more-label"><span class="bcp-more-open">More</span><span class="bcp-more-close">Less</span></label>{%- endif -%}
+      {%- if s.b1_link_text != blank and s.b1_link_url != blank -%}<a class="bcp__link bcp-card__link" href="{{ s.b1_link_url }}"><span>{{ s.b1_link_text }}</span></a>{%- endif -%}
+    </div>
+
+    <div class="bcp-card bcp-card--clamp{% if s.b2_mint %} bcp-card--mint{% endif %}">
+      {%- if s.b2_heading != blank -%}<h2 class="bcp__h2 bcp-card__h">{{ s.b2_heading }}</h2>{%- endif -%}
+      {%- if s.b2_body != blank -%}<input type="checkbox" id="more-b2-{{ section.id }}" class="bcp-more"><div class="bcp-card__body bcp__body rte">{{ s.b2_body }}</div><label for="more-b2-{{ section.id }}" class="bcp-more-label"><span class="bcp-more-open">More</span><span class="bcp-more-close">Less</span></label>{%- endif -%}
+      <div class="bcp-card__spacer"></div>
+      {%- if s.b2_stat != blank -%}
+        <div class="bcp-stat">
+          {%- if s.b2_logo_url != blank -%}
+            <a class="bcp-stat__logo" href="{{ s.b2_logo_url }}" target="_blank" rel="noopener" aria-label="Certified B Corporation">
+              {%- if s.b2_logo != blank -%}
+                {{ s.b2_logo | image_url: width: 200 | image_tag: loading: 'lazy', widths: '80,140,200', alt: 'Certified B Corporation' }}
+              {%- else -%}
+                <svg viewBox="0 0 60 74" fill="none" stroke="currentColor" stroke-width="2"><circle cx="30" cy="37" r="26"/><text x="30" y="46" text-anchor="middle" font-size="26" fill="currentColor" stroke="none" font-family="Georgia, serif">B</text></svg>
+              {%- endif -%}
+            </a>
+          {%- else -%}
+            <span class="bcp-stat__logo">
+              {%- if s.b2_logo != blank -%}
+                {{ s.b2_logo | image_url: width: 200 | image_tag: loading: 'lazy', widths: '80,140,200', alt: 'Certified B Corporation' }}
+              {%- else -%}
+                <svg viewBox="0 0 60 74" fill="none" stroke="currentColor" stroke-width="2"><circle cx="30" cy="37" r="26"/><text x="30" y="46" text-anchor="middle" font-size="26" fill="currentColor" stroke="none" font-family="Georgia, serif">B</text></svg>
+              {%- endif -%}
+            </span>
+          {%- endif -%}
+          <div class="bcp-stat__text">{{ s.b2_stat }}</div>
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div></div></div>
+
+  {%- comment -%} PRINT {%- endcomment -%}
+  {%- assign print_blocks = section.blocks | where: 'type', 'print' -%}
+  {%- if print_blocks.size > 0 -%}
+  <div class="bcp-print"><div class="bcp__wrap">
+    {%- if s.print_title != blank -%}<p class="bcp-print__title">{{ s.print_title }}</p>{%- endif -%}
+    <div class="bcp-print__track">
+      {%- for b in print_blocks -%}
+        <div class="bcp-print__item" {{ b.shopify_attributes }}>
+          {%- assign ic = b.settings.icon -%}
+          <span class="bcp__icon bcp-print__icon">
+            {%- case ic -%}
+              {%- when 'ireland' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M 27.0 4.5 Q 27.8 4.0 32.5 4.8 Q 37.3 5.6 39.0 8.2 Q 40.8 10.9 41.8 11.9 Q 42.7 13.0 40.2 15.2 Q 37.7 17.5 37.9 21.1 Q 38.1 24.7 38.3 26.5 Q 38.5 28.4 37.0 32.5 Q 35.6 36.6 32.8 37.1 Q 29.9 37.6 26.0 39.2 Q 22.2 40.9 15.5 42.5 Q 8.8 44.0 7.1 40.5 Q 5.3 37.1 6.8 35.0 Q 8.2 32.8 10.1 29.8 Q 12.1 26.7 9.0 25.3 Q 5.9 23.9 6.3 21.1 Q 6.7 18.4 7.1 16.6 Q 7.5 14.8 12.9 14.9 Q 18.3 15.0 18.7 13.4 Q 19.1 11.9 19.9 9.1 Q 20.6 6.3 23.4 5.7 Q 26.1 5.0 27.0 4.5 Z"/></svg>
+              {%- when 'people' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="15" r="5"/><circle cx="12" cy="18" r="4"/><circle cx="36" cy="18" r="4"/><path d="M15 34c0-5 4-9 9-9s9 4 9 9M4 34c0-4 3-7 7-7M44 34c0-4-3-7-7-7"/></svg>
+              {%- when 'hair' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 14c8-4 20-4 28 0M9 22c9-5 21-5 30 0M11 30c8-4 18-4 26 0M14 38c6-3 14-3 20 0"/></svg>
+              {%- when 'leaf' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 36C12 20 24 10 38 10c0 16-12 26-26 26ZM12 36c6-8 12-13 20-17"/></svg>
+              {%- when 'globe' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="18"/><path d="M6 24h36M24 6c5 6 5 30 0 36M24 6c-5 6-5 30 0 36M10 14c8 5 20 5 28 0M10 34c8-5 20-5 28 0"/></svg>
+            {%- endcase -%}
+          </span>
+          {%- if b.settings.title != blank -%}<p class="bcp-print__t">{{ b.settings.title }}</p>{%- endif -%}
+          {%- if b.settings.body != blank -%}<p class="bcp-print__d">{{ b.settings.body }}</p>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div></div>
+  {%- endif -%}
+
+  {%- comment -%} WHAT'S NEXT + THANK YOU {%- endcomment -%}
+  <div class="bcp-duo"><div class="bcp__wrap"><div class="bcp-duo__grid">
+    <div class="bcp-card bcp-card--clamp">
+      <span class="bcp__icon bcp-card__icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="21"/><path d="M18 30 30 18M21 18h9v9"/></svg></span>
+      {%- if s.n1_heading != blank -%}<h2 class="bcp__h2 bcp-card__h">{{ s.n1_heading }}</h2>{%- endif -%}
+      {%- if s.n1_body != blank -%}<input type="checkbox" id="more-n1-{{ section.id }}" class="bcp-more"><div class="bcp-card__body bcp__body rte">{{ s.n1_body }}</div><label for="more-n1-{{ section.id }}" class="bcp-more-label"><span class="bcp-more-open">More</span><span class="bcp-more-close">Less</span></label>{%- endif -%}
+    </div>
+    <div class="bcp-card bcp-card--clamp">
+      <span class="bcp__icon bcp-card__icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M24 39C10 30 6 22 9 16c2-4 8-5 11-1l4 4 4-4c3-4 9-3 11 1 3 6-1 14-15 23Z"/></svg></span>
+      {%- if s.n2_heading != blank -%}<h2 class="bcp__h2 bcp-card__h">{{ s.n2_heading }}</h2>{%- endif -%}
+      {%- if s.n2_body != blank -%}<input type="checkbox" id="more-n2-{{ section.id }}" class="bcp-more"><div class="bcp-card__body bcp__body rte">{{ s.n2_body }}</div><label for="more-n2-{{ section.id }}" class="bcp-more-label"><span class="bcp-more-open">More</span><span class="bcp-more-close">Less</span></label>{%- endif -%}
+      {%- if s.n2_link_text != blank and s.n2_link_url != blank -%}<a class="bcp__link bcp-card__link" href="{{ s.n2_link_url }}"><span>{{ s.n2_link_text }}</span></a>{%- endif -%}
+    </div>
+  </div></div></div>
+
+  {%- comment -%} STANDARDS BAND {%- endcomment -%}
+  {%- assign std_blocks = section.blocks | where: 'type', 'standard' -%}
+  {%- if std_blocks.size > 0 -%}
+  <div class="bcp-standards"><div class="bcp-standards__inner">
+    {%- if s.std_label != blank -%}<p class="bcp-standards__label">{{ s.std_label }}</p>{%- endif -%}
+    {%- if s.std_lead != blank -%}<p class="bcp-standards__lead">{{ s.std_lead }}</p>{%- endif -%}
+    <div class="bcp-standards__grid">
+      {%- for b in std_blocks -%}
+        <div class="bcp-standards__item" {{ b.shopify_attributes }}>
+          <span class="bcp__icon">
+            {%- case b.settings.icon -%}
+              {%- when 'people' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="17" r="6"/><circle cx="32" cy="19" r="5"/><path d="M8 38c0-6 5-10 10-10s10 4 10 10M28 30c1-2 4-4 7-4 5 0 8 4 8 9"/></svg>
+              {%- when 'leaf' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 36C12 20 24 10 38 10c0 16-12 26-26 26ZM12 36c6-8 12-13 20-17"/></svg>
+              {%- when 'doc' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 6h16l8 8v28H13Z"/><path d="M29 6v8h8M19 24h12M19 31h12"/></svg>
+              {%- when 'shield' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M24 5 40 11v11c0 11-7 18-16 21-9-3-16-10-16-21V11Z"/><path d="M17 24l5 5 9-10"/></svg>
+            {%- endcase -%}
+          </span>
+          {%- if b.settings.label != blank -%}<p class="bcp-standards__item-label">{{ b.settings.label }}</p>{%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if s.std_close != blank -%}<div class="bcp-standards__closewrap"><p class="bcp-standards__close">{{ s.std_close }}</p></div>{%- endif -%}
+  </div></div>
+  {%- endif -%}
+
+  {%- comment -%} FOUNDER {%- endcomment -%}
+  {%- if s.fv_quote != blank -%}
+  <div class="bcp-founder"><div class="bcp__wrap"><div class="bcp-founder__grid">
+    <div class="bcp-founder__media">
+      {%- if s.fv_image != blank -%}
+        {{ s.fv_image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width:860px) 45vw, 100vw', widths: '480,768,1000,1200', alt: s.fv_name | escape }}
+      {%- else -%}{{ 'image' | placeholder_svg_tag }}{%- endif -%}
+    </div>
+    <div class="bcp-founder__content">
+      <p class="bcp-founder__quote">{{ s.fv_quote }}</p>
+      {%- if s.fv_name != blank -%}
+        <div class="bcp-founder__attr">
+          <div class="bcp-founder__name">{{ s.fv_name }}</div>
+          {%- if s.fv_role != blank -%}<div class="bcp-founder__role">{{ s.fv_role }}</div>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div></div></div>
+  {%- endif -%}
+
+  {%- comment -%} SIGNOFF {%- endcomment -%}
+  {%- assign sign_blocks = section.blocks | where: 'type', 'sign' -%}
+  {%- if sign_blocks.size > 0 -%}
+  <div class="bcp-signoff"><div class="bcp-signoff__inner">
+    {%- for b in sign_blocks -%}
+      <div class="bcp-signoff__item" {{ b.shopify_attributes }}>
+        <span class="bcp__icon">
+          {%- case b.settings.icon -%}
+            {%- when 'smooth' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M30 14c-2-3-6-4-9-2s-4 6-1 8l6 4c3 2 2 7-2 8s-8-1-9-4"/></svg>
+            {%- when 'globe' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="18"/><path d="M6 24h36M24 6c5 6 5 30 0 36M24 6c-5 6-5 30 0 36M10 14c8 5 20 5 28 0M10 34c8-5 20-5 28 0"/></svg>
+            {%- when 'heart' -%}<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M24 39C10 30 6 22 9 16c2-4 8-5 11-1l4 4 4-4c3-4 9-3 11 1 3 6-1 14-15 23Z"/></svg>
+          {%- endcase -%}
+        </span>
+        {%- if b.settings.label != blank -%}<p class="bcp-signoff__label">{{ b.settings.label }}</p>{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div></div>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "B Corp page",
+  "tag": "section",
+  "class": "bcp-page-section",
+  "max_blocks": 20,
+  "settings": [
+    { "type": "header", "content": "Global" },
+    { "type": "range", "id": "max", "label": "Content max width", "min": 960, "max": 1400, "step": 20, "unit": "px", "default": 1120 },
+    { "type": "range", "id": "pad_d", "label": "Block padding, desktop", "min": 48, "max": 180, "step": 4, "unit": "px", "default": 96 },
+    { "type": "range", "id": "pad_m", "label": "Block padding, mobile", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "heading_size_m", "label": "Section heading size, mobile", "min": 18, "max": 34, "step": 1, "unit": "px", "default": 22 },
+    { "type": "range", "id": "body_size_m", "label": "Body text size, mobile", "min": 13, "max": 18, "step": 1, "unit": "px", "default": 15 },
+    { "type": "range", "id": "clamp_lines_m", "label": "Card lines before Read more (mobile)", "min": 3, "max": 12, "step": 1, "default": 5 },
+    { "type": "color", "id": "paper", "label": "Paper", "default": "#ffffff" },
+    { "type": "color", "id": "ink", "label": "Ink", "default": "#1d1d1b" },
+    { "type": "color", "id": "mint", "label": "Mint", "default": "#b5e3d9" },
+    { "type": "color", "id": "mint_soft", "label": "Soft mint", "default": "#eef4f2" },
+    { "type": "color", "id": "forest", "label": "Forest", "default": "#2f3d34" },
+    { "type": "header", "content": "Icon colours (per section)" },
+    { "type": "color", "id": "card_icon_color", "label": "Card icons (What's Next / Thank You)", "default": "#2f3d34" },
+    { "type": "color", "id": "print_icon_color", "label": "Print icons", "default": "#2f3d34" },
+    { "type": "color", "id": "std_icon_color", "label": "Standards icons", "default": "#2f3d34" },
+    { "type": "color", "id": "sign_icon_color", "label": "Signoff icons", "default": "#2f3d34" },
+    { "type": "color", "id": "stat_logo_color", "label": "Journey B Corp mark", "default": "#2f3d34" },
+    { "type": "range", "id": "card_icon_size", "label": "Card icon size (What's Next / Thank You)", "min": 24, "max": 64, "step": 2, "unit": "px", "default": 40 },
+    { "type": "range", "id": "print_icon_size", "label": "Print icon size", "min": 24, "max": 72, "step": 2, "unit": "px", "default": 44 },
+    { "type": "range", "id": "std_icon_size", "label": "Standards icon size", "min": 20, "max": 56, "step": 2, "unit": "px", "default": 34 },
+    { "type": "range", "id": "sign_icon_size", "label": "Signoff icon size", "min": 18, "max": 44, "step": 2, "unit": "px", "default": 26 },
+    { "type": "color", "id": "rule_color", "label": "Rule / border", "default": "#e4e1d9" },
+
+    { "type": "header", "content": "1. Hero" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero photo" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Certified B Corp\u2122" },
+    { "type": "textarea", "id": "hero_sub", "label": "Supporting line", "default": "We're making glossy waves, for all the right reasons." },
+    { "type": "range", "id": "hero_text_w", "label": "Text column width", "min": 40, "max": 60, "step": 5, "unit": "%", "default": 45 },
+    { "type": "range", "id": "hero_h", "label": "Hero min height, desktop", "min": 380, "max": 760, "step": 20, "unit": "px", "default": 560 },
+    { "type": "range", "id": "hero_size", "label": "Heading size, desktop", "min": 40, "max": 96, "step": 2, "unit": "px", "default": 60 },
+    { "type": "range", "id": "hero_size_m", "label": "Heading size, mobile", "min": 26, "max": 60, "step": 2, "unit": "px", "default": 38 },
+
+    { "type": "header", "content": "2. Becoming (left card)" },
+    { "type": "text", "id": "b1_heading", "label": "Heading", "default": "Becoming a B Corp\u2122" },
+    { "type": "richtext", "id": "b1_body", "label": "Body", "default": "<p>We didn't start The Smooth Company to just make good hair days happen, we started it to help every day run that little bit smoother. So becoming a Certified B Corporation isn't a badge we're bolting on, it's proof of something we've believed since the beginning.</p><p>Certified B Corporation status means we've been independently assessed on how we treat our people, our planet, and our customers, and we came through it.</p><p>People over profit. Care over convenience. Better, even when better takes longer.</p>" },
+    { "type": "text", "id": "b1_link_text", "label": "Link text", "default": "Learn more about B Corp" },
+    { "type": "url", "id": "b1_link_url", "label": "Link URL" },
+
+    { "type": "header", "content": "3. The Journey (right card)" },
+    { "type": "checkbox", "id": "b2_mint", "label": "Fill card mint", "default": true },
+    { "type": "text", "id": "b2_heading", "label": "Heading", "default": "The Journey" },
+    { "type": "richtext", "id": "b2_body", "label": "Body", "default": "<p>Getting here wasn't quick, and it wasn't meant to be. We opened up every part of our business to independent assessment, from how we source and manufacture, to how we treat our team, to how we show up for our customers. B Corp Certification isn't handed out. It's earned, one honest answer at a time.</p>" },
+    { "type": "image_picker", "id": "b2_logo", "label": "B Corp logo (optional)", "info": "Overrides the built-in mark." },
+    { "type": "url", "id": "b2_logo_url", "label": "B Corp logo link" },
+    { "type": "textarea", "id": "b2_stat", "label": "Stat sentence", "default": "We're now part of a network of 10,000+ Certified B Corps globally, and 110 businesses across Ireland, using business as a force for good." },
+
+    { "type": "header", "content": "4. Print heading" },
+    { "type": "text", "id": "print_title", "label": "Heading", "default": "The smooth print, how we get there" },
+
+    { "type": "header", "content": "6. What's Next (left card)" },
+    { "type": "text", "id": "n1_heading", "label": "Heading", "default": "What's Next" },
+    { "type": "richtext", "id": "n1_body", "label": "Body", "default": "<p>This isn't a finish line, it's a checkpoint. Certification is reviewed every three years, and we're not planning to stand still in between. Every collection, every formula, every decision from here is another chance to raise the bar a little higher.</p>" },
+
+    { "type": "header", "content": "7. Thank You (right card)" },
+    { "type": "text", "id": "n2_heading", "label": "Heading", "default": "Thank You" },
+    { "type": "richtext", "id": "n2_body", "label": "Body", "default": "<p>None of this happens without you. Every product you've picked up, every friend you've recommended us to, you've been part of building a business that does things properly. This certification is as much yours as it is ours.</p>" },
+    { "type": "text", "id": "n2_link_text", "label": "Link text", "default": "Learn more about B Corp" },
+    { "type": "url", "id": "n2_link_url", "label": "Link URL" },
+
+    { "type": "header", "content": "8. Standards band" },
+    { "type": "text", "id": "std_label", "label": "Label", "default": "Why B Corp matters" },
+    { "type": "text", "id": "std_lead", "label": "Lead line", "default": "B Corp Certification means we meet the highest standards of" },
+    { "type": "text", "id": "std_close", "label": "Closing line", "default": "A higher standard of business, the Smooth way." },
+
+    { "type": "header", "content": "9. Founder" },
+    { "type": "image_picker", "id": "fv_image", "label": "Founder photo" },
+    { "type": "textarea", "id": "fv_quote", "label": "Quote", "default": "The Smooth Company was never just about creating products people love. It was about building a business that could make a positive impact. It reflects our ethos of thoughtful decisions, continuous improvement and a genuine commitment to doing business differently." },
+    { "type": "text", "id": "fv_name", "label": "Name", "default": "Áine Kennedy" },
+    { "type": "text", "id": "fv_role", "label": "Role", "default": "Founder and CEO" },
+    { "type": "range", "id": "founder_media_w", "label": "Photo column width", "min": 35, "max": 55, "step": 5, "unit": "%", "default": 45 }
+  ],
+  "blocks": [
+    { "type": "print", "name": "Print item", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [ { "value": "none", "label": "None" }, { "value": "ireland", "label": "Ireland" }, { "value": "people", "label": "People" }, { "value": "hair", "label": "Hair" }, { "value": "leaf", "label": "Leaf" }, { "value": "globe", "label": "Globe" } ], "default": "none" },
+      { "type": "text", "id": "title", "label": "Title" },
+      { "type": "textarea", "id": "body", "label": "Body" }
+    ]},
+    { "type": "standard", "name": "Standard", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [ { "value": "none", "label": "None" }, { "value": "people", "label": "People" }, { "value": "leaf", "label": "Leaf" }, { "value": "doc", "label": "Document" }, { "value": "shield", "label": "Shield" } ], "default": "none" },
+      { "type": "text", "id": "label", "label": "Standard" }
+    ]},
+    { "type": "sign", "name": "Signoff item", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [ { "value": "none", "label": "None" }, { "value": "smooth", "label": "Smooth S" }, { "value": "globe", "label": "Globe" }, { "value": "heart", "label": "Heart" } ], "default": "none" },
+      { "type": "text", "id": "label", "label": "Label" }
+    ]}
+  ],
+  "presets": [
+    {
+      "name": "B Corp page",
+      "blocks": [
+        { "type": "print", "settings": { "icon": "ireland", "title": "Thoughtfully made", "body": "Made right here in Ireland, working hand in hand with our chemists, so we're always close to the science, and closer to you." } },
+        { "type": "print", "settings": { "icon": "people", "title": "Built by women", "body": "An all-female team behind every formula, every decision, every Smooth step." } },
+        { "type": "print", "settings": { "icon": "hair", "title": "Smooth for everyone", "body": "Every hair type, every texture, every experience level. If it doesn't work for everyone, it doesn't make the cut." } },
+        { "type": "print", "settings": { "icon": "leaf", "title": "Packaging we stand behind", "body": "100% FSC-certified, renewable wherever we can, and zero single-use plastic. No exceptions." } },
+        { "type": "print", "settings": { "icon": "globe", "title": "Glossy waves", "body": "We're making glossy waves, for you, and for everyone our products touch." } },
+        { "type": "standard", "settings": { "icon": "people", "label": "Social impact" } },
+        { "type": "standard", "settings": { "icon": "leaf", "label": "Environmental responsibility" } },
+        { "type": "standard", "settings": { "icon": "doc", "label": "Transparency" } },
+        { "type": "standard", "settings": { "icon": "shield", "label": "Accountability" } },
+        { "type": "sign", "settings": { "icon": "smooth", "label": "Certified smoothest operator" } },
+        { "type": "sign", "settings": { "icon": "globe", "label": "Beauty with purpose" } },
+        { "type": "sign", "settings": { "icon": "heart", "label": "The Smooth Way" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,18 @@
+/* Remove white space around banner */
+.banner, .hero__inner, .banner__media, .banner__content {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+/* Remove extra padding from sections */
+.shopify-section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Ensure full-width display */
+.banner__container {
+    max-width: 100% !important;
+    width: 100% !important;
+}

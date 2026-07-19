@@ -1,0 +1,199 @@
+{
+  "sections": {
+    "image_banner_8GKB9X": {
+      "type": "image-banner",
+      "blocks": {
+        "button_CV6gyL": {
+          "type": "button",
+          "settings": {
+            "style": "icon",
+            "position": "bottom_right",
+            "text": "SHOP NOW",
+            "url": "shopify://collections/must-haves",
+            "color_main": "#ffffff",
+            "color_contrast": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "button_CV6gyL"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".banner,.banner__image,.hero {width: 100vw !important; max-width: 100vw !important; margin: 0 auto !important; padding: 0 !important;}"
+      ],
+      "settings": {
+        "wide": true,
+        "desktop_height": "600",
+        "image": "shopify://shop_images/Web_Banner_36.png",
+        "mobile_height": "400",
+        "mobile_image": "shopify://shop_images/DSC06214.jpg",
+        "text_alignment": "left",
+        "color_overlay_foreground": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_gradient": "",
+        "color_overlay_opacity": 30
+      }
+    },
+    "16499526332eb062b9": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "none"
+      }
+    },
+    "pagefly-home": {
+      "type": "pagefly-home",
+      "blocks": {
+        "zellor_shoppable_video_standard_carousel_VcrFnQ": {
+          "type": "shopify://apps/zellor-shoppable-video/blocks/standard-carousel/a7225e76-2ea5-463f-aeed-44ee571db114",
+          "disabled": true,
+          "settings": {
+            "src": "cmf6y5rtl0nvgm501n65fwtwc",
+            "use_single_size": false,
+            "size": 1,
+            "mobile_size": 1.4,
+            "viewport_quantity": 7,
+            "quantity": 10,
+            "autoplay_quantity": 1,
+            "show_tags": true
+          }
+        },
+        "firework_shoppable_video_ugc_firework_embed_jxM6ee": {
+          "type": "shopify://apps/firework-shoppable-video-ugc/blocks/firework-embed/347a2e4c-f5cb-410d-8354-490d1e80558c",
+          "disabled": true,
+          "settings": {
+            "channel": "thesmoothcompany",
+            "playlist": "v7R6nd",
+            "layout": "carousel",
+            "embedtitle": "",
+            "titlealignment": "center",
+            "embedtitlesize": 20,
+            "size": "large",
+            "player_placement": "bottom-right",
+            "hashtag": "",
+            "pip": true
+          }
+        },
+        "klaviyo_reviews_featured_reviews_carousel_jRTMTW": {
+          "type": "shopify://apps/klaviyo-reviews/blocks/featured-reviews-carousel/db20e365-d984-4ac4-9655-e1588d951ca9",
+          "disabled": true,
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "zellor_shoppable_video_standard_carousel_VcrFnQ",
+        "firework_shoppable_video_ugc_firework_embed_jxM6ee",
+        "klaviyo_reviews_featured_reviews_carousel_jRTMTW"
+      ],
+      "settings": {}
+    },
+    "shop_the_look_zBqKdV": {
+      "type": "shop-the-look",
+      "blocks": {
+        "hotspot_iH7grp": {
+          "type": "hotspot",
+          "settings": {
+            "product": "mane-master™-boar-bristle-hair-brush",
+            "color_main": "#000000",
+            "color_contrast": "#ffffff",
+            "x_axis": 50,
+            "y_axis": 50
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_iH7grp"
+      ],
+      "name": "t:common.product.shop_the_look",
+      "settings": {
+        "wide": true,
+        "heading": "",
+        "desktop_image": "shopify://shop_images/Smooth_Co_-_Homepage_Hero_Desktop_1800_x_900_28.png",
+        "mobile_image": "shopify://shop_images/Preview_with_Top_Navigation_14.png",
+        "view_in_list_cta_text": "",
+        "product_option_style": "select",
+        "sold_out_options": "hidden",
+        "swatches_enable": true,
+        "swatches_option_style": "color_swatch"
+      }
+    },
+    "17604629279fcbb71a": {
+      "type": "apps",
+      "settings": {}
+    },
+    "image_banner_rgQcJk": {
+      "type": "image-banner",
+      "blocks": {
+        "preheading_ePr4nb": {
+          "type": "preheading",
+          "disabled": true,
+          "settings": {
+            "position": "top_left",
+            "content": "",
+            "size": "large",
+            "bolder": false,
+            "uppercase": true
+          }
+        },
+        "heading_wCKkHq": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "position": "top_left",
+            "content": "",
+            "size_desktop": "extra-large",
+            "size_mobile": "same_as_desktop"
+          }
+        },
+        "text_dUyq3d": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "position": "top_left",
+            "content": "",
+            "size": "large"
+          }
+        },
+        "button_RK43zz": {
+          "type": "button",
+          "settings": {
+            "style": "icon",
+            "position": "bottom_right",
+            "text": "",
+            "url": "shopify://collections/gifting",
+            "color_main": "#ffffff",
+            "color_contrast": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "preheading_ePr4nb",
+        "heading_wCKkHq",
+        "text_dUyq3d",
+        "button_RK43zz"
+      ],
+      "disabled": true,
+      "name": "t:common.component.image_banner",
+      "settings": {
+        "wide": true,
+        "desktop_height": "auto",
+        "image": "shopify://shop_images/Smooth_Co_-_Homepage_Hero_Desktop_1800_x_900_28.png",
+        "mobile_height": "auto",
+        "mobile_image": "shopify://shop_images/Preview_with_Top_Navigation_14.png",
+        "text_alignment": "left",
+        "color_overlay_foreground": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_gradient": "",
+        "color_overlay_opacity": 30
+      }
+    }
+  },
+  "order": [
+    "image_banner_8GKB9X",
+    "16499526332eb062b9",
+    "pagefly-home",
+    "shop_the_look_zBqKdV",
+    "17604629279fcbb71a",
+    "image_banner_rgQcJk"
+  ]
+}
