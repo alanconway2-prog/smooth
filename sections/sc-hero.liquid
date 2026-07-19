@@ -1,0 +1,111 @@
+{% comment %}
+  Smooth Company — Hero (custom)
+  Full-bleed muted autoplay loop (poster for first paint), with the copy sitting
+  BELOW the video, centered on white: rating line, one-line H2, subcopy, CTA.
+  Touchpoint 1 of the reviews rule (aggregate rating under the hero).
+{% endcomment %}
+
+{%- liquid
+  assign video = section.settings.video
+  assign poster = section.settings.poster
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .sc-hero { background: {{ section.settings.background_color }}; --sc-ink:#1d1d1b; --sc-muted:#6C6C66; }
+  #shopify-section-{{ section.id }} .sc-hero__media {
+    position: relative; height: {{ section.settings.video_height }}px; overflow: hidden; background: #e7e3dd;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__media video,
+  #shopify-section-{{ section.id }} .sc-hero__media img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__ph {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(120deg,#e7e3dd 0 16px,#efece6 16px 32px);
+    animation: sc-softpan 20s ease-in-out infinite;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__ph-label {
+    position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%);
+    text-align: center; font-style: italic; color: #b3aa9e; font-size: 11px; font-family: Georgia, serif;
+  }
+  @keyframes sc-softpan { 0%{transform:scale(1.08) translate(0,0)} 50%{transform:scale(1.15) translate(-2%,-1%)} 100%{transform:scale(1.08) translate(0,0)} }
+  #shopify-section-{{ section.id }} .sc-hero__body { text-align: center; padding: 44px 20px 0; }
+  #shopify-section-{{ section.id }} .sc-hero__rating {
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; letter-spacing: 0.06em; color: var(--sc-muted);
+  }
+  #shopify-section-{{ section.id }} .sc-hero__stars { color: var(--sc-ink); font-size: 12px; letter-spacing: 0.1em; }
+  #shopify-section-{{ section.id }} .sc-hero__title {
+    font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700;
+    font-size: 26px; line-height: 1.02; letter-spacing: -0.01em; margin: 0 0 14px;
+    white-space: nowrap; color: var(--sc-ink); text-transform: none;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__sub {
+    font-family: 'Gotham Medium', sans-serif; font-size: 13px; color: var(--sc-muted);
+    line-height: 1.5; margin: 0 auto 22px; max-width: 290px;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__cta {
+    display: inline-block; background: var(--sc-ink); color: #fff;
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; padding: 16px 34px;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__cta:hover { color: #fff; background: #0f3d51; }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-hero__title { font-size: 40px; white-space: normal; }
+    #shopify-section-{{ section.id }} .sc-hero__sub { max-width: 420px; font-size: 15px; }
+  }
+</style>
+
+<div class="sc-hero">
+  <div class="sc-hero__media">
+    {%- if video != blank -%}
+      <video autoplay muted loop playsinline preload="metadata"{% if poster != blank %} poster="{{ poster | image_url: width: 1100 }}"{% endif %}>
+        {%- for source in video.sources -%}
+          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+        {%- endfor -%}
+      </video>
+    {%- elsif poster != blank -%}
+      {{ poster | image_url: width: 1100 | image_tag: loading: 'eager', sizes: '100vw', widths: '390, 750, 1100, 1500', alt: '' }}
+    {%- else -%}
+      <div class="sc-hero__ph"></div>
+      <div class="sc-hero__ph-label">brand film — muted · autoplay · loop</div>
+    {%- endif -%}
+  </div>
+
+  <div class="sc-hero__body">
+    {%- if section.settings.rating_text != blank -%}
+      <div class="sc-hero__rating"><span class="sc-hero__stars">★★★★★</span>{{ section.settings.rating_text }}</div>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="sc-hero__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="sc-hero__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="sc-hero__cta" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SC Hero",
+  "tag": "section",
+  "class": "sc-section",
+  "settings": [
+    { "type": "video", "id": "video", "label": "Hero video (muted loop)" },
+    { "type": "image_picker", "id": "poster", "label": "Poster / fallback image" },
+    { "type": "range", "id": "video_height", "min": 300, "max": 640, "step": 10, "unit": "px", "label": "Media height", "default": 470 },
+    { "type": "header", "content": "Copy (below the video)" },
+    { "type": "text", "id": "rating_text", "label": "Rating line", "default": "4.7 · 460+ reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Smooth, the quiet way." },
+    { "type": "text", "id": "subheading", "label": "Subcopy", "default": "Smoothing that feels like skincare — considered, gentle, everyday." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop the range" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+  ],
+  "presets": [ { "name": "SC Hero" } ],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

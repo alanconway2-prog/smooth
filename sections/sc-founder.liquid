@@ -1,0 +1,66 @@
+{% comment %}
+  Smooth Company — Founder story (custom)
+  Full-bleed portrait, then a centered quote + solid square CTA to the story page.
+{% endcomment %}
+<style>
+  #shopify-section-{{ section.id }} .sc-founder { padding: {{ section.settings.padding_top }}px 0 0; background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-founder__media {
+    aspect-ratio: 5/6; position: relative;
+    background: repeating-linear-gradient(120deg,#e9e4dd 0 15px,#f1ece5 15px 30px);
+  }
+  #shopify-section-{{ section.id }} .sc-founder__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #shopify-section-{{ section.id }} .sc-founder__ph {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-style: italic; color: #b0a99f; font-size: 12px; font-family: Georgia, serif;
+  }
+  #shopify-section-{{ section.id }} .sc-founder__body { padding: 28px 24px 0; text-align: center; }
+  #shopify-section-{{ section.id }} .sc-founder__quote {
+    font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700;
+    font-size: 25px; line-height: 1.16; letter-spacing: -0.01em; margin: 0 0 22px; color: #1d1d1b; text-transform: none;
+  }
+  #shopify-section-{{ section.id }} .sc-founder__cta {
+    display: inline-block; background: #1d1d1b; color: #fff; font-family: 'Gotham Medium', sans-serif;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; padding: 15px 36px;
+  }
+  #shopify-section-{{ section.id }} .sc-founder__cta:hover { color: #fff; background: #0f3d51; }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-founder { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+    #shopify-section-{{ section.id }} .sc-founder__media { aspect-ratio: 4/5; }
+    #shopify-section-{{ section.id }} .sc-founder__body { padding: 0 8%; }
+    #shopify-section-{{ section.id }} .sc-founder__quote { font-size: 30px; }
+  }
+</style>
+<div class="sc-founder">
+  <div class="sc-founder__media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'lazy', sizes: '(min-width:750px) 50vw, 100vw', widths: '390, 750, 1100, 1500', alt: section.settings.image.alt | default: 'Founder portrait' | escape }}
+    {%- else -%}
+      <span class="sc-founder__ph">founder portrait</span>
+    {%- endif -%}
+  </div>
+  <div class="sc-founder__body">
+    {%- if section.settings.quote != blank -%}
+      <p class="sc-founder__quote">{{ section.settings.quote }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="sc-founder__cta" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "SC Founder story",
+  "tag": "section",
+  "class": "sc-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Portrait image" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "“I wanted smoothing that felt considered — gentle, everyday, yours.”" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Read more" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+  ],
+  "presets": [ { "name": "SC Founder story" } ],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

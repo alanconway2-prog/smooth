@@ -1,0 +1,266 @@
+{% comment %}
+  Smooth Company — Best sellers rail (custom)
+  A horizontal, scroll-snapping product rail with an optional 3-way tab switcher
+  (Best sellers / New in / Bundles), each tab pointing at a collection.
+  Card treatment: Refy-style bordered card with an "action bar" add-to-cart
+  (treatment 4A from the design handoff).
+
+  Reuses: snippets/price.liquid for pricing, the theme cart drawer for add-to-cart.
+  Product extras (cutline, review count, badge) read from product metafields with
+  graceful fallbacks — see the section settings help text.
+{% endcomment %}
+
+{%- liquid
+  assign pt = section.settings.padding_top
+  assign card_limit = section.settings.products_to_show
+  assign tabs = section.blocks | where: 'type', 'tab'
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .sc-rail {
+    padding: {{ pt }}px 0 0;
+    background: {{ section.settings.background_color }};
+    --sc-ink: #1d1d1b;
+    --sc-line: #e6e4e0;
+    --sc-bar: #f4f4f2;
+    --sc-muted: #8A8A84;
+    --sc-faint: #A8A8A2;
+  }
+  #shopify-section-{{ section.id }} .sc-rail__eyebrow {
+    font-family: 'Gotham Medium', sans-serif;
+    font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+    font-weight: 600; text-align: center; color: var(--sc-ink);
+    margin: 0 0 18px;
+  }
+  #shopify-section-{{ section.id }} .sc-rail__tabs {
+    display: flex; justify-content: center; gap: 24px; margin: 0 0 6px;
+    flex-wrap: wrap; padding: 0 16px;
+  }
+  #shopify-section-{{ section.id }} .sc-rail__tab {
+    background: none; border: none; padding: 0 0 8px; margin: 0;
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; cursor: pointer;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--sc-muted);
+    font-weight: 500; transition: color .18s;
+  }
+  #shopify-section-{{ section.id }} .sc-rail__tab.is-active {
+    color: var(--sc-ink); font-weight: 600; border-bottom: 1.5px solid var(--sc-ink);
+  }
+  #shopify-section-{{ section.id }} .sc-rail__panel { display: none; }
+  #shopify-section-{{ section.id }} .sc-rail__panel.is-active { display: block; }
+  #shopify-section-{{ section.id }} .sc-rail__track {
+    display: flex; gap: 2px; overflow-x: auto; padding: 16px 10px 6px;
+    scroll-snap-type: x mandatory; scroll-padding-left: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  #shopify-section-{{ section.id }} .sc-rail__track::-webkit-scrollbar { height: 0; }
+
+  /* ---- Product card ---- */
+  #shopify-section-{{ section.id }} .sc-card {
+    flex: 0 0 248px; scroll-snap-align: start;
+  }
+  #shopify-section-{{ section.id }} .sc-card__frame { border: 1px solid var(--sc-line); }
+  #shopify-section-{{ section.id }} .sc-card__media {
+    aspect-ratio: 4/5; position: relative; overflow: hidden; display: block;
+    background: repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);
+  }
+  #shopify-section-{{ section.id }} .sc-card__media img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  #shopify-section-{{ section.id }} .sc-card__badge {
+    position: absolute; top: 12px; left: 12px; z-index: 2;
+    font-family: 'Gotham Medium', sans-serif; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--sc-ink);
+  }
+  #shopify-section-{{ section.id }} .sc-card__form { margin: 0; }
+  #shopify-section-{{ section.id }} .sc-card__action {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    border: none; border-top: 1px solid var(--sc-line); background: var(--sc-bar);
+    color: var(--sc-ink); padding: 14px; font-family: 'Gotham Medium', sans-serif;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+    cursor: pointer; transition: all .18s;
+  }
+  #shopify-section-{{ section.id }} .sc-card__action:hover,
+  #shopify-section-{{ section.id }} .sc-card__action:focus-visible {
+    border-top-color: var(--sc-ink); background: var(--sc-ink); color: #fff;
+  }
+  #shopify-section-{{ section.id }} .sc-card__action[disabled] { opacity: .5; cursor: default; }
+  #shopify-section-{{ section.id }} .sc-card__action.is-loading { opacity: .6; cursor: progress; }
+  #shopify-section-{{ section.id }} .sc-card__plus { font-size: 16px; line-height: 1; }
+  #shopify-section-{{ section.id }} .sc-card__info { padding: 14px 2px 4px; }
+  #shopify-section-{{ section.id }} .sc-card__title {
+    font-family: 'Gotham Medium', sans-serif; font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.25;
+    color: var(--sc-ink); margin: 0;
+  }
+  #shopify-section-{{ section.id }} .sc-card__cut {
+    font-family: 'Gotham Medium', sans-serif; font-size: 12px; color: var(--sc-muted);
+    margin-top: 4px; line-height: 1.3;
+  }
+  #shopify-section-{{ section.id }} .sc-card__stars {
+    font-size: 11px; color: var(--sc-ink); margin-top: 8px; letter-spacing: .04em;
+  }
+  #shopify-section-{{ section.id }} .sc-card__count { color: var(--sc-faint); text-decoration: underline; }
+  #shopify-section-{{ section.id }} .sc-card__price { margin-top: 8px; }
+  /* restyle the theme price snippet to match the design */
+  #shopify-section-{{ section.id }} .sc-card__price .price {
+    font-family: 'Gotham Medium', sans-serif; font-size: 13px; color: var(--sc-ink);
+    display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  }
+  #shopify-section-{{ section.id }} .sc-card__price .price__sale-compare,
+  #shopify-section-{{ section.id }} .sc-card__price s {
+    font-size: 12px; color: var(--sc-faint); text-decoration: line-through;
+  }
+  #shopify-section-{{ section.id }} .sc-card__price .price__savings {
+    font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #0f3d51;
+  }
+
+  #shopify-section-{{ section.id }} .sc-rail__cta { text-align: center; margin-top: 20px; }
+  #shopify-section-{{ section.id }} .sc-btn {
+    display: inline-block; background: var(--sc-ink); color: #fff;
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; padding: 15px 40px;
+  }
+  #shopify-section-{{ section.id }} .sc-btn:hover { color: #fff; background: #0f3d51; }
+
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-rail__track { padding-left: 24px; padding-right: 24px; scroll-padding-left: 24px; }
+  }
+</style>
+
+<div class="sc-rail" data-sc-rail>
+  {%- if section.settings.eyebrow != blank -%}
+    <p class="sc-rail__eyebrow">{{ section.settings.eyebrow }}</p>
+  {%- endif -%}
+
+  {%- if tabs.size > 1 -%}
+    <div class="sc-rail__tabs" role="tablist">
+      {%- for tab in tabs -%}
+        <button type="button" class="sc-rail__tab {% if forloop.first %}is-active{% endif %}"
+                data-sc-tab="{{ forloop.index0 }}" {{ tab.shopify_attributes }}>
+          {{ tab.settings.label | default: 'Tab' }}
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- for tab in tabs -%}
+    {%- assign col = tab.settings.collection -%}
+    <div class="sc-rail__panel {% if forloop.first %}is-active{% endif %}" data-sc-panel="{{ forloop.index0 }}">
+      <div class="sc-rail__track snap">
+        {%- if col != blank and col.products_count > 0 -%}
+          {%- for product in col.products limit: card_limit -%}
+            {%- render 'sc-product-card', product: product -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            {%- render 'sc-product-card' -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+
+  {%- if tabs.size == 0 -%}
+    {%- comment %}No tabs configured — show placeholders so the section is visible in the editor.{% endcomment -%}
+    <div class="sc-rail__panel is-active" data-sc-panel="0">
+      <div class="sc-rail__track snap">
+        {%- for i in (1..4) -%}{%- render 'sc-product-card' -%}{%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.button_label != blank -%}
+    <div class="sc-rail__cta">
+      <a class="sc-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root || root.dataset.scInit) return;
+    root.dataset.scInit = '1';
+
+    // Tab switching
+    var tabBtns = root.querySelectorAll('[data-sc-tab]');
+    var panels = root.querySelectorAll('[data-sc-panel]');
+    tabBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = btn.getAttribute('data-sc-tab');
+        tabBtns.forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+        panels.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-sc-panel') === idx); });
+      });
+    });
+
+    // Add-to-cart action bar (AJAX → theme cart drawer, redirect fallback)
+    root.querySelectorAll('[data-sc-add-form]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = form.querySelector('.sc-card__action');
+        var routes = (window.PXUTheme && window.PXUTheme.routes) || {};
+        var addUrl = (routes.cart_add_url || '/cart/add') + '.js';
+        var cartUrl = routes.cart_url || '/cart';
+        if (btn) btn.classList.add('is-loading');
+        fetch(addUrl, {
+          method: 'POST',
+          headers: { 'Accept': 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' },
+          body: new FormData(form)
+        })
+          .then(function (r) { if (!r.ok) throw new Error('add failed'); return r.json(); })
+          .then(function () {
+            var drawer = (window.Core && window.Core.Components && window.Core.Components.getComponent)
+              ? window.Core.Components.getComponent('cart-drawer') : null;
+            if (drawer && drawer.data && drawer.data.enabled && typeof drawer.open === 'function') {
+              try { drawer.open(btn, true, null); }
+              catch (err) { window.location = cartUrl; }
+            } else {
+              window.location = cartUrl;
+            }
+          })
+          .catch(function () { window.location = cartUrl; })
+          .finally(function () { if (btn) btn.classList.remove('is-loading'); });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "SC Best sellers rail",
+  "tag": "section",
+  "class": "sc-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop the edit" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 12, "step": 1, "label": "Products per tab", "default": 8 },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop all" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "paragraph", "content": "Card extras are read from product metafields: custom.cutline (short descriptor), custom.review_count (e.g. 312), custom.badge (e.g. Bestseller / New). Sale price + savings come from the product's compare-at price automatically." }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tab label", "default": "Best sellers" },
+        { "type": "collection", "id": "collection", "label": "Collection" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Best sellers rail",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Best sellers" } },
+        { "type": "tab", "settings": { "label": "New in" } },
+        { "type": "tab", "settings": { "label": "Bundles" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

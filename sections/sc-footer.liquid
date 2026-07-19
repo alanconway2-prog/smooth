@@ -1,0 +1,190 @@
+{% comment %}
+  Smooth Company — Footer (custom, ink treatment)
+  Ink background, white wordmark + tagline, newsletter (First name + Email +
+  Subscribe), Shop/Learn/Help menus as mobile accordions (rotating chevron;
+  first open by default) → columns on desktop, then socials + copyright row.
+  Drop-in for the footer section group.
+{% endcomment %}
+
+{%- liquid
+  assign logo = section.settings.logo
+  assign form_id = 'sc-footer-newsletter-' | append: section.id
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .sc-foot {
+    background: {{ section.settings.background_color }}; color: {{ section.settings.text_color }};
+    padding: 52px 24px 40px; --sc-line: #333330;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__logo { height: 30px; width: auto; display: block; margin-bottom: 14px; }
+  #shopify-section-{{ section.id }} .sc-foot__tag {
+    font-family: 'Gotham Medium', sans-serif; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: #8f8f88; margin-bottom: 32px;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__intro {
+    font-family: 'Gotham Medium', sans-serif; font-size: 12.5px; color: #C9C9C2; margin: 0 0 16px; line-height: 1.5;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__form { margin-bottom: 36px; }
+  #shopify-section-{{ section.id }} .sc-foot__input {
+    width: 100%; border: 1px solid #3a3a36; background: transparent; padding: 14px 16px;
+    font-family: 'Gotham Medium', sans-serif; font-size: 13px; color: #fff; margin-bottom: 8px;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__input::placeholder { color: #8f8f88; }
+  #shopify-section-{{ section.id }} .sc-foot__submit {
+    width: 100%; background: #fff; color: #1d1d1b; border: none; padding: 15px;
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+    text-transform: uppercase; cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__success { color: {{ section.settings.text_color }}; font-size: 12.5px; margin-bottom: 36px; }
+  #shopify-section-{{ section.id }} .sc-foot__cols { border-top: 1px solid var(--sc-line); }
+  #shopify-section-{{ section.id }} .sc-foot__col { border-bottom: 1px solid var(--sc-line); }
+  #shopify-section-{{ section.id }} .sc-foot__toggle {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    background: none; border: none; padding: 18px 0; font-family: 'Gotham Medium', sans-serif; cursor: pointer; color: #fff;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__toggle span {
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__chev { transition: transform .2s; flex: 0 0 auto; }
+  #shopify-section-{{ section.id }} .sc-foot__toggle[aria-expanded="true"] .sc-foot__chev { transform: rotate(180deg); }
+  #shopify-section-{{ section.id }} .sc-foot__panel { display: none; padding: 0 0 18px; }
+  #shopify-section-{{ section.id }} .sc-foot__toggle[aria-expanded="true"] + .sc-foot__panel { display: block; }
+  #shopify-section-{{ section.id }} .sc-foot__panel a {
+    display: block; font-family: 'Gotham Medium', sans-serif; font-size: 13px; line-height: 2.1; color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .sc-foot__bottom {
+    margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--sc-line);
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__copy,
+  #shopify-section-{{ section.id }} .sc-foot__social {
+    font-family: 'Gotham Medium', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #6A6A63;
+  }
+  #shopify-section-{{ section.id }} .sc-foot__social a { color: #6A6A63; }
+  #shopify-section-{{ section.id }} .sc-foot__social a:hover { color: #fff; }
+
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-foot { padding: 64px 6% 44px; }
+    #shopify-section-{{ section.id }} .sc-foot__top { display: grid; grid-template-columns: 1.2fr 2fr; gap: 48px; align-items: start; }
+    #shopify-section-{{ section.id }} .sc-foot__cols {
+      display: grid; grid-template-columns: repeat({{ section.blocks.size | at_least: 1 }}, 1fr); gap: 32px; border-top: none;
+    }
+    #shopify-section-{{ section.id }} .sc-foot__col { border-bottom: none; }
+    #shopify-section-{{ section.id }} .sc-foot__toggle { padding: 0 0 14px; cursor: default; pointer-events: none; }
+    #shopify-section-{{ section.id }} .sc-foot__chev { display: none; }
+    #shopify-section-{{ section.id }} .sc-foot__panel { display: block !important; padding: 0; }
+  }
+</style>
+
+<div class="sc-foot">
+  <div class="sc-foot__top">
+    <div class="sc-foot__brand">
+      {%- if logo != blank -%}
+        <img class="sc-foot__logo" src="{{ logo | image_url: width: 400 }}" alt="{{ shop.name | escape }}" width="200" height="35">
+      {%- else -%}
+        <img class="sc-foot__logo" src="{{ 'sc-logo-white.png' | asset_url }}" alt="{{ shop.name | escape }}" width="200" height="35">
+      {%- endif -%}
+      {%- if section.settings.tagline != blank -%}<div class="sc-foot__tag">{{ section.settings.tagline }}</div>{%- endif -%}
+
+      {%- if section.settings.show_newsletter -%}
+        {%- if section.settings.newsletter_text != blank -%}
+          <p class="sc-foot__intro">{{ section.settings.newsletter_text }}</p>
+        {%- endif -%}
+        {% form 'customer', id: form_id, class: 'sc-foot__form' %}
+          {%- if form.posted_successfully? -%}
+            <p class="sc-foot__success">Thanks — you’re on the list.</p>
+          {%- else -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input class="sc-foot__input" type="text" name="contact[first_name]" placeholder="First name" autocomplete="given-name">
+            <input class="sc-foot__input" type="email" name="contact[email]" placeholder="Email address" autocomplete="email" required>
+            <button class="sc-foot__submit" type="submit" name="commit">{{ section.settings.newsletter_button | default: 'Subscribe' }}</button>
+          {%- endif -%}
+        {% endform %}
+      {%- endif -%}
+    </div>
+
+    <nav class="sc-foot__cols" aria-label="Footer">
+      {%- for block in section.blocks -%}
+        {%- assign open = false -%}
+        {%- if block.settings.open_by_default -%}{%- assign open = true -%}{%- endif -%}
+        <div class="sc-foot__col" {{ block.shopify_attributes }}>
+          <button class="sc-foot__toggle" type="button" aria-expanded="{{ open }}">
+            <span>{{ block.settings.heading }}</span>
+            <svg class="sc-foot__chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+          <div class="sc-foot__panel">
+            {%- if block.settings.menu != blank -%}
+              {%- for link in linklists[block.settings.menu].links -%}
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </nav>
+  </div>
+
+  <div class="sc-foot__bottom">
+    <span class="sc-foot__copy">© {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+    <span class="sc-foot__social">
+      {%- assign has_social = false -%}
+      {%- if settings.social_instagram_link != blank -%}{%- assign has_social = true -%}<a href="{{ settings.social_instagram_link }}">IG</a> {%- endif -%}
+      {%- if settings.social_tiktok_link != blank -%}{%- assign has_social = true -%}· <a href="{{ settings.social_tiktok_link }}">TT</a> {%- endif -%}
+      {%- if settings.social_youtube_link != blank -%}{%- assign has_social = true -%}· <a href="{{ settings.social_youtube_link }}">YT</a> {%- endif -%}
+      {%- if settings.social_facebook_link != blank -%}{%- assign has_social = true -%}· <a href="{{ settings.social_facebook_link }}">FB</a> {%- endif -%}
+      {%- unless has_social -%}IG · TT · YT{%- endunless -%}
+    </span>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root || root.dataset.scFootInit) return;
+    root.dataset.scFootInit = '1';
+    root.querySelectorAll('.sc-foot__toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (window.matchMedia('(min-width: 750px)').matches) return;
+        btn.setAttribute('aria-expanded', btn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "SC Footer",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Wordmark (white)", "info": "Defaults to the bundled white wordmark if left empty." },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Smooth, the quiet way." },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
+    { "type": "text", "id": "newsletter_text", "label": "Newsletter intro", "default": "Be the first to hear about new launches, early access and 10% off your first order." },
+    { "type": "text", "id": "newsletter_button", "label": "Button label", "default": "Subscribe" },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#1d1d1b" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#B9B9B2" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Open by default (mobile)", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Footer",
+      "blocks": [
+        { "type": "menu", "settings": { "heading": "Shop", "open_by_default": true } },
+        { "type": "menu", "settings": { "heading": "Learn" } },
+        { "type": "menu", "settings": { "heading": "Help" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

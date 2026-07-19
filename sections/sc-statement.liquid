@@ -1,0 +1,33 @@
+{% comment %}
+  Smooth Company — Statement moment (custom)
+  A centered brand line with a short mint accent rule beneath it.
+{% endcomment %}
+<style>
+  #shopify-section-{{ section.id }} .sc-statement { padding: {{ section.settings.padding_top }}px 28px 0; text-align: center; background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-statement__text {
+    font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700;
+    font-size: 29px; line-height: 1.1; letter-spacing: -0.01em; margin: 0; color: #1d1d1b; text-transform: none;
+  }
+  #shopify-section-{{ section.id }} .sc-statement__rule { width: 40px; height: 2px; background: {{ section.settings.accent_color }}; margin: 22px auto 0; }
+  @media (min-width: 750px) { #shopify-section-{{ section.id }} .sc-statement__text { font-size: 40px; } }
+</style>
+<div class="sc-statement">
+  <p class="sc-statement__text">{{ section.settings.text }}</p>
+  {%- if section.settings.show_rule -%}<div class="sc-statement__rule"></div>{%- endif -%}
+</div>
+{% schema %}
+{
+  "name": "SC Statement",
+  "tag": "section",
+  "class": "sc-section",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Statement", "default": "Smoothing that feels like skincare." },
+    { "type": "checkbox", "id": "show_rule", "label": "Show accent rule", "default": true },
+    { "type": "color", "id": "accent_color", "label": "Accent rule color", "default": "#b5e3d9" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+  ],
+  "presets": [ { "name": "SC Statement" } ],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

@@ -1,0 +1,108 @@
+{% comment %}
+  Smooth Company — Shop by category (custom)
+  Full-bleed, edge-to-edge horizontal rail with 2px gaps. Labels bottom-left in
+  tracked caps over a soft bottom gradient. Each tile links to a collection.
+  Uses collection image (or block image override) with graceful placeholder.
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} .sc-cat { padding: {{ section.settings.padding_top }}px 0 0; background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-cat__eyebrow {
+    font-family: 'Gotham Medium', sans-serif; font-size: 12px; letter-spacing: 0.24em;
+    text-transform: uppercase; font-weight: 600; text-align: center; color: #1d1d1b; margin: 0 0 24px;
+  }
+  #shopify-section-{{ section.id }} .sc-cat__track {
+    display: flex; gap: 2px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  }
+  #shopify-section-{{ section.id }} .sc-cat__track::-webkit-scrollbar { height: 0; }
+  #shopify-section-{{ section.id }} .sc-cat__tile { flex: 0 0 300px; scroll-snap-align: start; }
+  #shopify-section-{{ section.id }} .sc-cat__media {
+    aspect-ratio: 4/5; position: relative; overflow: hidden; display: block;
+    background: repeating-linear-gradient(120deg,#eceae6 0 15px,#f4f2ee 15px 30px);
+  }
+  #shopify-section-{{ section.id }} .sc-cat__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #shopify-section-{{ section.id }} .sc-cat__grad {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 40%;
+    background: linear-gradient(to top, rgba(20,18,15,0.4), transparent);
+  }
+  #shopify-section-{{ section.id }} .sc-cat__label {
+    position: absolute; bottom: 16px; left: 16px; z-index: 2; color: #fff;
+    font-family: 'Gotham Medium', sans-serif; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-cat__tile { flex-basis: 340px; }
+  }
+</style>
+
+<div class="sc-cat">
+  {%- if section.settings.eyebrow != blank -%}
+    <p class="sc-cat__eyebrow">{{ section.settings.eyebrow }}</p>
+  {%- endif -%}
+  <div class="sc-cat__track">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign col = block.settings.collection -%}
+        {%- assign label = block.settings.label | default: col.title -%}
+        {%- assign img = block.settings.image | default: col.featured_image -%}
+        {%- assign link = block.settings.link | default: col.url -%}
+        <a class="sc-cat__tile" href="{{ link | default: '#' }}" {{ block.shopify_attributes }}>
+          <span class="sc-cat__media">
+            {%- if img != blank -%}
+              {{ img | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '300px', widths: '300, 450, 600, 800', alt: label | escape }}
+            {%- endif -%}
+            <span class="sc-cat__grad"></span>
+            <span class="sc-cat__label">{{ label }}</span>
+          </span>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign ph = 'Sticks,Creams,Tools,Travel,Gifting' | split: ',' -%}
+      {%- for name in ph -%}
+        <a class="sc-cat__tile" href="#">
+          <span class="sc-cat__media">
+            <span class="sc-cat__grad"></span>
+            <span class="sc-cat__label">{{ name }}</span>
+          </span>
+        </a>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SC Category rail",
+  "tag": "section",
+  "class": "sc-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop by category" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "label", "label": "Label (overrides collection title)" },
+        { "type": "image_picker", "id": "image", "label": "Image (overrides collection image)" },
+        { "type": "url", "id": "link", "label": "Link (overrides collection URL)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Category rail",
+      "blocks": [
+        { "type": "category", "settings": { "label": "Sticks" } },
+        { "type": "category", "settings": { "label": "Creams" } },
+        { "type": "category", "settings": { "label": "Tools" } },
+        { "type": "category", "settings": { "label": "Travel" } },
+        { "type": "category", "settings": { "label": "Gifting" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

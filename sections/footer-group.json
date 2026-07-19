@@ -1,1 +1,24 @@
-{"type":"footer","name":"Footer","sections":{"footer":{"type":"footer","blocks":{"newsletter":{"type":"footer_email_form","disabled":true,"settings":{"heading":"Join the Smooth Social Club","content":"<p>Sign up for exclusive offers, product releases, events and more. <\/p>","column_width":28}},"menu":{"type":"menu","disabled":true,"settings":{"heading":"Products","linklist":"footer-1","column_width":18}},"menu_nEz9Ai":{"type":"menu","settings":{"heading":"The Smooth Company","linklist":"footer-2","column_width":18}},"menu_j4xg9p":{"type":"menu","settings":{"heading":"About Us","linklist":"footer-3","column_width":18}},"menu_jdiE4A":{"type":"menu","settings":{"heading":"Useful Links","linklist":"footer-4","column_width":18}},"about":{"type":"about","settings":{"heading":"Follow Us","content":"<p>Tag us on social media<\/p><p><a href=\"https:\/\/www.instagram.com\/thesmoothcompany__\" target=\"_blank\" title=\"https:\/\/www.instagram.com\/thesmoothcompany__\">@thesmoothcompany__<\/a><\/p><p><a href=\"https:\/\/www.instagram.com\/explore\/search\/keyword\/?q=%23smoothstick\" target=\"_blank\" title=\"https:\/\/www.instagram.com\/explore\/search\/keyword\/?q=%23smoothstick\">#smoothstick<\/a><\/p><p><a href=\"https:\/\/www.instagram.com\/explore\/search\/keyword\/?q=%23thesmoothcompany\" target=\"_blank\" title=\"https:\/\/www.instagram.com\/explore\/search\/keyword\/?q=%23thesmoothcompany\">#thesmoothcompany<\/a><\/p>","show_social_icons":true,"column_width":33}}},"block_order":["newsletter","menu","menu_nEz9Ai","menu_j4xg9p","menu_jdiE4A","about"],"settings":{"top_space":false,"show_payment_icons":true,"enable_follow_on_shop":false,"enable_language_selector":true,"enable_country_selector":true}}},"order":["footer"]}
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer": {
+      "type": "sc-footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer-1", "open_by_default": true } },
+        "learn": { "type": "menu", "settings": { "heading": "Learn", "menu": "footer-3", "open_by_default": false } },
+        "help": { "type": "menu", "settings": { "heading": "Help", "menu": "footer-4", "open_by_default": false } }
+      },
+      "block_order": ["shop", "learn", "help"],
+      "settings": {
+        "tagline": "Smooth, the quiet way.",
+        "show_newsletter": true,
+        "newsletter_text": "Be the first to hear about new launches, early access and 10% off your first order.",
+        "newsletter_button": "Subscribe",
+        "background_color": "#1d1d1b",
+        "text_color": "#B9B9B2"
+      }
+    }
+  },
+  "order": ["footer"]
+}

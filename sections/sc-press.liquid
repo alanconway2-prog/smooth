@@ -1,0 +1,71 @@
+{% comment %}
+  Smooth Company — Press / social proof band (custom)
+  One airy band on white: press names in Gotham Bold + a single caption line.
+  The one press touchpoint — keep proof off the rest of the homepage.
+{% endcomment %}
+<style>
+  #shopify-section-{{ section.id }} .sc-press { padding: {{ section.settings.padding_top }}px 20px 0; text-align: center; background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-press__names {
+    display: flex; align-items: center; justify-content: center; gap: 22px; flex-wrap: wrap;
+    color: #1d1d1b; font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700;
+    font-size: 21px; line-height: 1; text-transform: none;
+  }
+  #shopify-section-{{ section.id }} .sc-press__names img { height: 22px; width: auto; object-fit: contain; }
+  #shopify-section-{{ section.id }} .sc-press__caption {
+    font-family: 'Gotham Medium', sans-serif; font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: #9A9A94; margin-top: 16px;
+  }
+  @media (min-width: 750px) { #shopify-section-{{ section.id }} .sc-press__names { gap: 40px; font-size: 26px; } }
+</style>
+<div class="sc-press">
+  <div class="sc-press__names">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: block.settings.name | escape, class: 'sc-press__logo' }}
+        {%- else -%}
+          <span {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <span>Vogue</span><span>Elle</span><span>Grazia</span><span>Stylist</span>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.caption != blank -%}
+    <div class="sc-press__caption">{{ section.settings.caption }}</div>
+  {%- endif -%}
+</div>
+{% schema %}
+{
+  "name": "SC Press band",
+  "tag": "section",
+  "class": "sc-section",
+  "settings": [
+    { "type": "text", "id": "caption", "label": "Caption", "default": "As seen in · Winner, Beauty Awards 2025" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "press",
+      "name": "Press name",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Vogue" },
+        { "type": "image_picker", "id": "image", "label": "Logo image (optional, overrides name)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Press band",
+      "blocks": [
+        { "type": "press", "settings": { "name": "Vogue" } },
+        { "type": "press", "settings": { "name": "Elle" } },
+        { "type": "press", "settings": { "name": "Grazia" } },
+        { "type": "press", "settings": { "name": "Stylist" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

@@ -834,3 +834,17 @@ h1.cart__heading {
 .mobile-footer-accordion-group * {
   color: #000 !important;
 }
+/* ------------------------------------------------------------------ */
+/* Homepage redesign (July 2026): ink announcement bar + header hairline
+   Pairs with header-group.json (toolbar_bg_color #1d1d1b, off-white text,
+   show_border on). Announcement text set uppercase + tracked here since the
+   announcement block has no typography settings. */
+.block-announcement,
+.block-announcement p {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10.5px;
+  margin: 0;
+}
+.section-header { border-bottom-color: #eeeeec; }
+/* ------------------------------------------------------------------ */
