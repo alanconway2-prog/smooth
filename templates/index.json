@@ -15,11 +15,31 @@
     "bestsellers": {
       "type": "sc-product-rail",
       "blocks": {
-        "tab_best": { "type": "tab", "settings": { "label": "Best sellers", "collection": "all" } },
-        "tab_new": { "type": "tab", "settings": { "label": "New in" } },
-        "tab_bundles": { "type": "tab", "settings": { "label": "Bundles" } }
+        "tab_best": {
+          "type": "tab",
+          "settings": {
+            "label": "Best sellers",
+            "collection": "all"
+          }
+        },
+        "tab_new": {
+          "type": "tab",
+          "settings": {
+            "label": "New in"
+          }
+        },
+        "tab_bundles": {
+          "type": "tab",
+          "settings": {
+            "label": "Bundles"
+          }
+        }
       },
-      "block_order": ["tab_best", "tab_new", "tab_bundles"],
+      "block_order": [
+        "tab_best",
+        "tab_new",
+        "tab_bundles"
+      ],
       "settings": {
         "eyebrow": "Shop the edit",
         "products_to_show": 8,
@@ -42,13 +62,44 @@
     "categories": {
       "type": "sc-category-rail",
       "blocks": {
-        "c1": { "type": "category", "settings": { "label": "Sticks" } },
-        "c2": { "type": "category", "settings": { "label": "Creams" } },
-        "c3": { "type": "category", "settings": { "label": "Tools" } },
-        "c4": { "type": "category", "settings": { "label": "Travel" } },
-        "c5": { "type": "category", "settings": { "label": "Gifting" } }
+        "c1": {
+          "type": "category",
+          "settings": {
+            "label": "Sticks"
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "label": "Creams"
+          }
+        },
+        "c3": {
+          "type": "category",
+          "settings": {
+            "label": "Tools"
+          }
+        },
+        "c4": {
+          "type": "category",
+          "settings": {
+            "label": "Travel"
+          }
+        },
+        "c5": {
+          "type": "category",
+          "settings": {
+            "label": "Gifting"
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ],
       "settings": {
         "eyebrow": "Shop by category",
         "padding_top": 72,
@@ -58,12 +109,37 @@
     "press": {
       "type": "sc-press",
       "blocks": {
-        "p1": { "type": "press", "settings": { "name": "Vogue" } },
-        "p2": { "type": "press", "settings": { "name": "Elle" } },
-        "p3": { "type": "press", "settings": { "name": "Grazia" } },
-        "p4": { "type": "press", "settings": { "name": "Stylist" } }
+        "p1": {
+          "type": "press",
+          "settings": {
+            "name": "Vogue"
+          }
+        },
+        "p2": {
+          "type": "press",
+          "settings": {
+            "name": "Elle"
+          }
+        },
+        "p3": {
+          "type": "press",
+          "settings": {
+            "name": "Grazia"
+          }
+        },
+        "p4": {
+          "type": "press",
+          "settings": {
+            "name": "Stylist"
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
       "settings": {
         "caption": "As seen in · Winner, Beauty Awards 2025",
         "padding_top": 72,
@@ -74,7 +150,7 @@
       "type": "sc-founder",
       "settings": {
         "quote": "“I wanted smoothing that felt considered — gentle, everyday, yours.”",
-        "button_label": "Read more",
+        "button_label": "Read our story",
         "button_link": "",
         "padding_top": 72,
         "background_color": "#ffffff"
@@ -83,11 +159,33 @@
     "watch": {
       "type": "sc-watch-shop",
       "blocks": {
-        "v1": { "type": "clip", "settings": { "title": "Tame flyaways in 60s", "price": "£24" } },
-        "v2": { "type": "clip", "settings": { "title": "The polished slick", "price": "£22" } },
-        "v3": { "type": "clip", "settings": { "title": "Travel-ready hair", "price": "£30" } }
+        "v1": {
+          "type": "clip",
+          "settings": {
+            "title": "Tame flyaways in 60s",
+            "price": "£24"
+          }
+        },
+        "v2": {
+          "type": "clip",
+          "settings": {
+            "title": "The polished slick",
+            "price": "£22"
+          }
+        },
+        "v3": {
+          "type": "clip",
+          "settings": {
+            "title": "Travel-ready hair",
+            "price": "£30"
+          }
+        }
       },
-      "block_order": ["v1", "v2", "v3"],
+      "block_order": [
+        "v1",
+        "v2",
+        "v3"
+      ],
       "settings": {
         "eyebrow": "Watch & shop",
         "padding_top": 72,
@@ -97,12 +195,45 @@
     "reviews": {
       "type": "sc-reviews",
       "blocks": {
-        "r1": { "type": "review", "settings": { "quote": "My hair has never looked so polished.", "name": "Amara K.", "product": "Stick" } },
-        "r2": { "type": "review", "settings": { "quote": "The stick lives in my bag now.", "name": "Priya S.", "product": "Stick" } },
-        "r3": { "type": "review", "settings": { "quote": "Frizz gone in seconds, no crunch.", "name": "Jo M.", "product": "Cream" } },
-        "r4": { "type": "review", "settings": { "quote": "Feels like skincare for my hair.", "name": "Elle R.", "product": "Balm" } }
+        "r1": {
+          "type": "review",
+          "settings": {
+            "quote": "My hair has never looked so polished.",
+            "name": "Amara K.",
+            "product": "Stick"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "quote": "The stick lives in my bag now.",
+            "name": "Priya S.",
+            "product": "Stick"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "quote": "Frizz gone in seconds, no crunch.",
+            "name": "Jo M.",
+            "product": "Cream"
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "quote": "Feels like skincare for my hair.",
+            "name": "Elle R.",
+            "product": "Balm"
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3", "r4"],
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
       "settings": {
         "score": "4.7",
         "count_label": "460+ verified reviews",
@@ -113,5 +244,14 @@
       }
     }
   },
-  "order": ["hero", "bestsellers", "statement", "categories", "press", "founder", "watch", "reviews"]
+  "order": [
+    "hero",
+    "bestsellers",
+    "statement",
+    "categories",
+    "press",
+    "founder",
+    "watch",
+    "reviews"
+  ]
 }

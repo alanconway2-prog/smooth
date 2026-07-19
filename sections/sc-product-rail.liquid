@@ -25,6 +25,7 @@
     --sc-bar: #f4f4f2;
     --sc-muted: #8A8A84;
     --sc-faint: #A8A8A2;
+    --sc-frame-border: {% if section.settings.show_card_border %}1px solid var(--sc-line){% else %}none{% endif %};
   }
   #shopify-section-{{ section.id }} .sc-rail__eyebrow {
     font-family: 'Gotham Medium', sans-serif;
@@ -58,7 +59,7 @@
   #shopify-section-{{ section.id }} .sc-card {
     flex: 0 0 248px; scroll-snap-align: start;
   }
-  #shopify-section-{{ section.id }} .sc-card__frame { border: 1px solid var(--sc-line); }
+  #shopify-section-{{ section.id }} .sc-card__frame { border: var(--sc-frame-border); }
   #shopify-section-{{ section.id }} .sc-card__media {
     aspect-ratio: 4/5; position: relative; overflow: hidden; display: block;
     background: repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);
@@ -122,8 +123,27 @@
   }
   #shopify-section-{{ section.id }} .sc-btn:hover { color: #fff; background: #0f3d51; }
 
+  /* Tablet & desktop: rail becomes a grid (2-up → 4-up) */
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sc-rail__track { padding-left: 24px; padding-right: 24px; scroll-padding-left: 24px; }
+    #shopify-section-{{ section.id }} .sc-rail { padding-top: calc({{ pt }}px * 1.35); }
+    #shopify-section-{{ section.id }} .sc-rail__eyebrow { font-size: 13px; margin-bottom: 26px; }
+    #shopify-section-{{ section.id }} .sc-rail__tabs { gap: 30px; margin-bottom: 22px; }
+    #shopify-section-{{ section.id }} .sc-rail__track {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+      overflow: visible; padding: 0 24px; scroll-snap-type: none;
+    }
+    #shopify-section-{{ section.id }} .sc-card { flex: none; width: auto; scroll-snap-align: none; }
+    #shopify-section-{{ section.id }} .sc-card__action { padding: 16px 18px; font-size: 11px; }
+    #shopify-section-{{ section.id }} .sc-card__info { padding: 16px 2px 4px; }
+    #shopify-section-{{ section.id }} .sc-card__title { font-size: 13px; }
+    #shopify-section-{{ section.id }} .sc-card__cut { font-size: 13px; margin-top: 5px; }
+    #shopify-section-{{ section.id }} .sc-card__stars { font-size: 12px; margin-top: 9px; }
+    #shopify-section-{{ section.id }} .sc-card__price .price { font-size: 14px; }
+    #shopify-section-{{ section.id }} .sc-rail__cta { margin-top: 34px; }
+    #shopify-section-{{ section.id }} .sc-btn { font-size: 12px; padding: 16px 46px; }
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-rail__track { grid-template-columns: repeat(4, 1fr); padding: 0 48px; }
   }
 </style>
 
@@ -238,6 +258,7 @@
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "checkbox", "id": "show_card_border", "label": "Show border around cards", "default": false },
     { "type": "paragraph", "content": "Card extras are read from product metafields: custom.cutline (short descriptor), custom.review_count (e.g. 312), custom.badge (e.g. Bestseller / New). Sale price + savings come from the product's compare-at price automatically." }
   ],
   "blocks": [

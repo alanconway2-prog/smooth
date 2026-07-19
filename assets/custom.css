@@ -848,3 +848,23 @@ h1.cart__heading {
 }
 .section-header { border-bottom-color: #eeeeec; }
 /* ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ */
+/* SC: keep the sticky header opaque + above all sections as you scroll.
+   Fixes the transparent / overlapping header on the new homepage.
+   (Overrides the earlier margin-top spacer + scroll-conditional white bg
+   at lines ~65-79 without removing them, so other templates are unaffected.) */
+.section-header { background-color: #ffffff; z-index: 700; }
+.header,
+.header__header,
+body.template-index header.header__header,
+body.template-index header.header__header.header--shadow {
+  background-color: #ffffff !important;
+}
+/* Swap the collapsing transparent top-margin for painted padding so the
+   space reserved under the fixed announcement toolbar is solid white. */
+header.header__header { margin-top: 0 !important; padding-top: 58px; }
+@media screen and (max-width: 720px) {
+  header.header__header { margin-top: 0 !important; padding-top: 49px; }
+}
+/* ------------------------------------------------------------------ */

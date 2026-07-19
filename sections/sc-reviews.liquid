@@ -8,7 +8,7 @@
   (or the whole rail) with that app's block/snippet. The header + CTA can stay.
 {% endcomment %}
 <style>
-  #shopify-section-{{ section.id }} .sc-rev { padding: {{ section.settings.padding_top }}px 0 0; background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-rev { padding: {{ section.settings.padding_top }}px 0 0; background: {{ section.settings.background_color }}; --sc-rev-border: {% if section.settings.show_card_border %}1px solid #ececea{% else %}none{% endif %}; }
   #shopify-section-{{ section.id }} .sc-rev__head { text-align: center; margin-bottom: 30px; }
   #shopify-section-{{ section.id }} .sc-rev__score {
     font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700; font-size: 72px; line-height: 0.9; color: #1d1d1b;
@@ -47,7 +47,25 @@
     text-transform: uppercase; padding: 14px 34px; transition: all .18s;
   }
   #shopify-section-{{ section.id }} .sc-rev__btn:hover { background: #1d1d1b; color: #fff; }
-  @media (min-width: 750px) { #shopify-section-{{ section.id }} .sc-rev__card { flex-basis: 300px; } }
+  /* Tablet & desktop: rail becomes a grid (2-up → 4-up) */
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-rev { padding-top: calc({{ section.settings.padding_top }}px * 1.4); }
+    #shopify-section-{{ section.id }} .sc-rev__head { margin-bottom: 44px; }
+    #shopify-section-{{ section.id }} .sc-rev__score { font-size: 88px; }
+    #shopify-section-{{ section.id }} .sc-rev__stars { font-size: 18px; margin: 12px 0 10px; }
+    #shopify-section-{{ section.id }} .sc-rev__count { font-size: 11px; }
+    #shopify-section-{{ section.id }} .sc-rev__track {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; overflow: visible; padding: 0 24px;
+    }
+    #shopify-section-{{ section.id }} .sc-rev__card { flex: none; scroll-snap-align: none; border: var(--sc-rev-border); }
+    #shopify-section-{{ section.id }} .sc-rev__body { padding: 20px; }
+    #shopify-section-{{ section.id }} .sc-rev__quote { font-size: 15px; line-height: 1.42; }
+    #shopify-section-{{ section.id }} .sc-rev__cta { margin-top: 38px; }
+    #shopify-section-{{ section.id }} .sc-rev__btn { font-size: 12px; padding: 15px 40px; }
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-rev__track { grid-template-columns: repeat(4, 1fr); padding: 0 48px; }
+  }
 </style>
 <div class="sc-rev">
   <div class="sc-rev__head">
@@ -105,7 +123,8 @@
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Read all 460 reviews" },
     { "type": "url", "id": "button_link", "label": "Button link" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "checkbox", "id": "show_card_border", "label": "Show border around review cards (desktop)", "default": true }
   ],
   "blocks": [
     {

@@ -53,6 +53,15 @@
   @media (min-width: 750px) {
     #shopify-section-{{ section.id }} .sc-hero__title { font-size: 40px; white-space: normal; }
     #shopify-section-{{ section.id }} .sc-hero__sub { max-width: 420px; font-size: 15px; }
+    #shopify-section-{{ section.id }} .sc-hero__body { padding-top: 52px; }
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-hero__media { height: {{ section.settings.video_height_desktop }}px; }
+    #shopify-section-{{ section.id }} .sc-hero__title { font-size: 52px; letter-spacing: -0.015em; margin-bottom: 18px; }
+    #shopify-section-{{ section.id }} .sc-hero__body { padding-top: 56px; }
+    #shopify-section-{{ section.id }} .sc-hero__rating { font-size: 12px; margin-bottom: 22px; }
+    #shopify-section-{{ section.id }} .sc-hero__sub { font-size: 15px; max-width: 440px; margin-bottom: 26px; }
+    #shopify-section-{{ section.id }} .sc-hero__cta { font-size: 12px; padding: 18px 44px; }
   }
 </style>
 
@@ -96,7 +105,8 @@
   "settings": [
     { "type": "video", "id": "video", "label": "Hero video (muted loop)" },
     { "type": "image_picker", "id": "poster", "label": "Poster / fallback image" },
-    { "type": "range", "id": "video_height", "min": 300, "max": 640, "step": 10, "unit": "px", "label": "Media height", "default": 470 },
+    { "type": "range", "id": "video_height", "min": 300, "max": 640, "step": 10, "unit": "px", "label": "Media height (mobile)", "default": 470 },
+    { "type": "range", "id": "video_height_desktop", "min": 400, "max": 820, "step": 10, "unit": "px", "label": "Media height (desktop)", "default": 660 },
     { "type": "header", "content": "Copy (below the video)" },
     { "type": "text", "id": "rating_text", "label": "Rating line", "default": "4.7 · 460+ reviews" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Smooth, the quiet way." },

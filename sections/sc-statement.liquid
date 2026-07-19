@@ -9,7 +9,12 @@
     font-size: 29px; line-height: 1.1; letter-spacing: -0.01em; margin: 0; color: #1d1d1b; text-transform: none;
   }
   #shopify-section-{{ section.id }} .sc-statement__rule { width: 40px; height: 2px; background: {{ section.settings.accent_color }}; margin: 22px auto 0; }
-  @media (min-width: 750px) { #shopify-section-{{ section.id }} .sc-statement__text { font-size: 40px; } }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-statement { padding-top: calc({{ section.settings.padding_top }}px * 1.4); }
+    #shopify-section-{{ section.id }} .sc-statement__text { font-size: 40px; }
+    #shopify-section-{{ section.id }} .sc-statement__rule { width: 48px; margin-top: 28px; }
+  }
+  @media (min-width: 1024px) { #shopify-section-{{ section.id }} .sc-statement__text { font-size: 46px; } }
 </style>
 <div class="sc-statement">
   <p class="sc-statement__text">{{ section.settings.text }}</p>

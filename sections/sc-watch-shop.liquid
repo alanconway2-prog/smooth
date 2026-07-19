@@ -36,7 +36,27 @@
     padding: 8px 14px; font-family: 'Gotham Medium', sans-serif; font-size: 10px; font-weight: 600;
     letter-spacing: 0.12em; text-transform: uppercase;
   }
-  @media (min-width: 750px) { #shopify-section-{{ section.id }} .sc-watch__tile { flex-basis: 280px; } }
+  #shopify-section-{{ section.id }} .sc-watch__viewall { display: none; }
+  #shopify-section-{{ section.id }} .sc-watch__viewall-label {
+    font-family: 'Gotham Medium', sans-serif; font-size: 12px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #1d1d1b; border-bottom: 1px solid #1d1d1b; padding-bottom: 3px;
+  }
+  /* Tablet & desktop: rail becomes a grid (2-up → 4-up) with a View all tile */
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-watch { padding-top: calc({{ section.settings.padding_top }}px * 1.35); }
+    #shopify-section-{{ section.id }} .sc-watch__eyebrow { font-size: 13px; margin-bottom: 30px; }
+    #shopify-section-{{ section.id }} .sc-watch__track {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; overflow: visible; padding: 0 24px;
+    }
+    #shopify-section-{{ section.id }} .sc-watch__tile { flex: none; scroll-snap-align: none; }
+    #shopify-section-{{ section.id }} .sc-watch__viewall { display: flex; align-items: center; justify-content: center; background: #f4f4f2; }
+    #shopify-section-{{ section.id }} .sc-watch__play { width: 52px; height: 52px; font-size: 14px; }
+    #shopify-section-{{ section.id }} .sc-watch__title { font-size: 15px; left: 18px; right: 18px; bottom: 60px; }
+    #shopify-section-{{ section.id }} .sc-watch__chip { font-size: 11px; left: 18px; bottom: 18px; padding: 9px 15px; }
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-watch__track { grid-template-columns: repeat(4, 1fr); padding: 0 48px; }
+  }
 </style>
 <div class="sc-watch">
   {%- if section.settings.eyebrow != blank -%}
@@ -77,6 +97,11 @@
         </a>
       {%- endfor -%}
     {%- endif -%}
+    {%- if section.settings.view_all_label != blank -%}
+      <a class="sc-watch__tile sc-watch__viewall" href="{{ section.settings.view_all_link | default: '#' }}">
+        <span class="sc-watch__viewall-label">{{ section.settings.view_all_label }}</span>
+      </a>
+    {%- endif -%}
   </div>
 </div>
 {% schema %}
@@ -87,7 +112,10 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Watch & shop" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "header", "content": "View all tile (desktop)" },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "View all", "info": "Shows as an extra tile on desktop. Leave empty to hide." },
+    { "type": "url", "id": "view_all_link", "label": "View all link" }
   ],
   "blocks": [
     {

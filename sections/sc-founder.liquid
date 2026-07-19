@@ -23,11 +23,24 @@
     font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; padding: 15px 36px;
   }
   #shopify-section-{{ section.id }} .sc-founder__cta:hover { color: #fff; background: #0f3d51; }
+  /* Desktop: two columns, portrait left, quote on an off-white panel right */
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sc-founder { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
-    #shopify-section-{{ section.id }} .sc-founder__media { aspect-ratio: 4/5; }
-    #shopify-section-{{ section.id }} .sc-founder__body { padding: 0 8%; }
-    #shopify-section-{{ section.id }} .sc-founder__quote { font-size: 30px; }
+    #shopify-section-{{ section.id }} .sc-founder {
+      display: grid; grid-template-columns: 1fr 1fr; align-items: stretch;
+      padding-top: calc({{ section.settings.padding_top }}px * 1.35);
+    }
+    #shopify-section-{{ section.id }} .sc-founder__media { aspect-ratio: 1/1; height: 100%; }
+    #shopify-section-{{ section.id }} .sc-founder__body {
+      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+      text-align: left; padding: 8% 9%; background: {{ section.settings.panel_color }};
+    }
+    #shopify-section-{{ section.id }} .sc-founder__quote { font-size: 30px; margin-bottom: 26px; }
+    #shopify-section-{{ section.id }} .sc-founder__cta { align-self: flex-start; }
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-founder__body { padding: 80px 96px; }
+    #shopify-section-{{ section.id }} .sc-founder__quote { font-size: 36px; margin-bottom: 28px; }
+    #shopify-section-{{ section.id }} .sc-founder__cta { font-size: 12px; padding: 16px 40px; }
   }
 </style>
 <div class="sc-founder">
@@ -56,10 +69,11 @@
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Portrait image" },
     { "type": "textarea", "id": "quote", "label": "Quote", "default": "“I wanted smoothing that felt considered — gentle, everyday, yours.”" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Read more" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Read our story" },
     { "type": "url", "id": "button_link", "label": "Button link" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "panel_color", "label": "Text panel background (desktop)", "default": "#faf9f7" }
   ],
   "presets": [ { "name": "SC Founder story" } ],
   "disabled_on": { "groups": ["header", "footer"] }

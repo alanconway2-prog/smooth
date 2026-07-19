@@ -15,7 +15,15 @@
     font-family: 'Gotham Medium', sans-serif; font-size: 10px; letter-spacing: 0.22em;
     text-transform: uppercase; color: #9A9A94; margin-top: 16px;
   }
-  @media (min-width: 750px) { #shopify-section-{{ section.id }} .sc-press__names { gap: 40px; font-size: 26px; } }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sc-press { padding-top: calc({{ section.settings.padding_top }}px * 1.35); }
+    #shopify-section-{{ section.id }} .sc-press__names { gap: 40px; font-size: 26px; }
+    #shopify-section-{{ section.id }} .sc-press__names img { height: 26px; }
+    #shopify-section-{{ section.id }} .sc-press__caption { font-size: 11px; margin-top: 22px; }
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-press__names { gap: 44px; font-size: 30px; }
+  }
 </style>
 <div class="sc-press">
   <div class="sc-press__names">

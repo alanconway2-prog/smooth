@@ -29,8 +29,18 @@
     position: absolute; bottom: 16px; left: 16px; z-index: 2; color: #fff;
     font-family: 'Gotham Medium', sans-serif; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
   }
+  /* Tablet & desktop: rail becomes a full-bleed grid (3-up → 5-up) */
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sc-cat__tile { flex-basis: 340px; }
+    #shopify-section-{{ section.id }} .sc-cat { padding-top: calc({{ section.settings.padding_top }}px * 1.35); }
+    #shopify-section-{{ section.id }} .sc-cat__eyebrow { font-size: 13px; margin-bottom: 30px; }
+    #shopify-section-{{ section.id }} .sc-cat__track {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; overflow: visible;
+    }
+    #shopify-section-{{ section.id }} .sc-cat__tile { flex: none; }
+    #shopify-section-{{ section.id }} .sc-cat__label { font-size: 15px; bottom: 22px; left: 22px; }
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-cat__track { grid-template-columns: repeat(5, 1fr); }
   }
 </style>
 
