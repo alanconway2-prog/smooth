@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smooth Company — rebuilt homepage preview</title>
+<style>
+  @font-face { font-family:'Gotham'; src:url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham_Bold.woff2?v=1740561122') format('woff2'); font-weight:600 800; font-display:swap; }
+  @font-face { font-family:'Gotham Medium'; src:url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham-Medium.woff2?v=1726063066') format('woff2'); font-weight:400 600; font-display:swap; }
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  body { margin:0; background:#E7E7E4; font-family:'Gotham Medium',system-ui,sans-serif; color:#1d1d1b; padding:40px 0 80px; }
+  a { color:inherit; text-decoration:none; }
+  .note { max-width:390px; margin:0 auto 20px; font-size:12px; color:#6C6C66; line-height:1.5; padding:0 8px; }
+  .frame { width:390px; margin:0 auto; background:#fff; border-radius:34px; overflow:hidden; box-shadow:0 40px 80px -30px rgba(0,0,0,0.35),0 0 0 1px rgba(0,0,0,0.05); }
+  .ph { background:repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px); }
+
+  /* announcement + header */
+  .ann { background:#1d1d1b;color:#F4F4F2;text-align:center;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;padding:9px 16px; }
+  .hdr { position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:#fff;border-bottom:1px solid #eeeeec; }
+  .hdr .grp { display:flex;align-items:center;gap:16px; }
+  .burg { display:flex;flex-direction:column;gap:5px;width:20px; }
+  .burg span { height:1.5px;background:#1d1d1b;display:block; }
+  .wordmark { height:22px; }
+
+  /* hero */
+  .hero-media { position:relative;height:470px;overflow:hidden;background:#e7e3dd; }
+  .hero-ph { position:absolute;inset:0;background:repeating-linear-gradient(120deg,#e7e3dd 0 16px,#efece6 16px 32px); }
+  .hero-lab { position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;font-style:italic;color:#b3aa9e;font-size:11px;font-family:Georgia,serif; }
+  .hero-body { text-align:center;padding:44px 20px 0; }
+  .hero-rating { display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;font-size:11px;letter-spacing:0.06em;color:#6C6C66; }
+  .hero-rating .st { color:#1d1d1b;font-size:12px;letter-spacing:0.1em; }
+  .h2 { font-family:'Gotham',sans-serif;font-weight:700;font-size:26px;line-height:1.02;letter-spacing:-0.01em;margin:0 0 14px;white-space:nowrap; }
+  .hero-sub { font-size:13px;color:#6C6C66;line-height:1.5;margin:0 auto 22px;max-width:290px; }
+  .btn { display:inline-block;background:#1d1d1b;color:#fff;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;padding:16px 34px; }
+  .eyebrow { font-size:12px;letter-spacing:0.24em;text-transform:uppercase;font-weight:600;text-align:center; }
+
+  /* rail + cards */
+  .sec { padding:72px 0 0; }
+  .tabs { display:flex;justify-content:center;gap:24px;margin-bottom:6px; }
+  .tab { background:none;border:none;padding:0 0 8px;font-family:inherit;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer; }
+  .tab.on { color:#1d1d1b;font-weight:600;border-bottom:1.5px solid #1d1d1b; }
+  .tab.off { color:#9A9A94;font-weight:500; }
+  .track { display:flex;gap:2px;overflow-x:auto;padding:16px 10px 6px; }
+  .card { flex:0 0 248px; }
+  .card .fr { border:1px solid #e6e4e0; }
+  .card .med { aspect-ratio:4/5;position:relative;overflow:hidden; }
+  .badge { position:absolute;top:12px;left:12px;font-size:9px;letter-spacing:0.2em;text-transform:uppercase; }
+  .abar { width:100%;display:flex;align-items:center;justify-content:space-between;border:none;border-top:1px solid #e6e4e0;background:#f4f4f2;color:#1d1d1b;padding:14px;font-family:inherit;font-size:10.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase; }
+  .info { padding:14px 2px 4px; }
+  .ttl { font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:1.25;margin:0; }
+  .cut { font-size:12px;color:#8A8A84;margin-top:4px; }
+  .stars { font-size:11px;margin-top:8px; }
+  .cnt { color:#A8A8A2;text-decoration:underline; }
+  .price { font-size:13px;margin-top:8px;display:flex;gap:8px;align-items:baseline; }
+  .price s { color:#A8A8A2; }
+  .price .sv { font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#0f3d51; }
+  .cta-center { text-align:center;margin-top:20px; }
+
+  /* statement */
+  .stmt { padding:72px 28px 0;text-align:center; }
+  .stmt p { font-family:'Gotham',sans-serif;font-weight:700;font-size:29px;line-height:1.1;letter-spacing:-0.01em;margin:0; }
+  .rule { width:40px;height:2px;background:#b5e3d9;margin:22px auto 0; }
+
+  /* category */
+  .cat-track { display:flex;gap:2px;overflow-x:auto; }
+  .cat { flex:0 0 300px; }
+  .cat .med { aspect-ratio:4/5;position:relative;overflow:hidden;background:repeating-linear-gradient(120deg,#eceae6 0 15px,#f4f2ee 15px 30px); }
+  .cat .grad { position:absolute;left:0;right:0;bottom:0;height:40%;background:linear-gradient(to top,rgba(20,18,15,0.4),transparent); }
+  .cat .lab { position:absolute;bottom:16px;left:16px;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:#fff; }
+
+  /* press */
+  .press { padding:72px 20px 0;text-align:center; }
+  .press .names { display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;font-family:'Gotham',sans-serif;font-weight:700;font-size:21px; }
+  .press .cap { font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#9A9A94;margin-top:16px; }
+
+  /* founder */
+  .founder .med { aspect-ratio:5/6;position:relative;background:repeating-linear-gradient(120deg,#e9e4dd 0 15px,#f1ece5 15px 30px); }
+  .founder .lab { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-style:italic;color:#b0a99f;font-size:12px;font-family:Georgia,serif; }
+  .founder .body { padding:28px 24px 0;text-align:center; }
+  .founder .q { font-family:'Gotham',sans-serif;font-weight:700;font-size:25px;line-height:1.16;letter-spacing:-0.01em;margin:0 0 22px; }
+
+  /* watch */
+  .watch-track { display:flex;gap:2px;overflow-x:auto; }
+  .clip { flex:0 0 240px; }
+  .clip .med { aspect-ratio:9/16;position:relative;overflow:hidden;background:repeating-linear-gradient(120deg,#e6e2dc 0 15px,#eee9e3 15px 30px); }
+  .clip .play { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:100px;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:12px; }
+  .clip .t { position:absolute;left:14px;right:14px;bottom:52px;color:#fff;font-size:13px;font-weight:500;line-height:1.2;text-shadow:0 1px 5px rgba(0,0,0,0.5); }
+  .clip .chip { position:absolute;left:14px;bottom:14px;background:#fff;color:#1d1d1b;padding:8px 14px;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase; }
+
+  /* reviews */
+  .rev-head { text-align:center;margin-bottom:30px; }
+  .rev-score { font-family:'Gotham',sans-serif;font-weight:700;font-size:72px;line-height:0.9; }
+  .rev-stars { font-size:15px;letter-spacing:0.14em;margin:10px 0 8px; }
+  .rev-cnt { font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#9A9A94; }
+  .rev-track { display:flex;gap:2px;overflow-x:auto; }
+  .rev-card { flex:0 0 260px; }
+  .rev-card .med { aspect-ratio:1/1;position:relative; }
+  .rev-card .chip { position:absolute;bottom:14px;left:14px;background:#fff;padding:6px 10px;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase; }
+  .rev-card .body { padding:14px; }
+  .rev-card .cs { font-size:12px;letter-spacing:0.1em;margin-bottom:10px; }
+  .rev-card .q { font-size:14px;line-height:1.4;margin:0 0 12px; }
+  .rev-card .by { font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#A8A8A2; }
+  .outline { display:inline-block;border:1px solid #1d1d1b;color:#1d1d1b;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;padding:14px 34px; }
+
+  /* footer */
+  .foot { margin-top:72px;padding:52px 24px 40px;background:#1d1d1b;color:#B9B9B2; }
+  .foot .lg { height:30px;margin-bottom:14px; }
+  .foot .tag { font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:#8f8f88;margin-bottom:32px; }
+  .foot .intro { font-size:12.5px;color:#C9C9C2;margin:0 0 16px;line-height:1.5; }
+  .foot input { width:100%;border:1px solid #3a3a36;background:transparent;padding:14px 16px;font-family:inherit;font-size:13px;color:#fff;margin-bottom:8px; }
+  .foot input::placeholder { color:#8f8f88; }
+  .foot .sub { width:100%;background:#fff;color:#1d1d1b;border:none;padding:15px;font-family:inherit;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:36px; }
+  .foot .cols { border-top:1px solid #333330; }
+  .foot .col { border-bottom:1px solid #333330; }
+  .foot .tog { width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;padding:18px 0;color:#fff;font-family:inherit; }
+  .foot .tog span { font-size:11px;letter-spacing:0.16em;text-transform:uppercase; }
+  .foot .pan a { display:block;font-size:13px;line-height:2.1;color:#B9B9B2; }
+  .foot .bottom { margin-top:30px;padding-top:20px;border-top:1px solid #333330;display:flex;justify-content:space-between; }
+  .foot .bottom span { font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#6A6A63; }
+  svg.chev { transform:rotate(0deg); }
+  svg.chev.open { transform:rotate(180deg); }
+</style>
+</head>
+<body>
+  <div class="note"><strong>Static preview</strong> — the rebuilt homepage in its default (placeholder) state, exactly as the theme renders before you add real photos, products and collections. Grey striped areas are image placeholders. This is a browser mock of the native Liquid sections, not the live store.</div>
+  <div class="frame">
+    <div class="ann">Free delivery on all orders £30+</div>
+    <div class="hdr">
+      <div class="grp">
+        <div class="burg"><span style="width:20px"></span><span style="width:12px"></span></div>
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="7" cy="7" r="5.4" stroke="#1d1d1b" stroke-width="1.3"/><line x1="11" y1="11" x2="16" y2="16" stroke="#1d1d1b" stroke-width="1.3"/></svg>
+      </div>
+      <img class="wordmark" src="../../assets/sc-logo-black.png" alt="The Smooth Company" onerror="this.style.display='none'">
+      <div class="grp">
+        <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.2" stroke="#1d1d1b" stroke-width="1.3"/><path d="M3.5 15.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="#1d1d1b" stroke-width="1.3"/></svg>
+        <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M4 5.5h10l-.8 10.5H4.8L4 5.5z" stroke="#1d1d1b" stroke-width="1.3"/><path d="M6.5 6V4.8a2.5 2.5 0 0 1 5 0V6" stroke="#1d1d1b" stroke-width="1.3"/></svg>
+      </div>
+    </div>
+
+    <!-- hero -->
+    <div class="hero-media"><div class="hero-ph"></div><div class="hero-lab">brand film — muted · autoplay · loop</div></div>
+    <div class="hero-body">
+      <div class="hero-rating"><span class="st">★★★★★</span>4.7 · 460+ reviews</div>
+      <h2 class="h2">Smooth, the quiet way.</h2>
+      <p class="hero-sub">Smoothing that feels like skincare — considered, gentle, everyday.</p>
+      <a class="btn" href="#">Shop the range</a>
+    </div>
+
+    <!-- best sellers -->
+    <div class="sec">
+      <div class="eyebrow" style="margin-bottom:18px;">Shop the edit</div>
+      <div class="tabs"><button class="tab on">Best sellers</button><button class="tab off">New in</button><button class="tab off">Bundles</button></div>
+      <div class="track" id="rail"></div>
+      <div class="cta-center"><a class="btn" href="#" style="padding:15px 40px;">Shop all</a></div>
+    </div>
+
+    <!-- statement -->
+    <div class="stmt"><p>Smoothing that feels like skincare.</p><div class="rule"></div></div>
+
+    <!-- category -->
+    <div class="sec">
+      <div class="eyebrow" style="margin-bottom:24px;">Shop by category</div>
+      <div class="cat-track" id="cats"></div>
+    </div>
+
+    <!-- press -->
+    <div class="press">
+      <div class="names"><span>Vogue</span><span>Elle</span><span>Grazia</span><span>Stylist</span></div>
+      <div class="cap">As seen in · Winner, Beauty Awards 2025</div>
+    </div>
+
+    <!-- founder -->
+    <div class="sec founder">
+      <div class="med"><span class="lab">founder portrait</span></div>
+      <div class="body"><p class="q">“I wanted smoothing that felt considered — gentle, everyday, yours.”</p><a class="btn" href="#" style="padding:15px 36px;">Read more</a></div>
+    </div>
+
+    <!-- watch -->
+    <div class="sec">
+      <div class="eyebrow" style="margin-bottom:24px;">Watch &amp; shop</div>
+      <div class="watch-track" id="clips"></div>
+    </div>
+
+    <!-- reviews -->
+    <div class="sec">
+      <div class="rev-head"><div class="rev-score">4.7</div><div class="rev-stars">★★★★★</div><div class="rev-cnt">460+ verified reviews</div></div>
+      <div class="rev-track" id="revs"></div>
+      <div class="cta-center" style="margin-top:26px;"><a class="outline" href="#">Read all 460 reviews</a></div>
+    </div>
+
+    <!-- footer -->
+    <div class="foot">
+      <img class="lg" src="../../assets/sc-logo-white.png" alt="The Smooth Company" onerror="this.style.display='none'">
+      <div class="tag">Smooth, the quiet way.</div>
+      <p class="intro">Be the first to hear about new launches, early access and 10% off your first order.</p>
+      <input placeholder="First name"><input placeholder="Email address"><button class="sub">Subscribe</button>
+      <div class="cols" id="fcols"></div>
+      <div class="bottom"><span>© 2026 The Smooth Company</span><span>IG · TT · YT</span></div>
+    </div>
+  </div>
+
+<script>
+  var products = [
+    {name:'The Smoothing Stick',cut:'Frizz + flyaways, on the go',price:'£24.00',cnt:'312',badge:'Bestseller',sale:''},
+    {name:'Frizz Cream',cut:'Lightweight daily smoothing',price:'£18',cmp:'£22',cnt:'208',badge:'Save £4',sale:'Save £4'},
+    {name:'Finishing Balm',cut:'Polish + shine, no crunch',price:'£20',cnt:'156',badge:'New',sale:''},
+    {name:'Detangle Brush',cut:'Gentle, glide-through',price:'£18',cnt:'98',badge:'',sale:''}
+  ];
+  document.getElementById('rail').innerHTML = products.map(function(p){
+    return '<div class="card"><div class="fr"><div class="med ph">'+(p.badge?'<span class="badge">'+p.badge+'</span>':'')+'</div>'+
+      '<button class="abar"><span>Add to cart</span><span style="font-size:16px;line-height:1;">+</span></button></div>'+
+      '<div class="info"><p class="ttl">'+p.name+'</p><div class="cut">'+p.cut+'</div>'+
+      '<div class="stars">★★★★★ <span class="cnt">('+p.cnt+')</span></div>'+
+      '<div class="price">'+p.price+(p.cmp?' <s>'+p.cmp+'</s>':'')+(p.sale?' <span class="sv">'+p.sale+'</span>':'')+'</div></div></div>';
+  }).join('');
+  document.getElementById('cats').innerHTML = ['Sticks','Creams','Tools','Travel','Gifting'].map(function(n){
+    return '<a class="cat"><div class="med"><div class="grad"></div><span class="lab">'+n+'</span></div></a>';
+  }).join('');
+  var clips=[['Tame flyaways in 60s','£24'],['The polished slick','£22'],['Travel-ready hair','£30']];
+  document.getElementById('clips').innerHTML = clips.map(function(c){
+    return '<a class="clip"><div class="med"><span class="play">▶</span><span class="t">'+c[0]+'</span><span class="chip">Shop '+c[1]+'</span></div></a>';
+  }).join('');
+  var revs=[['My hair has never looked so polished.','Amara K.','Stick'],['The stick lives in my bag now.','Priya S.','Stick'],['Frizz gone in seconds, no crunch.','Jo M.','Cream'],['Feels like skincare for my hair.','Elle R.','Balm']];
+  document.getElementById('revs').innerHTML = revs.map(function(r){
+    return '<div class="rev-card"><div class="med ph"><span class="chip">Shop '+r[2]+'</span></div><div class="body"><div class="cs">★★★★★</div><p class="q">“'+r[0]+'”</p><div class="by">'+r[1]+' · Verified buyer</div></div></div>';
+  }).join('');
+  var cols=[['Shop',['Sticks','Creams','Tools','Travel','Gifting'],true],['Learn',['Our story','Ingredients','Smooth School'],false],['Help',['Contact','Shipping','Returns'],false]];
+  document.getElementById('fcols').innerHTML = cols.map(function(c){
+    return '<div class="col"><button class="tog"><span>'+c[0]+'</span><svg class="chev '+(c[2]?'open':'')+'" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5 6 6.5 11 1.5" stroke="#B9B9B2" stroke-width="1.3"/></svg></button>'+
+      (c[2]?'<div class="pan">'+c[1].map(function(l){return '<a>'+l+'</a>';}).join('')+'</div>':'')+'</div>';
+  }).join('');
+</script>
+</body>
+</html>
