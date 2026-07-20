@@ -1,0 +1,217 @@
+{
+  "sections": {
+    "1646769937e7eaf5a7": {
+      "type": "rich-text",
+      "blocks": {
+        "164676993790e40a6e-1": {
+          "type": "heading",
+          "settings": {
+            "content": "The Knitwear Edition",
+            "size_desktop": "extra-large",
+            "size_mobile": "large"
+          }
+        },
+        "164676993790e40a6e-2": {
+          "type": "text",
+          "settings": {
+            "content": "<p>Our new knitwear collection is made with environmentally friendly materials and simple to care for— so you can stay cozy wherever you go.</p>",
+            "size": "large"
+          }
+        }
+      },
+      "block_order": [
+        "164676993790e40a6e-1",
+        "164676993790e40a6e-2"
+      ],
+      "settings": {
+        "wide": true,
+        "content_display": "full",
+        "text_alignment": "center",
+        "add_space_to_top": true,
+        "add_space_to_bottom": true,
+        "background_color": "#ffffff",
+        "text_color": "#222222"
+      }
+    },
+    "16581563064e032b95": {
+      "type": "promotions-grid",
+      "blocks": {
+        "16581563056ca79027-0": {
+          "type": "editorial",
+          "settings": {
+            "block_width": "6",
+            "block_height": "700px",
+            "heading": "Women's Knitwear",
+            "position_heading": "bottom_start",
+            "size_heading": "small",
+            "text": "",
+            "position_text": "bottom_start",
+            "size_text": "medium",
+            "button_text": "",
+            "button_style": "icon",
+            "position_button": "bottom_start",
+            "color_button_main": "#ffffff",
+            "color_button_contrast": "#000000",
+            "color_text": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_gradient": "",
+            "color_overlay_opacity": 10
+          }
+        },
+        "16581563056ca79027-2": {
+          "type": "editorial",
+          "settings": {
+            "block_width": "6",
+            "block_height": "550px",
+            "heading": "Men's Knitwear",
+            "position_heading": "bottom_start",
+            "size_heading": "small",
+            "text": "",
+            "position_text": "bottom_start",
+            "size_text": "medium",
+            "button_text": "",
+            "button_style": "icon",
+            "position_button": "bottom_start",
+            "color_button_main": "#ffffff",
+            "color_button_contrast": "#000000",
+            "color_text": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_gradient": "",
+            "color_overlay_opacity": 20
+          }
+        }
+      },
+      "block_order": [
+        "16581563056ca79027-0",
+        "16581563056ca79027-2"
+      ],
+      "settings": {
+        "heading": "",
+        "wide": false,
+        "spacing": true,
+        "text_alignment": "left"
+      }
+    },
+    "164677055942f80f3c": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "small"
+      }
+    },
+    "1646770020ffd8b7c6": {
+      "type": "collection-list",
+      "blocks": {
+        "51981798-ffeb-4f27-af88-618e54f0613f": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": true
+          }
+        },
+        "ec1ad585-d96c-47e3-9e57-d214cb0ac679": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": true
+          }
+        },
+        "1247363c-dd33-4b6f-9620-e4567e3ff215": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": true
+          }
+        }
+      },
+      "block_order": [
+        "51981798-ffeb-4f27-af88-618e54f0613f",
+        "ec1ad585-d96c-47e3-9e57-d214cb0ac679",
+        "1247363c-dd33-4b6f-9620-e4567e3ff215"
+      ],
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "collections_per_row": 3,
+        "show_title": true,
+        "show_description": false,
+        "show_product_count": false,
+        "collection_card_media_ratio": "natural",
+        "collection_card_crop_mode": "fill"
+      }
+    },
+    "16467706355809d3aa": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "small"
+      }
+    },
+    "164677063790b11aff": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Featured knits",
+        "subheading": "",
+        "limit": 10,
+        "show_view_all_button": false,
+        "cards_per_group": "4"
+      }
+    },
+    "16467707107fc592c5": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "small"
+      }
+    },
+    "164677071408e23062": {
+      "type": "image-banner",
+      "blocks": {
+        "1646770714d7672983-3": {
+          "type": "button",
+          "settings": {
+            "style": "icon",
+            "position": "bottom_left",
+            "text": "Shop the Mockneck Sweater",
+            "color_main": "#ffffff",
+            "color_contrast": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "1646770714d7672983-3"
+      ],
+      "settings": {
+        "wide": true,
+        "desktop_height": "800",
+        "text_alignment": "left",
+        "color_overlay_foreground": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_gradient": "",
+        "color_overlay_opacity": 5
+      }
+    },
+    "1646770868f660e0d1": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "small"
+      }
+    },
+    "16467708728ac9be06": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Men's knits",
+        "subheading": "",
+        "limit": 10,
+        "show_view_all_button": false,
+        "cards_per_group": "4"
+      }
+    }
+  },
+  "order": [
+    "1646769937e7eaf5a7",
+    "16581563064e032b95",
+    "164677055942f80f3c",
+    "1646770020ffd8b7c6",
+    "16467706355809d3aa",
+    "164677063790b11aff",
+    "16467707107fc592c5",
+    "164677071408e23062",
+    "1646770868f660e0d1",
+    "16467708728ac9be06"
+  ]
+}

@@ -1,0 +1,105 @@
+{% capture slot_gallery %}
+  {% content_for 'block', type: '_section-flex-pdp-media-gallery', id: 'section-flex-pdp-media-gallery' %}
+{% endcapture %}
+
+{% capture slot_details %}
+  {% content_for 'blocks' %}
+{% endcapture %}
+
+<section-wrapper>
+  {%- render 'section.flex-pdp', slot_gallery: slot_gallery, slot_details: slot_details -%}
+</section-wrapper>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function() {
+    const cartDrawer = document.querySelector('[data-component="cart-drawer"]');
+    const cartDrawerData = cartDrawer ? JSON.parse(cartDrawer.querySelector('[data-component-data]').innerHTML) : null;
+    const isCartDrawerEnabled = cartDrawerData && cartDrawerData.enabled;
+
+    // Only prevent cart navigation if cart drawer is enabled (cart_type == 'drawer')
+    if (isCartDrawerEnabled) {
+      document.addEventListener('product-form:cart:navigate', function(event) {
+        event.preventDefault();
+      });
+    }
+
+    document.addEventListener('product-form:submit:success', function(event) {
+      const { cart, response } = event.detail;
+      
+      // Dispatch the product:add-to-cart:success event that the Product class listens for
+      document.dispatchEvent(new CustomEvent('product:add-to-cart:success', {
+        bubbles: true,
+        detail: { cart, line_item: response }
+      }));
+
+      // Open cart drawer
+      if (isCartDrawerEnabled) {
+        const cartDrawerComponent = window.Core.Components.getComponent('cart-drawer');
+        const submitButton = document.querySelector('product-form button[type="submit"]');
+        cartDrawerComponent.open(submitButton, true, [response]);
+      }
+    });
+
+    document.addEventListener('product-form:cart:update', function(event) {
+      // Dispatch cart:update event to update header cart count
+      document.dispatchEvent(new CustomEvent('cart:update', {
+        bubbles: true,
+        detail: { count: event.detail.cart.item_count }
+      }));
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:flex_pdp.section.high_variant.name",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding",
+      "label": "t:flex_pdp.section.high_variant.settings.padding.label",
+      "default": "both",
+      "options": [
+        { "value": "none", "label": "t:flex_pdp.section.high_variant.settings.padding.options.none.label" },
+        { "value": "top", "label": "t:flex_pdp.section.high_variant.settings.padding.options.top.label" },
+        { "value": "bottom", "label": "t:flex_pdp.section.high_variant.settings.padding.options.bottom.label" },
+        { "value": "both", "label": "t:flex_pdp.section.high_variant.settings.padding.options.both.label" }
+      ]
+    }
+  ],
+  "blocks": [
+    {"type": "@app"},
+    {"type": "@theme"},
+    {"type": "_section-flex-pdp-buy-buttons"},
+    {"type": "_section-flex-pdp-description"},
+    {"type": "_section-flex-pdp-divider"},
+    {"type": "_section-flex-pdp-policies"},
+    {"type": "_section-flex-pdp-price"},
+    {"type": "_section-flex-pdp-quantity-picker"},
+    {"type": "_section-flex-pdp-sku"},
+    {"type": "_section-flex-pdp-title"},
+    {"type": "_section-flex-pdp-variant-picker"},
+    {"type": "_section-flex-pdp-vendor"},
+    {"type": "_section-flex-pdp-pick-up"},
+    {"type": "_section-flex-pdp-installments"},
+    {"type": "_section-flex-pdp-inventory"}
+  ],
+  "presets": [
+    {
+      "name": "t:flex_pdp.section.high_variant.name",
+      "blocks": [
+        {"type": "_section-flex-pdp-title"},
+        {"type": "_section-flex-pdp-vendor"},
+        {"type": "_section-flex-pdp-price"},
+        {"type": "_section-flex-pdp-installments"},
+        {"type": "_section-flex-pdp-divider"},
+        {"type": "_section-flex-pdp-variant-picker"},
+        {"type": "_section-flex-pdp-quantity-picker"},
+        {"type": "_section-flex-pdp-buy-buttons"},
+        {"type": "_section-flex-pdp-pick-up"},
+        {"type": "_section-flex-pdp-description"}
+      ]
+    }
+  ]
+}
+{% endschema %}

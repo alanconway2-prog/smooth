@@ -1,0 +1,96 @@
+{
+  "sections": {
+    "1646773220c9624835": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "small"
+      }
+    },
+    "1646773048af3203de": {
+      "type": "image-banner",
+      "blocks": {
+        "16467730488080452b-1": {
+          "type": "heading",
+          "settings": {
+            "position": "top_left",
+            "content": "Most-loved Knitwear",
+            "size_desktop": "large",
+            "size_mobile": "large"
+          }
+        },
+        "16467730488080452b-3": {
+          "type": "button",
+          "settings": {
+            "style": "icon",
+            "position": "bottom_right",
+            "text": "Shop campaign",
+            "color_main": "#ffffff",
+            "color_contrast": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "16467730488080452b-1",
+        "16467730488080452b-3"
+      ],
+      "settings": {
+        "wide": false,
+        "desktop_height": "500",
+        "text_alignment": "left",
+        "color_overlay_foreground": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_gradient": "",
+        "color_overlay_opacity": 30
+      }
+    },
+    "1646773053c5b1a835": {
+      "type": "image-banner",
+      "blocks": {
+        "1646773052a8552958-1": {
+          "type": "heading",
+          "settings": {
+            "position": "top_left",
+            "content": "Accessories Launch",
+            "size_desktop": "large",
+            "size_mobile": "large"
+          }
+        },
+        "1646773052a8552958-3": {
+          "type": "button",
+          "settings": {
+            "style": "icon",
+            "position": "bottom_right",
+            "text": "Shop campaign",
+            "color_main": "#ffffff",
+            "color_contrast": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "1646773052a8552958-1",
+        "1646773052a8552958-3"
+      ],
+      "settings": {
+        "wide": false,
+        "desktop_height": "500",
+        "text_alignment": "left",
+        "color_overlay_foreground": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_gradient": "",
+        "color_overlay_opacity": 30
+      }
+    },
+    "16467735668e4ac5b6": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "none"
+      }
+    }
+  },
+  "order": [
+    "1646773220c9624835",
+    "1646773048af3203de",
+    "1646773053c5b1a835",
+    "16467735668e4ac5b6"
+  ]
+}

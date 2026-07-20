@@ -1,25 +1,54 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "164677359278d8e889": {
+      "type": "rich-text",
+      "blocks": {
+        "16467735924153b53e-1": {
+          "type": "heading",
+          "settings": {
+            "content": "Get in touch",
+            "size_desktop": "extra-large",
+            "size_mobile": "large"
+          }
+        },
+        "16467735924153b53e-2": {
+          "type": "text",
+          "settings": {
+            "content": "<p>Questions or comments about this theme? Please view Tailor's documentation <a href=\"https://support.pixelunion.net\" target=\"_blank\" title=\"https://support.pixelunion.net\">here</a> for theme settings information, etc. If your questions still aren't answered, feel free to send our support team a message via the form below and we'll be happy to help you out.</p><p>This is just a demo store. If you want to get in touch with the real United by Blue, you can do so on their website <a href=\"https://unitedbyblue.com/\" target=\"_blank\" title=\"https://unitedbyblue.com/\">here</a>.</p>",
+            "size": "medium"
+          }
+        }
+      },
+      "block_order": [
+        "16467735924153b53e-1",
+        "16467735924153b53e-2"
+      ],
       "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
+        "wide": false,
+        "content_display": "full",
+        "text_alignment": "center",
+        "add_space_to_top": true,
+        "add_space_to_bottom": true,
+        "background_color": "#ffffff",
+        "text_color": "#222222"
       }
     },
-    "form": {
+    "1646773768d45dac39": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "none"
+      }
+    },
+    "contact": {
       "type": "contact-form",
       "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "contact_form_heading": ""
       }
     }
   },
   "order": [
-    "main",
-    "form"
+    "164677359278d8e889",
+    "1646773768d45dac39",
+    "contact"
   ]
 }

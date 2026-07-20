@@ -1,0 +1,15 @@
+/* Smooth Company — Gotham web fonts + base type (from the store's Shopify CDN) */
+@font-face { font-family: 'Gotham'; src: url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham-Medium.woff2?v=1726063066') format('woff2'); font-weight: 400 500; font-display: swap; }
+@font-face { font-family: 'Gotham'; src: url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham_Bold.woff2?v=1740561122') format('woff2'); font-weight: 600 800; font-display: swap; }
+@font-face { font-family: 'Gotham Medium'; src: url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham-Medium.woff2?v=1726063066') format('woff2'); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: 'Gotham Light'; src: url('https://cdn.shopify.com/s/files/1/0582/6307/7019/files/Gotham-Light_1.woff2?v=1726063088') format('woff2'); font-weight: 300; font-display: swap; }
+
+body, button, input, select, textarea, .rte { font-family: 'Gotham Medium', system-ui, sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Gotham', system-ui, sans-serif; font-weight: 700; }
+
+/* Announcement: uppercase, tracked (design) */
+.block-announcement p, .announcement__text, .header-toolbar__content-announcement {
+  text-transform: uppercase; letter-spacing: 0.18em; font-size: 10.5px; margin: 0;
+}
+/* Header hairline to match design */
+.section-header { border-bottom-color: #eeeeec; }

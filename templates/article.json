@@ -3,35 +3,31 @@
     "main": {
       "type": "main-article",
       "blocks": {
-        "featured_image": {
-          "type": "featured_image",
+        "block-1": {
+          "type": "content",
           "settings": {
-            "image_height": "adapt"
+            "show_date": true,
+            "show_author": true
           }
         },
-        "title": {
-          "type": "title",
-          "settings": {
-            "blog_show_date": true,
-            "blog_show_author": false
-          }
-        },
-        "share": {
+        "block-2": {
           "type": "share",
           "settings": {
-            "share_label": "Share"
+            "show_share_icons": true,
+            "show_facebook": true,
+            "show_pinterest": true
           }
-        },
-        "content": {
-          "type": "content"
         }
       },
       "block_order": [
-        "featured_image",
-        "title",
-        "share",
-        "content"
-      ]
+        "block-1",
+        "block-2"
+      ],
+      "settings": {
+        "show_article_image": true,
+        "image_display": "margins",
+        "title_style": "wide"
+      }
     }
   },
   "order": [

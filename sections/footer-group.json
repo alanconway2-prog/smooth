@@ -1,21 +1,66 @@
 {
-  "name": "t:sections.footer.name",
   "type": "footer",
+  "name": "Footer",
   "sections": {
     "sc-footer": {
       "type": "sc-footer",
       "blocks": {
-        "m1": { "type": "menu", "settings": { "heading": "Shop" } },
-        "m2": { "type": "menu", "settings": { "heading": "Learn" } },
-        "m3": { "type": "menu", "settings": { "heading": "Help" } },
-        "m4": { "type": "menu", "settings": { "heading": "Follow" } },
-        "p1": { "type": "policy", "settings": { "label": "Terms" } },
-        "p2": { "type": "policy", "settings": { "label": "Privacy" } },
-        "p3": { "type": "policy", "settings": { "label": "Accessibility" } }
+        "m1": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop"
+          }
+        },
+        "m2": {
+          "type": "menu",
+          "settings": {
+            "heading": "Learn"
+          }
+        },
+        "m3": {
+          "type": "menu",
+          "settings": {
+            "heading": "Help"
+          }
+        },
+        "m4": {
+          "type": "menu",
+          "settings": {
+            "heading": "Follow"
+          }
+        },
+        "p1": {
+          "type": "policy",
+          "settings": {
+            "label": "Terms"
+          }
+        },
+        "p2": {
+          "type": "policy",
+          "settings": {
+            "label": "Privacy"
+          }
+        },
+        "p3": {
+          "type": "policy",
+          "settings": {
+            "label": "Accessibility"
+          }
+        }
       },
-      "block_order": ["m1", "m2", "m3", "m4", "p1", "p2", "p3"],
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4",
+        "p1",
+        "p2",
+        "p3"
+      ],
       "settings": {}
     }
   },
-  "order": ["sc-footer"]
+  "order": [
+    "sc-footer"
+  ]
 }

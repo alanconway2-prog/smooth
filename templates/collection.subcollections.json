@@ -1,0 +1,143 @@
+{
+  "sections": {
+    "1646765306beaaac28": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "none"
+      }
+    },
+    "16467653172cb883e8": {
+      "type": "image-banner",
+      "blocks": {
+        "16467653175cd97121-1": {
+          "type": "heading",
+          "settings": {
+            "position": "center_center",
+            "size_desktop": "large",
+            "size_mobile": "same_as_desktop"
+          }
+        }
+      },
+      "block_order": [
+        "16467653175cd97121-1"
+      ],
+      "settings": {
+        "wide": true,
+        "desktop_height": "500",
+        "text_alignment": "center",
+        "color_overlay_foreground": "#ffffff",
+        "overlay_color": "#222222",
+        "overlay_gradient": "",
+        "color_overlay_opacity": 10
+      }
+    },
+    "subcollections": {
+      "type": "collection-subcollections",
+      "blocks": {
+        "d6f3e04c-0e9d-492e-917f-2df496ad26b7": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": false
+          }
+        },
+        "275aedee-8d1c-404d-9dd0-2a8c49e12196": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": false
+          }
+        },
+        "f985d78b-bcfd-4dac-b809-e3b6c042fc8b": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": false
+          }
+        },
+        "7bb86b76-6d6c-44cc-a70c-e0479de7147c": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": false
+          }
+        },
+        "febfa163-de5a-4436-9a1c-d396a4d92058": {
+          "type": "collection",
+          "settings": {
+            "use_custom_image": false
+          }
+        }
+      },
+      "block_order": [
+        "d6f3e04c-0e9d-492e-917f-2df496ad26b7",
+        "275aedee-8d1c-404d-9dd0-2a8c49e12196",
+        "f985d78b-bcfd-4dac-b809-e3b6c042fc8b",
+        "7bb86b76-6d6c-44cc-a70c-e0479de7147c",
+        "febfa163-de5a-4436-9a1c-d396a4d92058"
+      ],
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "collections_per_row": 5,
+        "menu": "",
+        "show_title": true,
+        "show_description": false,
+        "show_product_count": false,
+        "collection_card_media_ratio": "portrait",
+        "collection_card_crop_mode": "fill"
+      }
+    },
+    "main": {
+      "type": "main-collection-grid",
+      "settings": {
+        "show_divider": true,
+        "columns_desktop": 4,
+        "products_per_page": "24",
+        "filters_show_sorting": true,
+        "filters_show_filters": true,
+        "filters_show_totals": true
+      }
+    },
+    "1646767206be220caf": {
+      "type": "image-with-text",
+      "blocks": {
+        "164676720668142b84-0": {
+          "type": "heading",
+          "settings": {
+            "content": "Find new pieces to last from season to season in our new arrivals.",
+            "size_desktop": "small",
+            "size_mobile": "small"
+          }
+        },
+        "164676720668142b84-2": {
+          "type": "button",
+          "settings": {
+            "text": "Shop now",
+            "style": "secondary",
+            "color_main": "#ffffff",
+            "color_contrast": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "164676720668142b84-0",
+        "164676720668142b84-2"
+      ],
+      "settings": {
+        "wide": false,
+        "image_height_desktop": "400",
+        "image_width": "50",
+        "image_style": "normal",
+        "image_position": "right",
+        "text_alignment": "left",
+        "image_height_mobile": "400",
+        "color_background": "#584d48",
+        "color_text": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "1646765306beaaac28",
+    "16467653172cb883e8",
+    "subcollections",
+    "main",
+    "1646767206be220caf"
+  ]
+}

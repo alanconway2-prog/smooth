@@ -1,0 +1,302 @@
+{
+  "sections": {
+    "1646775359fd5379e5": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "small"
+      }
+    },
+    "main": {
+      "type": "product",
+      "blocks": {
+        "bd66e95d-0253-4a57-a5af-19bb157a8d8d": {
+          "type": "product_label",
+          "settings": {
+            "label_style": "outlined",
+            "label_size": "small"
+          }
+        },
+        "block_1": {
+          "type": "title",
+          "settings": {}
+        },
+        "block_2": {
+          "type": "price",
+          "settings": {
+            "show_label": false
+          }
+        },
+        "43f40ae0-0a28-47a3-8534-7f76ea56bfb0": {
+          "type": "inventory_status",
+          "settings": {
+            "show_stock_available": true,
+            "show_stock_unavailable": true,
+            "show_stock_low": true,
+            "stock_low_threshold": 5,
+            "show_stock_incoming": true
+          }
+        },
+        "block_4": {
+          "type": "variant_picker",
+          "settings": {
+            "product_option_style": "radio",
+            "sold_out_options": "selectable",
+            "swatches_enable": true,
+            "swatches_option_style": "color_swatch"
+          }
+        },
+        "block_7": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_gift_card_recipient_form": false,
+            "show_dynamic_checkout": true
+          }
+        },
+        "block_6": {
+          "type": "description",
+          "settings": {
+            "show_as_tab": true,
+            "show_tab_as_open": false,
+            "heading": "Description"
+          }
+        },
+        "d91a8123-6035-414c-896e-3d785cad7a1c": {
+          "type": "collapsible_tab",
+          "settings": {
+            "show_tab_as_open": false,
+            "heading": "Shipping + Returns",
+            "content": "",
+            "page": "shipping-returns"
+          }
+        }
+      },
+      "block_order": [
+        "bd66e95d-0253-4a57-a5af-19bb157a8d8d",
+        "block_1",
+        "block_2",
+        "43f40ae0-0a28-47a3-8534-7f76ea56bfb0",
+        "block_4",
+        "block_7",
+        "block_6",
+        "d91a8123-6035-414c-896e-3d785cad7a1c"
+      ],
+      "settings": {
+        "select_first_available_variant": true,
+        "gallery_badges": "sale-custom",
+        "gallery_layout": "grid",
+        "show_gallery_thumbnails": true,
+        "media_ratio": "natural",
+        "media_crop": "fill",
+        "mobile_media_width": 80,
+        "enable_image_zoom": true,
+        "autoplay": false,
+        "autoloop": true,
+        "mute_video": false
+      }
+    },
+    "1646775374c02ebe3f": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "medium"
+      }
+    },
+    "collapsible_content_yE7f3H": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_tab_yMJjfD": {
+          "type": "collapsible_tab",
+          "settings": {
+            "show_tab_as_open": false,
+            "heading": "Care instructions"
+          }
+        },
+        "collapsible_tab_BYAYye": {
+          "type": "collapsible_tab",
+          "settings": {
+            "show_tab_as_open": false,
+            "heading": "Are you materials eco-friendly?"
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_tab_yMJjfD",
+        "collapsible_tab_BYAYye"
+      ],
+      "settings": {
+        "wide": true,
+        "content_display": "centered",
+        "heading": "Product details",
+        "heading_alignment": "left",
+        "desktop_image_height": "400px",
+        "desktop_image_position": "right",
+        "layout": "padded",
+        "mobile_image_height": "300px",
+        "color_background": "#f7f7f7",
+        "color_text": "rgba(0,0,0,0)"
+      }
+    },
+    "spacer_J9mGMU": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "none"
+      }
+    },
+    "testimonials_BJN87P": {
+      "type": "testimonials",
+      "blocks": {
+        "quote_xbNPkB": {
+          "type": "quote",
+          "settings": {
+            "star_rating": "0",
+            "content": "<p>I'm really happy with the quality of the items I have bought so far. Highly recommend!</p>",
+            "author_details": "<p>- Esther W.</p>",
+            "text_alignment": "center",
+            "image_link": "",
+            "desktop_image_width": "50",
+            "desktop_image_position": "desktop-image-right"
+          }
+        },
+        "quote_DeGYMp": {
+          "type": "quote",
+          "settings": {
+            "star_rating": "0",
+            "content": "<p>You can really tell each piece was designed thoughtfully. I will be definitely be shopping here again!</p>",
+            "author_details": "<p>- Lisa T.</p>",
+            "text_alignment": "center",
+            "image_link": "",
+            "desktop_image_width": "50",
+            "desktop_image_position": "desktop-image-right"
+          }
+        },
+        "quote_MJPYpx": {
+          "type": "quote",
+          "settings": {
+            "star_rating": "0",
+            "content": "<p>I've been buying clothings from here for quite some time and have loved everything so far!</p>",
+            "author_details": "<p>- Tia G.</p>",
+            "text_alignment": "center",
+            "image_link": "",
+            "desktop_image_width": "50",
+            "desktop_image_position": "desktop-image-right"
+          }
+        }
+      },
+      "block_order": [
+        "quote_xbNPkB",
+        "quote_DeGYMp",
+        "quote_MJPYpx"
+      ],
+      "settings": {
+        "wide": true,
+        "content_display": "centered",
+        "autoplay": false,
+        "autoplay_duration": 5,
+        "quote_size": "medium",
+        "desktop_image_height": "natural",
+        "mobile_image_height": "natural",
+        "background_color": "#efede5",
+        "color_text": "#222222"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You might also love these",
+        "limit": 5,
+        "cards_per_group": "4"
+      }
+    },
+    "d45d946c-0a50-48eb-8703-7c72b70619e3": {
+      "type": "promotions-grid",
+      "blocks": {
+        "template--15886227636412__d45d946c-0a50-48eb-8703-7c72b70619e3-16678435269e11828a-0": {
+          "type": "editorial",
+          "settings": {
+            "block_width": "4",
+            "block_height": "550px",
+            "heading": "",
+            "position_heading": "top_start",
+            "size_heading": "large",
+            "text": "",
+            "position_text": "bottom_start",
+            "size_text": "medium",
+            "button_text": "Socks",
+            "button_style": "primary",
+            "position_button": "bottom_center",
+            "color_button_main": "#ffffff",
+            "color_button_contrast": "#000000",
+            "color_text": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_gradient": "",
+            "color_overlay_opacity": 0
+          }
+        },
+        "template--15886227636412__d45d946c-0a50-48eb-8703-7c72b70619e3-16678435269e11828a-2": {
+          "type": "editorial",
+          "settings": {
+            "block_width": "4",
+            "block_height": "550px",
+            "heading": "",
+            "position_heading": "bottom_start",
+            "size_heading": "large",
+            "text": "",
+            "position_text": "bottom_start",
+            "size_text": "medium",
+            "button_text": "Scarves",
+            "button_style": "primary",
+            "position_button": "bottom_center",
+            "color_button_main": "#ffffff",
+            "color_button_contrast": "#000000",
+            "color_text": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_gradient": "",
+            "color_overlay_opacity": 0
+          }
+        },
+        "template--15886227636412__d45d946c-0a50-48eb-8703-7c72b70619e3-16678435269e11828a-3": {
+          "type": "editorial",
+          "settings": {
+            "block_width": "4",
+            "block_height": "550px",
+            "heading": "",
+            "position_heading": "bottom_start",
+            "size_heading": "large",
+            "text": "",
+            "position_text": "bottom_start",
+            "size_text": "medium",
+            "button_text": "Hats",
+            "button_style": "primary",
+            "position_button": "bottom_center",
+            "color_button_main": "#ffffff",
+            "color_button_contrast": "#000000",
+            "color_text": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_gradient": "",
+            "color_overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "template--15886227636412__d45d946c-0a50-48eb-8703-7c72b70619e3-16678435269e11828a-0",
+        "template--15886227636412__d45d946c-0a50-48eb-8703-7c72b70619e3-16678435269e11828a-2",
+        "template--15886227636412__d45d946c-0a50-48eb-8703-7c72b70619e3-16678435269e11828a-3"
+      ],
+      "settings": {
+        "heading": "Shop by accessory",
+        "wide": false,
+        "spacing": true,
+        "text_alignment": "left"
+      }
+    }
+  },
+  "order": [
+    "1646775359fd5379e5",
+    "main",
+    "1646775374c02ebe3f",
+    "collapsible_content_yE7f3H",
+    "spacer_J9mGMU",
+    "testimonials_BJN87P",
+    "product-recommendations",
+    "d45d946c-0a50-48eb-8703-7c72b70619e3"
+  ]
+}

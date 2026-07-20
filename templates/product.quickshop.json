@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-quickshop",
+      "blocks": {
+        "block_1": {
+          "type": "details",
+          "settings": {}
+        },
+        "block_2": {
+          "type": "variant_picker",
+          "settings": {
+            "product_option_style": "radio",
+            "sold_out_options": "selectable",
+            "swatches_enable": true,
+            "swatches_option_style": "color_swatch"
+          }
+        },
+        "block_4": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        }
+      },
+      "block_order": [
+        "block_1",
+        "block_2",
+        "block_4"
+      ],
+      "settings": {
+        "select_first_available_variant": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

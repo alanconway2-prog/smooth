@@ -1,0 +1,131 @@
+{
+  "sections": {
+    "1646769937e7eaf5a7": {
+      "type": "rich-text",
+      "blocks": {
+        "164676993790e40a6e-1": {
+          "type": "heading",
+          "settings": {
+            "content": "The Cozy Edit",
+            "size_desktop": "extra-large",
+            "size_mobile": "large"
+          }
+        },
+        "164676993790e40a6e-2": {
+          "type": "text",
+          "settings": {
+            "content": "<p>Thoughtful and soft knits that will keep you cozy for years to come. Ultra-comfortable and durable in breathable fabrics. Essentials for any time and place. </p>",
+            "size": "large"
+          }
+        }
+      },
+      "block_order": [
+        "164676993790e40a6e-1",
+        "164676993790e40a6e-2"
+      ],
+      "settings": {
+        "wide": true,
+        "content_display": "full",
+        "text_alignment": "center",
+        "add_space_to_top": false,
+        "add_space_to_bottom": true,
+        "background_color": "#ffffff",
+        "text_color": "#222222"
+      }
+    },
+    "16467725995643742c": {
+      "type": "image-with-text",
+      "blocks": {
+        "48ad8f6b-1379-48c8-986f-3965ea2fe53e": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "48ad8f6b-1379-48c8-986f-3965ea2fe53e"
+      ],
+      "settings": {
+        "wide": false,
+        "image_height_desktop": "natural",
+        "image_width": "50",
+        "image_style": "normal",
+        "image_position": "left",
+        "text_alignment": "left",
+        "image_height_mobile": "natural",
+        "color_background": "#ffffff",
+        "color_text": "#222222"
+      }
+    },
+    "164677055942f80f3c": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "medium"
+      }
+    },
+    "164677063790b11aff": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Bestsellers",
+        "subheading": "",
+        "limit": 4,
+        "show_view_all_button": false,
+        "cards_per_group": "4"
+      }
+    },
+    "16467707107fc592c5": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "medium"
+      }
+    },
+    "1646772559d78b74d7": {
+      "type": "image-with-text",
+      "blocks": {
+        "68251c14-a9b1-4612-a7ec-4c8f77dd85a1": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "68251c14-a9b1-4612-a7ec-4c8f77dd85a1"
+      ],
+      "settings": {
+        "wide": false,
+        "image_height_desktop": "natural",
+        "image_width": "50",
+        "image_style": "normal",
+        "image_position": "right",
+        "text_alignment": "left",
+        "image_height_mobile": "natural",
+        "color_background": "#ffffff",
+        "color_text": "#222222"
+      }
+    },
+    "164677263677708353": {
+      "type": "spacer",
+      "settings": {
+        "spacing": "medium"
+      }
+    },
+    "16467708728ac9be06": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Cozy beanies",
+        "subheading": "",
+        "limit": 4,
+        "show_view_all_button": false,
+        "cards_per_group": "4"
+      }
+    }
+  },
+  "order": [
+    "1646769937e7eaf5a7",
+    "16467725995643742c",
+    "164677055942f80f3c",
+    "164677063790b11aff",
+    "16467707107fc592c5",
+    "1646772559d78b74d7",
+    "164677263677708353",
+    "16467708728ac9be06"
+  ]
+}
