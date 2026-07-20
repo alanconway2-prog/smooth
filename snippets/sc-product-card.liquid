@@ -65,7 +65,16 @@
       <div class="sc-pcard__stars">★★★★★
         {%- if review_count != blank %} <span class="sc-pcard__count">({{ review_count }})</span>{% endif -%}
       </div>
-      <div class="sc-pcard__price">{% render 'price', product: product %}</div>
+      <div class="sc-pcard__price">
+        <span class="price">
+          <span class="price-item">{{ product.price | money }}</span>
+          {%- if on_sale -%}
+            <s>{{ product.compare_at_price | money }}</s>
+            {%- assign saved = product.compare_at_price | minus: product.price -%}
+            <span class="price__savings">Save {{ saved | money }}</span>
+          {%- endif -%}
+        </span>
+      </div>
     </div>
   </div>
 {%- endif -%}

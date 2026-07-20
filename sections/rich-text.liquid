@@ -1,498 +1,344 @@
-<section
-  data-component="rich-text"
-  data-component-type="section"
-  {% if tag != blank %}data-component-tag="{{ tag }}"
-  {% endif %}class="rich-text"
-  style="
-    --local-background-color: {{ section.settings.background_color }};
-    --block-text-color: {{ section.settings.text_color }};
-  "
->
-  <section-wrapper {% if section.settings.wide %}width="wide"{% endif %}>
-    <section-content>
-      <div
-        class="
-          rich-text__wrapper
-          rich-text__wrapper--content-display-{{ section.settings.content_display }}
-          {% if section.settings.add_space_to_top %}
-            rich-text__wrapper--top-spacing
-          {% endif %}
-          {% if section.settings.add_space_to_bottom %}
-            rich-text__wrapper--bottom-spacing
-          {% endif %}
-        "
-      >
-        <div
-          class="
-            rich-text__content
-            rich-text__content--alignment-{{ section.settings.text_alignment }}
-            rich-text__content--display-{{ section.settings.content_display }}
-          "
-        >
-          {% for block in section.blocks %}
-            {% case block.type %}
-              {% when 'preheading' %}
-                {% comment %}Component block-preheading:sizeable begin{% endcomment %}
-                <div
-                  data-component="block-preheading"
-                  data-component-type="block"
-                  {% if tag != blank %}data-component-tag="{{ tag }}"
-                  {% endif %}class="
-                    block-preheading
-                    block-preheading--{{ block.settings.size }}
-                    {% if block.settings.bolder %}
-                      block-preheading--bolder
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="isolate{% unless section.settings.full_width %} page-width{% endunless %}">
+  <div class="rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding">
+    <div class="rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
+      <div class="rich-text__blocks {{ section.settings.content_alignment }}">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              <h2
+                class="rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.heading }}
+              </h2>
+            {%- when 'caption' -%}
+              <p
+                class="rich-text__caption {{ block.settings.text_style }} {{ block.settings.text_style }}--{{ block.settings.text_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.caption | escape }}
+              </p>
+            {%- when 'text' -%}
+              <div
+                class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {{ block.settings.text }}
+              </div>
+            {%- when 'button' -%}
+              <div
+                class="rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {%- if block.settings.button_label != blank -%}
+                  <a
+                    {% if block.settings.button_link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link }}"
                     {% endif %}
-                    {% if block.settings.uppercase %}
-                      block-preheading--uppercase
+                    class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label | escape -}}
+                  </a>
+                {%- endif -%}
+                {%- if block.settings.button_label_2 != blank -%}
+                  <a
+                    {% if block.settings.button_link_2 == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link_2 }}"
                     {% endif %}
-                  "
-                  {{ block.shopify_attributes }}
-                >
-                  {{ block.settings.content | escape }}
-                </div>
-                
-                {% comment %}Component block-preheading:sizeable end{% endcomment %}
-              {% when 'heading' %}
-                {% comment %}Component block-heading:sizeable begin{% endcomment %}
-                <div
-                  data-component="block-heading"
-                  data-component-type="block"
-                  {% if tag != blank %}data-component-tag="{{ tag }}"
-                  {% endif %}class="
-                    block-heading
-                    block-heading--desktop-{{ block.settings.size_desktop }}
-                    {% unless block.settings.size_mobile == 'same_as_desktop' %}
-                      block-heading--mobile-{{ block.settings.size_mobile }}
-                    {% endunless %}
-                  "
-                  {{ block.shopify_attributes }}
-                >
-                  <h2>
-                    {{ block.settings.content | escape }}
-                  </h2>
-                </div>
-                
-                {% comment %}Component block-heading:sizeable end{% endcomment %}
-              {% when 'text' %}
-                {% comment %}Component block-richtext:sizeable begin{% endcomment %}
-                <div
-                  data-component="block-richtext"
-                  data-component-type="block"
-                  {% if tag != blank %}data-component-tag="{{ tag }}"
-                  {% endif %}class="block-richtext block-richtext--{{ block.settings.size }}"
-                  {{ block.shopify_attributes }}
-                >
-                  {{ block.settings.content }}
-                </div>
-                
-                {% comment %}Component block-richtext:sizeable end{% endcomment %}
-              {% when 'button_group' %}
-                {% comment %}Component block-button-group:default begin{% endcomment %}
-                <div data-component="block-button-group" data-component-type="block" {% if tag != blank %}data-component-tag="{{ tag }}" {% endif %}class="block-button-group">
-                  {% if block.settings.text_1 != blank and block.settings.url_1 != blank %}
-                    {% assign morph_base_color = block.settings.color_main_1 %}
-                    {% assign morph_adjustment = 3 %}
-                    {% capture color_button_morphed_1 %}{% comment %}Inject morph begin{% endcomment %}
-{%- comment -%}
-  This adjusts the color to give it an appropriate difference from the original color.
-  It is usually used for link hover color, and things where we need to distinguish a change.
-
-  @param morph_base_color {Color}
-    The origin color to morph
-
-  @param morph_adjustment {Number}
-    The number to multiply the lightness and saturation by. Default 2.
-{%- endcomment -%}
-{%- liquid
-  if morph_adjustment == blank
-    assign morph_adjustment = 2
-  endif
-  assign morph_adjustment = morph_adjustment | times: 1.0
-  assign color_lightness = morph_base_color | color_extract: 'lightness'
-  if color_lightness > 20.0
-    if color_lightness > 50.0
-      assign light_adjustment = color_lightness | divided_by: 25.0 | times: morph_adjustment
-    else
-      assign light_adjustment = color_lightness | divided_by: 15.0 | times: morph_adjustment
-    endif
-    assign new_color = morph_base_color | color_darken: light_adjustment
-  else
-    if color_lightness < 7.0
-      assign light_adjustment = 3.0 | times: morph_adjustment
-      assign new_color = morph_base_color | color_desaturate: 45.0
-    elsif color_lightness < 12.0
-      assign light_adjustment = 2.25 | times: morph_adjustment
-      assign new_color = morph_base_color | color_desaturate: 15.0
-    else
-      assign light_adjustment = 1.75 | times: morph_adjustment
-      assign new_color = morph_base_color
-    endif
-    assign new_color = new_color | color_lighten: light_adjustment
-  endif
--%}
-{{- new_color -}}
-{%- liquid
-  assign morph_base_color = blank
-  assign morph_adjustment = blank
--%}
-
-{% comment %}Inject morph end{% endcomment %}{% endcapture %}
-                    <div
-                      class="block-button-group__button-wrapper"
-                      style="
-                      --color-button-main-contrast: {{ block.settings.color_contrast_1 }};
-                      --color-button-main: {{ block.settings.color_main_1 }};
-                      --color-button-main-invoked: {{ color_button_morphed_1 | strip }};
-                      "
-                    >
-                      {% comment %}Component button-link:default begin{% endcomment %}
-                      {% liquid
-                        assign href_9c09f249 = href
-                        assign href = block.settings.url_1
-                        assign style_9c09f249 = style
-                        assign style = block.settings.style_1
-                        assign size_9c09f249 = size
-                        assign size = 'small'
-                        assign text_9c09f249 = text
-                        assign text = block.settings.text_1 | escape
-                      %}
-                      {% comment %}
-                        @param href [Required]
-                          This is the anchor tag for the link button.
-                      
-                        @param style [Required]
-                          This is the style of the button: primary, secondary, tertiary, or text.
-                      
-                        @param size [Required]
-                          This defines the size of the button: small, medium, or large.
-                      
-                        @param text [Required]
-                          This is the text to be included in the button.
-                      
-                        @param attributes [Optional]
-                          Any additional attributes to add to the button-link tag.
-                      {% endcomment %}
-                      
-                      <a
-                        data-component="button-link"
-                        data-component-type="component"
-                        {% if tag != blank %}data-component-tag="{{ tag }}"
-                        {% endif %}class="button-link button-link--{{ style }} button-link--{{ size }}{% if style == 'primary' or style == 'secondary' %} button-link--shadow{% endif %%}"
-                        {% if href != blank %}
-                          href="{{ href }}"
-                        {% endif %}
-                        {{ attributes }}
-                      >
-                        {{ text }}
-                      </a>
-                      
-                      {% liquid
-                        assign href = href_9c09f249
-                        assign href_9c09f249 = nil
-                        assign style = style_9c09f249
-                        assign style_9c09f249 = nil
-                        assign size = size_9c09f249
-                        assign size_9c09f249 = nil
-                        assign text = text_9c09f249
-                        assign text_9c09f249 = nil
-                      %}
-                      {% comment %}Component button-link:default end{% endcomment %}
-                    </div>
-                  {% endif %}
-                  {% if block.settings.text_2 != blank and block.settings.url_2 != blank %}
-                    {% assign morph_base_color = block.settings.color_main_2 %}
-                    {% assign morph_adjustment = 3 %}
-                    {% capture color_button_morphed_2 %}{% comment %}Inject morph begin{% endcomment %}
-{%- comment -%}
-  This adjusts the color to give it an appropriate difference from the original color.
-  It is usually used for link hover color, and things where we need to distinguish a change.
-
-  @param morph_base_color {Color}
-    The origin color to morph
-
-  @param morph_adjustment {Number}
-    The number to multiply the lightness and saturation by. Default 2.
-{%- endcomment -%}
-{%- liquid
-  if morph_adjustment == blank
-    assign morph_adjustment = 2
-  endif
-  assign morph_adjustment = morph_adjustment | times: 1.0
-  assign color_lightness = morph_base_color | color_extract: 'lightness'
-  if color_lightness > 20.0
-    if color_lightness > 50.0
-      assign light_adjustment = color_lightness | divided_by: 25.0 | times: morph_adjustment
-    else
-      assign light_adjustment = color_lightness | divided_by: 15.0 | times: morph_adjustment
-    endif
-    assign new_color = morph_base_color | color_darken: light_adjustment
-  else
-    if color_lightness < 7.0
-      assign light_adjustment = 3.0 | times: morph_adjustment
-      assign new_color = morph_base_color | color_desaturate: 45.0
-    elsif color_lightness < 12.0
-      assign light_adjustment = 2.25 | times: morph_adjustment
-      assign new_color = morph_base_color | color_desaturate: 15.0
-    else
-      assign light_adjustment = 1.75 | times: morph_adjustment
-      assign new_color = morph_base_color
-    endif
-    assign new_color = new_color | color_lighten: light_adjustment
-  endif
--%}
-{{- new_color -}}
-{%- liquid
-  assign morph_base_color = blank
-  assign morph_adjustment = blank
--%}
-
-{% comment %}Inject morph end{% endcomment %}{% endcapture %}
-                    <div
-                      class="block-button-group__button-wrapper"
-                      style="
-                      --color-button-main-contrast: {{ block.settings.color_contrast_2 }};
-                      --color-button-main: {{ block.settings.color_main_2 }};
-                      --color-button-main-invoked: {{ color_button_morphed_2 | strip }};
-                      "
-                    >
-                      {% comment %}Component button-link:default begin{% endcomment %}
-                      {% liquid
-                        assign href_9c09f249 = href
-                        assign href = block.settings.url_2
-                        assign style_9c09f249 = style
-                        assign style = block.settings.style_2
-                        assign size_9c09f249 = size
-                        assign size = 'small'
-                        assign text_9c09f249 = text
-                        assign text = block.settings.text_2 | escape
-                      %}
-                      {% comment %}
-                        @param href [Required]
-                          This is the anchor tag for the link button.
-                      
-                        @param style [Required]
-                          This is the style of the button: primary, secondary, tertiary, or text.
-                      
-                        @param size [Required]
-                          This defines the size of the button: small, medium, or large.
-                      
-                        @param text [Required]
-                          This is the text to be included in the button.
-                      
-                        @param attributes [Optional]
-                          Any additional attributes to add to the button-link tag.
-                      {% endcomment %}
-                      
-                      <a
-                        data-component="button-link"
-                        data-component-type="component"
-                        {% if tag != blank %}data-component-tag="{{ tag }}"
-                        {% endif %}class="button-link button-link--{{ style }} button-link--{{ size }}{% if style == 'primary' or style == 'secondary' %} button-link--shadow{% endif %%}"
-                        {% if href != blank %}
-                          href="{{ href }}"
-                        {% endif %}
-                        {{ attributes }}
-                      >
-                        {{ text }}
-                      </a>
-                      
-                      {% liquid
-                        assign href = href_9c09f249
-                        assign href_9c09f249 = nil
-                        assign style = style_9c09f249
-                        assign style_9c09f249 = nil
-                        assign size = size_9c09f249
-                        assign size_9c09f249 = nil
-                        assign text = text_9c09f249
-                        assign text_9c09f249 = nil
-                      %}
-                      {% comment %}Component button-link:default end{% endcomment %}
-                    </div>
-                  {% endif %}
-                  {% if block.settings.text_3 != blank and block.settings.url_3 != blank %}
-                    {% assign morph_base_color = block.settings.color_main_3 %}
-                    {% assign morph_adjustment = 3 %}
-                    {% capture color_button_morphed_3 %}{% comment %}Inject morph begin{% endcomment %}
-{%- comment -%}
-  This adjusts the color to give it an appropriate difference from the original color.
-  It is usually used for link hover color, and things where we need to distinguish a change.
-
-  @param morph_base_color {Color}
-    The origin color to morph
-
-  @param morph_adjustment {Number}
-    The number to multiply the lightness and saturation by. Default 2.
-{%- endcomment -%}
-{%- liquid
-  if morph_adjustment == blank
-    assign morph_adjustment = 2
-  endif
-  assign morph_adjustment = morph_adjustment | times: 1.0
-  assign color_lightness = morph_base_color | color_extract: 'lightness'
-  if color_lightness > 20.0
-    if color_lightness > 50.0
-      assign light_adjustment = color_lightness | divided_by: 25.0 | times: morph_adjustment
-    else
-      assign light_adjustment = color_lightness | divided_by: 15.0 | times: morph_adjustment
-    endif
-    assign new_color = morph_base_color | color_darken: light_adjustment
-  else
-    if color_lightness < 7.0
-      assign light_adjustment = 3.0 | times: morph_adjustment
-      assign new_color = morph_base_color | color_desaturate: 45.0
-    elsif color_lightness < 12.0
-      assign light_adjustment = 2.25 | times: morph_adjustment
-      assign new_color = morph_base_color | color_desaturate: 15.0
-    else
-      assign light_adjustment = 1.75 | times: morph_adjustment
-      assign new_color = morph_base_color
-    endif
-    assign new_color = new_color | color_lighten: light_adjustment
-  endif
--%}
-{{- new_color -}}
-{%- liquid
-  assign morph_base_color = blank
-  assign morph_adjustment = blank
--%}
-
-{% comment %}Inject morph end{% endcomment %}{% endcapture %}
-                    <div
-                      class="block-button-group__button-wrapper"
-                      style="
-                      --color-button-main-contrast: {{ block.settings.color_contrast_3 }};
-                      --color-button-main: {{ block.settings.color_main_3 }};
-                      --color-button-main-invoked: {{ color_button_morphed_3 | strip }};
-                      "
-                    >
-                      {% comment %}Component button-link:default begin{% endcomment %}
-                      {% liquid
-                        assign href_9c09f249 = href
-                        assign href = block.settings.url_3
-                        assign style_9c09f249 = style
-                        assign style = block.settings.style_3
-                        assign size_9c09f249 = size
-                        assign size = 'small'
-                        assign text_9c09f249 = text
-                        assign text = block.settings.text_3 | escape
-                      %}
-                      {% comment %}
-                        @param href [Required]
-                          This is the anchor tag for the link button.
-                      
-                        @param style [Required]
-                          This is the style of the button: primary, secondary, tertiary, or text.
-                      
-                        @param size [Required]
-                          This defines the size of the button: small, medium, or large.
-                      
-                        @param text [Required]
-                          This is the text to be included in the button.
-                      
-                        @param attributes [Optional]
-                          Any additional attributes to add to the button-link tag.
-                      {% endcomment %}
-                      
-                      <a
-                        data-component="button-link"
-                        data-component-type="component"
-                        {% if tag != blank %}data-component-tag="{{ tag }}"
-                        {% endif %}class="button-link button-link--{{ style }} button-link--{{ size }}{% if style == 'primary' or style == 'secondary' %} button-link--shadow{% endif %%}"
-                        {% if href != blank %}
-                          href="{{ href }}"
-                        {% endif %}
-                        {{ attributes }}
-                      >
-                        {{ text }}
-                      </a>
-                      
-                      {% liquid
-                        assign href = href_9c09f249
-                        assign href_9c09f249 = nil
-                        assign style = style_9c09f249
-                        assign style_9c09f249 = nil
-                        assign size = size_9c09f249
-                        assign size_9c09f249 = nil
-                        assign text = text_9c09f249
-                        assign text_9c09f249 = nil
-                      %}
-                      {% comment %}Component button-link:default end{% endcomment %}
-                    </div>
-                  {% endif %}
-                </div>
-                
-                {% comment %}Component block-button-group:default end{% endcomment %}
-            {% endcase %}
-          {% endfor %}
-        </div>
+                    class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label_2 | escape -}}
+                  </a>
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
       </div>
-    </section-content>
-  </section-wrapper>
-</section>
+    </div>
+  </div>
+</div>
+
 {% schema %}
 {
-  "name": "t:common.component.rich_text",
+  "name": "t:sections.rich-text.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
     {
-      "type": "checkbox",
-      "id": "wide",
-      "label": "t:common.size.wide_display",
-      "default": true
-    },
-    {
       "type": "select",
-      "id": "content_display",
-      "label": "t:component.rich_text.content_display.label",
+      "id": "desktop_content_position",
       "options": [
         {
-          "value": "full",
-          "label": "t:common.size.full_width"
+          "value": "left",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:common.layout.centered"
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.rich-text.settings.desktop_content_position.options__3.label"
         }
       ],
-      "default": "full"
+      "default": "center",
+      "label": "t:sections.rich-text.settings.desktop_content_position.label"
     },
     {
-      "type": "text_alignment",
-      "id": "text_alignment",
-      "label": "t:component.rich_text.text_alignment.label"
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.rich-text.settings.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.rich-text.settings.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.rich-text.settings.content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.rich-text.settings.content_alignment.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
     },
     {
       "type": "checkbox",
-      "id": "add_space_to_top",
-      "label": "t:component.rich_text.add_space_to_top.label",
-      "default": true
+      "id": "full_width",
+      "default": true,
+      "label": "t:sections.rich-text.settings.full_width.label"
     },
     {
-      "type": "checkbox",
-      "id": "add_space_to_bottom",
-      "label": "t:component.rich_text.add_space_to_bottom.label",
-      "default": true
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "t:common.style.background_color",
-      "default": "#F0F0F0"
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
     },
     {
-      "type": "color",
-      "id": "text_color",
-      "label": "t:common.text.text_color",
-      "default": "#444444"
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "t:sections.rich-text.blocks.heading.name",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "t:sections.rich-text.blocks.heading.settings.heading.default",
+          "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "t:sections.all.heading_size.options__1.label"
+            },
+            {
+              "value": "h1",
+              "label": "t:sections.all.heading_size.options__2.label"
+            },
+            {
+              "value": "h0",
+              "label": "t:sections.all.heading_size.options__3.label"
+            },
+            {
+              "value": "hxl",
+              "label": "t:sections.all.heading_size.options__4.label"
+            },
+            {
+              "value": "hxxl",
+              "label": "t:sections.all.heading_size.options__5.label"
+            }
+          ],
+          "default": "h1",
+          "label": "t:sections.all.heading_size.label"
+        }
+      ]
+    },
+    {
+      "type": "caption",
+      "name": "t:sections.rich-text.blocks.caption.name",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "caption",
+          "default": "t:sections.rich-text.blocks.caption.settings.text.default",
+          "label": "t:sections.rich-text.blocks.caption.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "subtitle",
+              "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__1.label"
+            },
+            {
+              "value": "caption-with-letter-spacing",
+              "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__2.label"
+            }
+          ],
+          "default": "caption-with-letter-spacing",
+          "label": "t:sections.rich-text.blocks.caption.settings.text_style.label"
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "options": [
+            {
+              "value": "small",
+              "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__1.label"
+            },
+            {
+              "value": "medium",
+              "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__2.label"
+            },
+            {
+              "value": "large",
+              "label": "t:sections.rich-text.blocks.caption.settings.caption_size.options__3.label"
+            }
+          ],
+          "default": "medium",
+          "label": "t:sections.rich-text.blocks.caption.settings.caption_size.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.rich-text.blocks.text.name",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "t:sections.rich-text.blocks.text.settings.text.default",
+          "label": "t:sections.rich-text.blocks.text.settings.text.label"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:sections.rich-text.blocks.buttons.name",
+      "limit": 2,
+      "settings": [
+        {
+         "type": "header",
+         "content": "t:sections.rich-text.blocks.buttons.settings.header_button1.content"
+        },        
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "t:sections.rich-text.blocks.buttons.settings.button_label_1.default",
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_label_1.label",
+          "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_link_1.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_secondary",
+          "default": false,
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_1.label"
+        },
+        {
+         "type": "header",
+         "content": "t:sections.rich-text.blocks.buttons.settings.header_button2.content"
+        },          
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_label_2.label",
+          "info": "t:sections.rich-text.blocks.buttons.settings.button_label_2.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_link_2.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_secondary_2",
+          "default": false,
+          "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_2.label"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "t:common.component.rich_text",
+      "name": "t:sections.rich-text.presets.name",
       "blocks": [
-        {
-          "type": "preheading"
-        },
         {
           "type": "heading"
         },
@@ -500,305 +346,9 @@
           "type": "text"
         },
         {
-          "type": "button_group"
-        }
-      ],
-      "category": "t:component.rich_text.presets.rich_text.category"
-    }
-  ],
-  "disabled_on": {
-    "groups": [
-      "*"
-    ]
-  },
-  "blocks": [
-    {
-      "type": "preheading",
-      "name": "t:common.text.preheading",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "content",
-          "label": "t:common.text.content",
-          "default": "Preheading"
-        },
-        {
-          "type": "select",
-          "id": "size",
-          "label": "t:common.text.size",
-          "options": [
-            {
-              "value": "small",
-              "label": "t:common.size.small"
-            },
-            {
-              "value": "medium",
-              "label": "t:common.size.medium"
-            },
-            {
-              "value": "large",
-              "label": "t:common.size.large"
-            }
-          ],
-          "default": "large"
-        },
-        {
-          "type": "checkbox",
-          "id": "bolder",
-          "label": "t:common.text.bolder",
-          "default": false
-        },
-        {
-          "type": "checkbox",
-          "id": "uppercase",
-          "label": "t:common.text.uppercase_text",
-          "default": true
+          "type": "button"
         }
       ]
-    },
-    {
-      "type": "heading",
-      "name": "t:common.text.heading",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "content",
-          "label": "t:common.text.heading",
-          "default": "Talk about your brand"
-        },
-        {
-          "type": "select",
-          "id": "size_desktop",
-          "label": "t:component.block_heading.blocks.heading.size_desktop.label",
-          "options": [
-            {
-              "value": "small",
-              "label": "t:common.size.small"
-            },
-            {
-              "value": "medium",
-              "label": "t:common.size.medium"
-            },
-            {
-              "value": "large",
-              "label": "t:common.size.large"
-            },
-            {
-              "value": "extra-large",
-              "label": "t:common.size.extra_large"
-            }
-          ],
-          "default": "medium"
-        },
-        {
-          "type": "select",
-          "id": "size_mobile",
-          "label": "t:component.block_heading.blocks.heading.size_mobile.label",
-          "options": [
-            {
-              "value": "same_as_desktop",
-              "label": "t:component.block_heading.blocks.heading.size_mobile.option_1"
-            },
-            {
-              "value": "small",
-              "label": "t:common.size.small"
-            },
-            {
-              "value": "medium",
-              "label": "t:common.size.medium"
-            },
-            {
-              "value": "large",
-              "label": "t:common.size.large"
-            },
-            {
-              "value": "extra-large",
-              "label": "t:common.size.extra_large"
-            }
-          ],
-          "default": "same_as_desktop"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "name": "t:common.text.text",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "t:common.text.description",
-          "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
-        },
-        {
-          "type": "select",
-          "id": "size",
-          "label": "t:common.text.size",
-          "options": [
-            {
-              "value": "small",
-              "label": "t:common.size.small"
-            },
-            {
-              "value": "medium",
-              "label": "t:common.size.medium"
-            },
-            {
-              "value": "large",
-              "label": "t:common.size.large"
-            }
-          ],
-          "default": "medium"
-        }
-      ]
-    },
-    {
-      "type": "button_group",
-      "name": "t:component.block_button_group.blocks.button_group.name",
-      "settings": [
-        {
-          "type": "header",
-          "content": "t:common.component.button_1"
-        },
-        {
-          "type": "text",
-          "id": "text_1",
-          "label": "t:common.text.label",
-          "default": "Button"
-        },
-        {
-          "type": "url",
-          "id": "url_1",
-          "label": "t:common.component.link"
-        },
-        {
-          "type": "select",
-          "id": "style_1",
-          "label": "t:common.style.style",
-          "options": [
-            {
-              "value": "primary",
-              "label": "t:common.style.primary"
-            },
-            {
-              "value": "secondary",
-              "label": "t:common.style.secondary"
-            },
-            {
-              "value": "text",
-              "label": "t:common.text.signpost"
-            }
-          ]
-        },
-        {
-          "type": "color",
-          "id": "color_main_1",
-          "label": "t:common.style.main_color",
-          "default": "#000000"
-        },
-        {
-          "type": "color",
-          "id": "color_contrast_1",
-          "label": "t:common.style.contrast_color",
-          "default": "#ffffff"
-        },
-        {
-          "type": "header",
-          "content": "t:common.component.button_2"
-        },
-        {
-          "type": "text",
-          "id": "text_2",
-          "label": "t:common.text.label",
-          "default": "Button"
-        },
-        {
-          "type": "url",
-          "id": "url_2",
-          "label": "t:common.component.link"
-        },
-        {
-          "type": "select",
-          "id": "style_2",
-          "label": "t:common.style.style",
-          "options": [
-            {
-              "value": "primary",
-              "label": "t:common.style.primary"
-            },
-            {
-              "value": "secondary",
-              "label": "t:common.style.secondary"
-            },
-            {
-              "value": "text",
-              "label": "t:common.text.signpost"
-            }
-          ]
-        },
-        {
-          "type": "color",
-          "id": "color_main_2",
-          "label": "t:common.style.main_color",
-          "default": "#000000"
-        },
-        {
-          "type": "color",
-          "id": "color_contrast_2",
-          "label": "t:common.style.contrast_color",
-          "default": "#ffffff"
-        },
-        {
-          "type": "header",
-          "content": "t:component.block_button_group.blocks.button_group.header_3.content"
-        },
-        {
-          "type": "text",
-          "id": "text_3",
-          "label": "t:common.text.label",
-          "default": "Button"
-        },
-        {
-          "type": "url",
-          "id": "url_3",
-          "label": "t:common.component.link"
-        },
-        {
-          "type": "select",
-          "id": "style_3",
-          "label": "t:common.style.style",
-          "options": [
-            {
-              "value": "primary",
-              "label": "t:common.style.primary"
-            },
-            {
-              "value": "secondary",
-              "label": "t:common.style.secondary"
-            },
-            {
-              "value": "text",
-              "label": "t:common.text.signpost"
-            }
-          ]
-        },
-        {
-          "type": "color",
-          "id": "color_main_3",
-          "label": "t:common.style.main_color",
-          "default": "#000000"
-        },
-        {
-          "type": "color",
-          "id": "color_contrast_3",
-          "label": "t:common.style.contrast_color",
-          "default": "#ffffff"
-        }
-      ],
-      "limit": 1
     }
   ]
 }

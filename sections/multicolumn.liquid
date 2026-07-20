@@ -1,419 +1,443 @@
-{% liquid
-  assign heading = section.settings.heading | escape
-  assign subheading = section.settings.subheading
-  assign layout = section.settings.heading_position
-  assign columns_per_row = section.settings.columns_per_row
-  assign columns_per_row_mobile = section.settings.columns_per_row_mobile
+{{ 'section-multicolumn.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
-  # Calculate column rows for 'inline' layout
-  assign inline_columns = columns_per_row | minus: 1 | times: 1.0
-  assign inline_rows = section.blocks.size | times: 1.0 | divided_by: inline_columns | ceil
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
-  # Colors
-  assign text_color = section.settings.color_text
-  assign text_color_alpha = text_color | color_extract: 'alpha'
-%}
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
-<section
-  data-component="multicolumn"
-  data-component-type="section"
-  {% if tag != blank %}data-component-tag="{{ tag }}"
-  {% endif %}class="
-    multicolumn
-    multicolumn--{{ layout }}
-    multicolumn--top-space-{{ section.settings.top_space }}
-    multicolumn--bottom-space-{{ section.settings.bottom_space }}
-    multicolumn--column-space-{{ section.settings.column_spacing }}
-    multicolumn--column-align-{{ section.settings.column_alignment }}
-    multicolumn--columns-per-row-desktop-{{ columns_per_row }}
-    multicolumn--columns-per-row-mobile-{{ columns_per_row_mobile }}
-  "
-  style="
-    {% if text_color_alpha != 0 %}
-      --multicolumn-text-color: {{ text_color }};
+{%- liquid
+  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+-%}
+
+<div class="multicolumn color-{{ section.settings.color_scheme }} gradient{% unless section.settings.background_style == 'none' and settings.text_boxes_border_thickness > 0 or settings.text_boxes_shadow_opacity > 0 %} background-{{ section.settings.background_style }}{% endunless %}{% if section.settings.title == blank %} no-heading{% endif %}">
+  <div
+    class="page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
     {% endif %}
-    --multicolumn-background-color: {{ section.settings.color_background }};
-    --multicolumn-rows: {{ inline_rows | default: 0 }};
-    --multicolumn-desktop-columns: {{ columns_per_row }};
-    --multicolumn-mobile-columns: {{ columns_per_row_mobile }};
-    --multicolumn-image-aspect-ratio: {{ section.settings.image_aspect_ratio }};
-  "
->
-  <section-wrapper {% if section.settings.wide %}width="wide"{% endif %}>
-    <div class="multicolumn__wrapper">
-      <section-content class="multicolumn__grid">
-        {% if heading != blank or subheading != blank %}
-          <section-header class="multicolumn__header">
-            <div class="multicolumn__header-wrapper">
-              {% if heading != blank %}
-                <h2 class="multicolumn__heading">
-                  {{- heading -}}
-                </h2>
-              {% endif %}
+  >
+    {%- unless section.settings.title == blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin multicolumn__title">
+        <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.title }}
+        </h2>
+        {%- if section.settings.button_label != blank and show_mobile_slider -%}
+          <a href="{{ section.settings.button_link }}" class="link underlined-link large-up-hide">
+            {{- section.settings.button_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
+    <slider-component class="slider-mobile-gutter">
+      <ul
+        class="multicolumn-list contains-content-container grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--tablet grid--peek{% endif %}"
+        id="Slider-{{ section.id }}"
+        role="list"
+      >
+        {%- liquid
+          assign highest_ratio = 0
+          for block in section.blocks
+            if block.settings.image.aspect_ratio > highest_ratio
+              assign highest_ratio = block.settings.image.aspect_ratio
+            endif
+          endfor
+        -%}
+        {%- for block in section.blocks -%}
+          {%- assign empty_column = '' -%}
+          {%- if block.settings.image == blank
+            and block.settings.title == blank
+            and block.settings.text == blank
+            and block.settings.link_label == blank
+          -%}
+            {%- assign empty_column = ' multicolumn-list__item--empty' -%}
+          {%- endif -%}
 
-              {% if subheading != blank %}
-                <div class="multicolumn__subheading">
-                  {{- subheading -}}
-                </div>
-              {% endif %}
-            </div>
-          </section-header>
-        {% endif %}
-
-        {% if section.blocks.size > 0 %}
-          {% for block in section.blocks %}
-            {% comment %}Component block-column:default begin{% endcomment %}
-            {% liquid
-              assign image = block.settings.image
-              assign image_url = block.settings.image_url
-              assign heading = block.settings.heading | escape
-              assign content = block.settings.content
-              assign button_label = block.settings.button_label | escape
-            %}
-            
-            <div
-              data-component="block-column"
-              data-component-type="block"
-              {% if tag != blank %}data-component-tag="{{ tag }}"
-              {% endif %}class="block-column"
-              style="--block-column-image-width: {{ block.settings.image_width }}%;"
-              {{ block.shopify_attributes }}
-            >
-              <div class="block-column__wrapper">
-                {% if image != blank %}
-                  <div class="block-column__image">
-                    <a class="block-column__image-link" {% if image_url != blank %}href="{{ image_url }}"{% endif %}>
-                      {% comment %}Component lazy-img:default begin{% endcomment %}
-                      {% render 'lazy-img', img: image, size: '2000x', lazy: true, canvas: true, focal_point: image.presentation.focal_point %}
-                      {% comment %}Component lazy-img:default end{% endcomment %}
-                    </a>
-                  </div>
+          <li
+            id="Slide-{{ section.id }}-{{ forloop.index }}"
+            class="multicolumn-list__item grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %}{% if section.settings.column_alignment == 'center' %} center{% endif %}{{ empty_column }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {{ block.shopify_attributes }}
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+            {% endif %}
+          >
+            <div class="multicolumn-card content-container">
+              {%- if block.settings.image != blank -%}
+                {% if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle' %}
+                  {% assign spaced_image = true %}
                 {% endif %}
-            
-                {% if heading != blank %}
-                  <h2
-                    class="
-                      block-column__heading
-                      block-column__heading--size-{{ block.settings.heading_size }}
-                    "
-                  >
-                    {{- heading -}}
-                  </h2>
-                {% endif %}
-            
-                {% if content != blank %}
+                <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
                   <div
-                    class="
-                      block-column__content
-                      block-column__content--size-{{ block.settings.content_size }}
-                    "
+                    class="media media--transparent media--{{ section.settings.image_ratio }}"
+                    {% if section.settings.image_ratio == 'adapt' %}
+                      style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"
+                    {% endif %}
                   >
-                    {{- content -}}
-                  </div>
-                {% endif %}
-            
-                {% if button_label != blank %}
-                  {% liquid
-                    assign button_main_color = block.settings.color_main
-                    assign button_main_color_alpha = button_main_color | color_extract: 'alpha'
-                    assign button_contrast_color = block.settings.color_contrast
-                    assign button_contrast_color_alpha = button_contrast_color | color_extract: 'alpha'
-                    assign morph_base_color = button_main_color
-                    assign morph_adjustment = 3
-                  %}
-            
-                  {% capture color_button_morphed %}
-                    {% comment %}Inject morph begin{% endcomment %}
-                    {%- comment -%}
-                      This adjusts the color to give it an appropriate difference from the original color.
-                      It is usually used for link hover color, and things where we need to distinguish a change.
-                    
-                      @param morph_base_color {Color}
-                        The origin color to morph
-                    
-                      @param morph_adjustment {Number}
-                        The number to multiply the lightness and saturation by. Default 2.
-                    {%- endcomment -%}
                     {%- liquid
-                      if morph_adjustment == blank
-                        assign morph_adjustment = 2
-                      endif
-                      assign morph_adjustment = morph_adjustment | times: 1.0
-                      assign color_lightness = morph_base_color | color_extract: 'lightness'
-                      if color_lightness > 20.0
-                        if color_lightness > 50.0
-                          assign light_adjustment = color_lightness | divided_by: 25.0 | times: morph_adjustment
-                        else
-                          assign light_adjustment = color_lightness | divided_by: 15.0 | times: morph_adjustment
-                        endif
-                        assign new_color = morph_base_color | color_darken: light_adjustment
+                      assign number_of_columns = section.settings.columns_desktop
+                      assign number_of_columns_mobile = section.settings.columns_mobile
+                      assign grid_space_desktop = number_of_columns | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                      assign grid_space_tablet = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                      assign grid_space_mobile = number_of_columns_mobile | minus: 1 | times: settings.spacing_grid_horizontal | divided_by: 2 | plus: 30 | append: 'px'
+                      if section.settings.image_width == 'half'
+                        assign image_width = 0.5
+                      elsif section.settings.image_width == 'third'
+                        assign image_width = 0.33
                       else
-                        if color_lightness < 7.0
-                          assign light_adjustment = 3.0 | times: morph_adjustment
-                          assign new_color = morph_base_color | color_desaturate: 45.0
-                        elsif color_lightness < 12.0
-                          assign light_adjustment = 2.25 | times: morph_adjustment
-                          assign new_color = morph_base_color | color_desaturate: 15.0
-                        else
-                          assign light_adjustment = 1.75 | times: morph_adjustment
-                          assign new_color = morph_base_color
-                        endif
-                        assign new_color = new_color | color_lighten: light_adjustment
+                        assign image_width = 1
                       endif
                     -%}
-                    {{- new_color -}}
-                    {%- liquid
-                      assign morph_base_color = blank
-                      assign morph_adjustment = blank
-                    -%}
-                    
-                    {% comment %}Inject morph end{% endcomment %}
-                  {% endcapture %}
-            
-                  <div
-                    class="block-column__button"
-                    style="
-                      {% if button_main_color_alpha != 0 %}
-                        --color-button-main: {{ button_main_color }};
-                        --color-button-main-invoked: {{ color_button_morphed | strip }};
-                      {% endif %}
-                      {% if button_contrast_color_alpha != 0 %}
-                        --color-button-main-contrast: {{ button_contrast_color }};
-                      {% endif %}
-                    "
-                  >
-                    {% comment %}Component button-link:default begin{% endcomment %}
-                    {% liquid
-                      assign href_809801bb = href
-                      assign href = block.settings.button_url
-                      assign text_809801bb = text
-                      assign text = button_label
-                      assign style_809801bb = style
-                      assign style = block.settings.button_style
-                      assign size_809801bb = size
-                      assign size = 'medium'
-                    %}
-                    {% comment %}
-                      @param href [Required]
-                        This is the anchor tag for the link button.
-                    
-                      @param style [Required]
-                        This is the style of the button: primary, secondary, tertiary, or text.
-                    
-                      @param size [Required]
-                        This defines the size of the button: small, medium, or large.
-                    
-                      @param text [Required]
-                        This is the text to be included in the button.
-                    
-                      @param attributes [Optional]
-                        Any additional attributes to add to the button-link tag.
-                    {% endcomment %}
-                    
-                    <a
-                      data-component="button-link"
-                      data-component-type="component"
-                      {% if tag != blank %}data-component-tag="{{ tag }}"
-                      {% endif %}class="button-link button-link--{{ style }} button-link--{{ size }}{% if style == 'primary' or style == 'secondary' %} button-link--shadow{% endif %%}"
-                      {% if href != blank %}
-                        href="{{ href }}"
-                      {% endif %}
-                      {{ attributes }}
-                    >
-                      {{ text }}
-                    </a>
-                    
-                    {% liquid
-                      assign href = href_809801bb
-                      assign href_809801bb = nil
-                      assign text = text_809801bb
-                      assign text_809801bb = nil
-                      assign style = style_809801bb
-                      assign style_809801bb = nil
-                      assign size = size_809801bb
-                      assign size_809801bb = nil
-                    %}
-                    {% comment %}Component button-link:default end{% endcomment %}
+                    {% capture sizes %}
+                      (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ grid_space_desktop }}) * {{ image_width }} /  {{ number_of_columns }}),
+                      (min-width: 990px) calc((100vw - {{ grid_space_desktop }}) * {{ image_width }} / {{ number_of_columns }}),
+                      (min-width: 750px) calc((100vw - {{ grid_space_tablet }}) * {{ image_width }} / {{ number_of_columns_mobile }}),
+                      calc((100vw - {{ grid_space_mobile }}) * {{ image_width }} / {{ number_of_columns_mobile }})
+                    {% endcapture %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 3200
+                      | image_tag:
+                        widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+                        sizes: sizes,
+                        class: 'multicolumn-card__image'
+                    }}
                   </div>
-                {% endif %}
+                </div>
+              {%- endif -%}
+              <div class="multicolumn-card__info">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="inline-richtext">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="rte">{{ block.settings.text }}</div>
+                {%- endif -%}
+                {%- if block.settings.link_label != blank -%}
+                  <a
+                    class="link animate-arrow"
+                    {% if block.settings.link == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.link }}"
+                    {% endif %}
+                  >
+                    {{- block.settings.link_label | escape -}}
+                    <span class="svg-wrapper"
+                      ><span class="icon-wrap">&nbsp;{{ 'icon-arrow.svg' | inline_asset_content }}</span></span
+                    >
+                  </a>
+                {%- endif -%}
               </div>
             </div>
-            
-            {% comment %}Component block-column:default end{% endcomment %}
-          {% endfor %}
-        {% endif %}
-      </section-content>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if show_mobile_slider -%}
+        <div class="slider-buttons large-up-hide">
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ section.blocks.size }}</span>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+          </button>
+        </div>
+      {%- endif -%}
+    </slider-component>
+    <div class="center{% if show_mobile_slider %} small-hide medium-hide{% endif %}">
+      {%- if section.settings.button_label != blank -%}
+        <a
+          class="button button--primary"
+          {% if section.settings.button_link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ section.settings.button_link }}"
+          {% endif %}
+        >
+          {{ section.settings.button_label | escape }}
+        </a>
+      {%- endif -%}
     </div>
-  </section-wrapper>
-</section>
+  </div>
+</div>
+
 {% schema %}
 {
-  "name": "t:common.component.multicolumn",
+  "name": "t:sections.multicolumn.name",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
     {
-      "type": "checkbox",
-      "id": "wide",
-      "label": "t:common.size.wide_display",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "top_space",
-      "label": "t:common.layout.add_space_to_top",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "bottom_space",
-      "label": "t:common.layout.add_space_to_bottom",
-      "default": false
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "t:common.text.heading",
-      "default": "Multicolumn"
-    },
-    {
-      "type": "richtext",
-      "id": "subheading",
-      "label": "t:common.text.subheading"
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "t:sections.multicolumn.settings.title.default",
+      "label": "t:sections.multicolumn.settings.title.label"
     },
     {
       "type": "select",
-      "id": "heading_position",
-      "label": "t:common.text.heading_position",
-      "info": "t:component.multicolumn.heading_position.info",
+      "id": "heading_size",
       "options": [
         {
-          "value": "left",
-          "label": "t:common.layout.left"
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
         },
         {
-          "value": "center",
-          "label": "t:common.layout.center"
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
         },
         {
-          "value": "inline",
-          "label": "t:common.layout.inline"
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
         }
       ],
-      "default": "left"
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
     },
     {
+      "type": "header",
+      "content": "t:sections.multicolumn.settings.header_image.content"
+    },    
+    {
+      "type": "select",
+      "id": "image_width",
+      "options": [
+        {
+          "value": "third",
+          "label": "t:sections.multicolumn.settings.image_width.options__1.label"
+        },
+        {
+          "value": "half",
+          "label": "t:sections.multicolumn.settings.image_width.options__2.label"
+        },
+        {
+          "value": "full",
+          "label": "t:sections.multicolumn.settings.image_width.options__3.label"
+        }
+      ],
+      "default": "full",
+      "label": "t:sections.multicolumn.settings.image_width.label"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__3.label"
+        },
+        {
+          "value": "circle",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__4.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.multicolumn.settings.image_ratio.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.multicolumn.settings.header_button.content"
+    },    
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "t:sections.multicolumn.settings.button_label.default",
+      "label": "t:sections.multicolumn.settings.button_label.label", 
+      "info": "t:sections.multicolumn.settings.button_label.info"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.multicolumn.settings.button_link.label"
+    },    
+    {
+      "type": "header",
+      "content": "t:sections.multicolumn.settings.header_layout.content"
+    },     
+    {
       "type": "range",
-      "id": "columns_per_row",
-      "label": "t:component.multicolumn.columns_per_row.label",
-      "step": 1,
+      "id": "columns_desktop",
       "min": 1,
       "max": 6,
-      "default": 4
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.multicolumn.settings.columns_desktop.label"
     },
     {
       "type": "select",
       "id": "column_alignment",
-      "label": "t:component.multicolumn.column_alignment.label",
       "options": [
         {
           "value": "left",
-          "label": "t:common.layout.left"
+          "label": "t:sections.multicolumn.settings.column_alignment.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:common.layout.center"
-        },
-        {
-          "value": "right",
-          "label": "t:common.layout.right"
+          "label": "t:sections.multicolumn.settings.column_alignment.options__2.label"
         }
       ],
-      "default": "left"
+      "default": "left",
+      "label": "t:sections.multicolumn.settings.column_alignment.label"
     },
     {
       "type": "select",
-      "id": "column_spacing",
-      "label": "t:component.multicolumn.column_spacing.label",
-      "info": "t:component.multicolumn.column_spacing.info",
+      "id": "background_style",
       "options": [
         {
-          "value": "small",
-          "label": "t:common.size.small"
+          "value": "none",
+          "label": "t:sections.multicolumn.settings.background_style.options__1.label"
         },
         {
-          "value": "medium",
-          "label": "t:common.size.medium"
-        },
-        {
-          "value": "large",
-          "label": "t:common.size.large"
+          "value": "primary",
+          "label": "t:sections.multicolumn.settings.background_style.options__2.label"
         }
       ],
-      "default": "large"
+      "default": "primary",
+      "label": "t:sections.multicolumn.settings.background_style.label"
     },
     {
-      "type": "select",
-      "id": "image_aspect_ratio",
-      "label": "t:common.image.image_aspect_ratio",
-      "options": [
-        {
-          "value": "auto",
-          "label": "t:common.size.natural"
-        },
-        {
-          "value": "1/1",
-          "label": "t:common.size.square_ratio_1_1"
-        },
-        {
-          "value": "3/2",
-          "label": "t:common.size.landscape_ratio_3_2"
-        },
-        {
-          "value": "2/3",
-          "label": "t:common.size.portrait_ratio_2_3"
-        }
-      ],
-      "default": "auto"
-    },
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },    
     {
       "type": "header",
-      "content": "t:common.layout.mobile"
+      "content": "t:sections.multicolumn.settings.header_mobile.content"
     },
     {
       "type": "select",
-      "id": "columns_per_row_mobile",
-      "label": "t:component.multicolumn.columns_per_row_mobile.label",
+      "id": "columns_mobile",
       "options": [
         {
           "value": "1",
-          "label": "t:component.multicolumn.columns_per_row_mobile.option_1"
+          "label": "t:sections.multicolumn.settings.columns_mobile.options__1.label"
         },
         {
           "value": "2",
-          "label": "t:component.multicolumn.columns_per_row_mobile.option_2"
+          "label": "t:sections.multicolumn.settings.columns_mobile.options__2.label"
         }
       ],
-      "default": "1"
+      "default": "1",
+      "label": "t:sections.multicolumn.settings.columns_mobile.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": false,
+      "label": "t:sections.multicolumn.settings.swipe_on_mobile.label"
     },
     {
       "type": "header",
-      "content": "t:common.style.color"
+      "content": "t:sections.all.padding.section_padding_heading"
     },
     {
-      "type": "color",
-      "id": "color_background",
-      "label": "t:common.style.background",
-      "default": "transparent"
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
     },
     {
-      "type": "color",
-      "id": "color_text",
-      "label": "t:common.text.text",
-      "default": "transparent"
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:sections.multicolumn.blocks.column.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.multicolumn.blocks.column.settings.image.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "t:sections.multicolumn.blocks.column.settings.title.default",
+          "label": "t:sections.multicolumn.blocks.column.settings.title.label"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "t:sections.multicolumn.blocks.column.settings.text.default",
+          "label": "t:sections.multicolumn.blocks.column.settings.text.label"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "t:sections.multicolumn.blocks.column.settings.link_label.label",
+          "info": "t:sections.multicolumn.blocks.column.settings.link_label.info"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.multicolumn.blocks.column.settings.link.label"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "t:common.component.multicolumn",
+      "name": "t:sections.multicolumn.presets.name",
       "blocks": [
         {
           "type": "column"
@@ -423,144 +447,6 @@
         },
         {
           "type": "column"
-        },
-        {
-          "type": "column"
-        }
-      ]
-    }
-  ],
-  "disabled_on": {
-    "groups": [
-      "*"
-    ]
-  },
-  "blocks": [
-    {
-      "type": "column",
-      "name": "t:component.block_column.blocks.column.name",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "t:component.block_column.blocks.column.image.label"
-        },
-        {
-          "type": "url",
-          "id": "image_url",
-          "label": "t:component.block_column.blocks.column.image_url.label"
-        },
-        {
-          "type": "range",
-          "id": "image_width",
-          "min": 15,
-          "max": 100,
-          "step": 5,
-          "unit": "%",
-          "label": "t:component.block_column.blocks.column.image_width.label",
-          "default": 100
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "t:component.block_column.blocks.column.heading.label",
-          "default": "Column"
-        },
-        {
-          "type": "select",
-          "id": "heading_size",
-          "label": "t:component.block_column.blocks.column.heading_size.label",
-          "options": [
-            {
-              "value": "small",
-              "label": "t:component.block_column.blocks.column.heading_size.option_1"
-            },
-            {
-              "value": "medium",
-              "label": "t:component.block_column.blocks.column.heading_size.option_2"
-            },
-            {
-              "value": "large",
-              "label": "t:component.block_column.blocks.column.heading_size.option_3"
-            }
-          ],
-          "default": "small"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "t:component.block_column.blocks.column.content.label",
-          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.</p>"
-        },
-        {
-          "type": "select",
-          "id": "content_size",
-          "label": "t:component.block_column.blocks.column.content_size.label",
-          "options": [
-            {
-              "value": "small",
-              "label": "t:component.block_column.blocks.column.content_size.option_1"
-            },
-            {
-              "value": "medium",
-              "label": "t:component.block_column.blocks.column.content_size.option_2"
-            },
-            {
-              "value": "large",
-              "label": "t:component.block_column.blocks.column.content_size.option_3"
-            }
-          ],
-          "default": "medium"
-        },
-        {
-          "type": "header",
-          "content": "t:component.block_column.blocks.column.header_1.content"
-        },
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "t:component.block_column.blocks.column.button_label.label"
-        },
-        {
-          "type": "url",
-          "id": "button_url",
-          "label": "t:component.block_column.blocks.column.button_url.label"
-        },
-        {
-          "type": "select",
-          "id": "button_style",
-          "label": "t:component.block_column.blocks.column.button_style.label",
-          "options": [
-            {
-              "value": "primary",
-              "label": "t:component.block_column.blocks.column.button_style.option_1"
-            },
-            {
-              "value": "secondary",
-              "label": "t:component.block_column.blocks.column.button_style.option_2"
-            },
-            {
-              "value": "icon",
-              "label": "t:component.block_column.blocks.column.button_style.option_3"
-            },
-            {
-              "value": "text",
-              "label": "t:component.block_column.blocks.column.button_style.option_4"
-            }
-          ],
-          "default": "primary"
-        },
-        {
-          "type": "color",
-          "id": "color_main",
-          "label": "t:component.block_column.blocks.column.color_main.label",
-          "default": "transparent"
-        },
-        {
-          "type": "color",
-          "id": "color_contrast",
-          "label": "t:component.block_column.blocks.column.color_contrast.label",
-          "default": "transparent"
         }
       ]
     }

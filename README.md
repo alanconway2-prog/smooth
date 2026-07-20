@@ -1,31 +1,29 @@
-# The Smooth Company — Shopify theme
+# The Smooth Company — theme (clean rebuild on Dawn)
 
-This repository holds the **Tailor** Shopify theme for [thesmoothcompany.com](https://www.thesmoothcompany.com)
-under version control, so changes can be reviewed before they go live on the store.
+A clean, blank-canvas rebuild of the storefront on **Shopify Dawn v15.5** — no PageFly /
+Zellor / wholesale-lock baggage from the old Tailor theme (which caused the desktop
+right-shift and random section gaps). The Claude Design "10A" homepage is built as native
+Liquid sections on top.
 
-## Repository layout
-
+## Layout
 | Path | What it is |
 |------|-----------|
-| `assets/`, `config/`, `layout/`, `locales/`, `sections/`, `snippets/`, `templates/` | The Shopify theme itself. These are the folders Shopify expects at the repo root. |
-| `design/homepage/` | **Reference only.** The homepage redesign handoff (design prototype + notes). Shopify ignores this folder; it is here so the design brief travels with the code. |
+| `layout/`, `sections/`, `snippets/`, `templates/`, `assets/`, `config/`, `locales/` | The theme (clean Dawn base). |
+| `sections/sc-*.liquid` | Our custom homepage sections (hero, best-sellers, editorial, press, statement, category, shoppable reels, reviews, footer). |
+| `snippets/sc-product-card.liquid` | The 10A product card (mint badge, plus-circle add, portrait/square, sale price). |
+| `design/homepage/` | Design reference (prototype + brief). Shopify ignores it. |
 
-## Current work
+## Homepage
+`templates/index.json` composes the sc- sections in the 10A scroll order:
+hero → best sellers → editorial banner → press → statement → category → shoppable reels → reviews.
+Every section is editable/hideable in **Customize** (colours, spacing, alignment, images, etc.).
 
-Rebuilding the homepage (`templates/index.json`) as native Liquid sections per the
-brief in [`design/homepage/README.md`](design/homepage/README.md) — moving off the
-PageFly/Zellor page-builder sections and onto the theme's own sections.
+## Type
+Gotham (Bold / Medium / Light) is loaded from the store's Shopify CDN in `layout/theme.liquid`
+and set as the theme's heading/body fonts.
 
-## How this connects to the live store
-
-Two ways to get changes from here onto the store:
-
-1. **Download a zip** of the theme and upload it in Shopify admin
-   (*Online Store → Themes → Add theme → Upload zip file*). Good for a one-off handover.
-2. **Shopify GitHub integration** (recommended) — connect this repo to a theme in
-   *Online Store → Themes → Add theme → Connect from GitHub*. Shopify then keeps that
-   theme in sync with a chosen branch automatically. Work happens on a branch, gets
-   reviewed, then merges.
-
-Either way, always add a redesign as a **new/duplicate theme** first and preview it —
-never edit the live theme directly.
+## Deploy
+Upload the zip in Shopify (*Online Store → Themes → Add theme → Upload zip*) as a **new draft**,
+preview, then publish when happy. Your live theme is untouched until you publish.
+The other pages (product, collection, cart, search) use Dawn's clean defaults for now — we
+style those next.

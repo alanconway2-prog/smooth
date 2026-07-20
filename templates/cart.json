@@ -1,1 +1,40 @@
-{"sections":{"174792888303a8aed7":{"type":"apps","blocks":{"pc_product_options_cart_page_customizer_yhKJLg":{"type":"shopify:\/\/apps\/pc-product-options\/blocks\/cart-page-customizer\/6857ca6c-35eb-4b6f-9d58-a039f31d9406","settings":{"heading":"Product Customizer - Cart Page","pc_cart_advanced_custom_css":"","pc_cart_advanced_custom_js":""}}},"block_order":["pc_product_options_cart_page_customizer_yhKJLg"],"settings":{}},"main":{"type":"main-cart","settings":{}},"image_with_text_qYxnfT":{"type":"image-with-text","blocks":{"heading_fgtY7U":{"type":"heading","settings":{"content":"Free Birthday Gift","size_desktop":"medium","size_mobile":"same_as_desktop"}},"text_EYQemk":{"type":"text","settings":{"content":"<p><br\/> Added Automatically to every order!<br\/><br\/><\/p>","size":"medium"}}},"block_order":["heading_fgtY7U","text_EYQemk"],"name":"t:common.component.image_with_text","settings":{"wide":false,"image":"shopify:\/\/shop_images\/WEBSITE_-_IMAGERY_66_1080x1080_28137d2d-d33a-433d-9da6-fd7b16fa1dc2.webp","image_height_desktop":"auto","image_width":"50","image_style":"normal","image_position":"right","text_alignment":"left","image_height_mobile":"auto","image_position_mobile":"top","color_background":"#F0F0F0","color_text":"#222222"}}},"order":["174792888303a8aed7","main","image_with_text_qYxnfT"]}
+{
+  "sections": {
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "cart-footer": {
+      "type": "main-cart-footer",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "buttons"
+      ]
+    }
+  },
+  "order": [
+    "cart-items",
+    "cart-footer"
+  ]
+}

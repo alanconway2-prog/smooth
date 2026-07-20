@@ -1,24 +1,21 @@
 {
+  "name": "t:sections.footer.name",
   "type": "footer",
-  "name": "Footer",
   "sections": {
-    "footer": {
+    "sc-footer": {
       "type": "sc-footer",
       "blocks": {
-        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer-1", "open_by_default": true } },
-        "learn": { "type": "menu", "settings": { "heading": "Learn", "menu": "footer-3", "open_by_default": false } },
-        "help": { "type": "menu", "settings": { "heading": "Help", "menu": "footer-4", "open_by_default": false } }
+        "m1": { "type": "menu", "settings": { "heading": "Shop" } },
+        "m2": { "type": "menu", "settings": { "heading": "Learn" } },
+        "m3": { "type": "menu", "settings": { "heading": "Help" } },
+        "m4": { "type": "menu", "settings": { "heading": "Follow" } },
+        "p1": { "type": "policy", "settings": { "label": "Terms" } },
+        "p2": { "type": "policy", "settings": { "label": "Privacy" } },
+        "p3": { "type": "policy", "settings": { "label": "Accessibility" } }
       },
-      "block_order": ["shop", "learn", "help"],
-      "settings": {
-        "tagline": "Smooth, the quiet way.",
-        "show_newsletter": true,
-        "newsletter_text": "Be the first to hear about new launches, early access and 10% off your first order.",
-        "newsletter_button": "Subscribe",
-        "background_color": "#1d1d1b",
-        "text_color": "#B9B9B2"
-      }
+      "block_order": ["m1", "m2", "m3", "m4", "p1", "p2", "p3"],
+      "settings": {}
     }
   },
-  "order": ["footer"]
+  "order": ["sc-footer"]
 }
