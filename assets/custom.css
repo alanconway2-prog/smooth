@@ -13,3 +13,12 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Gotham', system-ui, sans-serif; font-weig
 }
 /* Header hairline to match design */
 .section-header { border-bottom-color: #eeeeec; }
+
+/* Our homepage sections own ALL their vertical spacing.
+   Tailor puts margin: 4rem 0 on every <section> (core.css) — that stacked on top of
+   our sections' own padding and created the big gaps between sections. Neutralise it
+   for our sections only (they all carry .sc-section); Tailor's other templates keep
+   their default rhythm. Also drop the header's bottom margin on the homepage so the
+   hero sits flush under it. */
+.sc-section { margin-top: 0 !important; margin-bottom: 0 !important; }
+.template-index header.header { margin-bottom: 0 !important; }
