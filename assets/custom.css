@@ -887,3 +887,25 @@ header.header__header { margin-top: 0 !important; padding-top: 58px; }
 .sc-offer__dot { width: 6px; height: 6px; border-radius: 100px; background: #b5e3d9; display: inline-block; }
 @media (min-width: 1024px) { .sc-offer { display: inline-flex; } }
 /* ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ */
+/* SC: clean homepage layout — strip inherited theme spacing/overflow  */
+/* Fixes the desktop right-shift and the random gaps between sections. */
+body.template-index #site-main { overflow-x: hidden; max-width: 100%; }
+/* The wholesale wrapper <wlm> is an unknown (inline) element — make it block
+   so it doesn't distort the section flow. */
+body.template-index wlm,
+body.template-index .wlm-content { display: block; width: 100%; max-width: 100%; }
+/* Let SC sections span the full width with no theme gutters/margins, and
+   let each section own its own vertical spacing (no inherited rhythm gaps). */
+body.template-index #site-main > wlm > .shopify-section,
+body.template-index #site-main .shopify-section {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+/* Belt-and-braces: nothing on the homepage may push past the viewport edge. */
+body.template-index img,
+body.template-index video { max-width: 100%; }
+/* ------------------------------------------------------------------ */
