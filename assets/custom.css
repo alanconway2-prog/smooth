@@ -868,3 +868,22 @@ header.header__header { margin-top: 0 !important; padding-top: 58px; }
   header.header__header { margin-top: 0 !important; padding-top: 49px; }
 }
 /* ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ */
+/* SC: desktop-only offer highlight link in the header right group */
+.sc-offer {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Gotham Medium', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #0f3d51;
+  white-space: nowrap;
+}
+.sc-offer:hover { color: #0f3d51; opacity: 0.75; }
+.sc-offer__dot { width: 6px; height: 6px; border-radius: 100px; background: #b5e3d9; display: inline-block; }
+@media (min-width: 1024px) { .sc-offer { display: inline-flex; } }
+/* ------------------------------------------------------------------ */

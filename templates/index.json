@@ -3,255 +3,93 @@
     "hero": {
       "type": "sc-hero",
       "settings": {
-        "video_height": 470,
-        "rating_text": "4.7 · 460+ reviews",
+        "placement": "below",
         "heading": "Smooth, the quiet way.",
-        "subheading": "Smoothing that feels like skincare — considered, gentle, everyday.",
+        "subheading": "Award-winning smoothing tools, loved by 50,000+. Frizz and flyaways, gone in seconds.",
         "button_label": "Shop the range",
-        "button_link": "shopify://collections/all",
-        "background_color": "#ffffff"
+        "button_link": "shopify://collections/all"
       }
     },
     "bestsellers": {
       "type": "sc-product-rail",
       "blocks": {
-        "tab_best": {
-          "type": "tab",
-          "settings": {
-            "label": "Best sellers",
-            "collection": "all"
-          }
-        },
-        "tab_new": {
-          "type": "tab",
-          "settings": {
-            "label": "New in"
-          }
-        },
-        "tab_bundles": {
-          "type": "tab",
-          "settings": {
-            "label": "Bundles"
-          }
-        }
+        "tab1": { "type": "tab", "settings": { "label": "Best sellers", "collection": "all" } },
+        "tab2": { "type": "tab", "settings": { "label": "New in" } },
+        "tab3": { "type": "tab", "settings": { "label": "Gifting" } },
+        "tab4": { "type": "tab", "settings": { "label": "Travel" } }
       },
-      "block_order": [
-        "tab_best",
-        "tab_new",
-        "tab_bundles"
-      ],
+      "block_order": ["tab1", "tab2", "tab3", "tab4"],
       "settings": {
-        "eyebrow": "Shop the edit",
-        "products_to_show": 8,
-        "button_label": "Shop all",
-        "button_link": "shopify://collections/all",
-        "padding_top": 72,
-        "background_color": "#ffffff"
+        "heading": "Best sellers",
+        "link_label": "View all",
+        "link_url": "shopify://collections/all",
+        "columns_desktop": "4",
+        "card_shape": "portrait"
       }
     },
-    "statement": {
-      "type": "sc-statement",
+    "editorial": {
+      "type": "sc-editorial",
       "settings": {
-        "text": "Smoothing that feels like skincare.",
-        "show_rule": true,
-        "accent_color": "#b5e3d9",
-        "padding_top": 72,
-        "background_color": "#ffffff"
-      }
-    },
-    "categories": {
-      "type": "sc-category-rail",
-      "blocks": {
-        "c1": {
-          "type": "category",
-          "settings": {
-            "label": "Sticks"
-          }
-        },
-        "c2": {
-          "type": "category",
-          "settings": {
-            "label": "Creams"
-          }
-        },
-        "c3": {
-          "type": "category",
-          "settings": {
-            "label": "Tools"
-          }
-        },
-        "c4": {
-          "type": "category",
-          "settings": {
-            "label": "Travel"
-          }
-        },
-        "c5": {
-          "type": "category",
-          "settings": {
-            "label": "Gifting"
-          }
-        }
-      },
-      "block_order": [
-        "c1",
-        "c2",
-        "c3",
-        "c4",
-        "c5"
-      ],
-      "settings": {
-        "eyebrow": "Shop by category",
-        "padding_top": 72,
-        "background_color": "#ffffff"
+        "label": "The world of Smooth",
+        "button_label": "Explore the range",
+        "button_url": "shopify://collections/all",
+        "content_position": "bottom-left",
+        "button_style": "outline"
       }
     },
     "press": {
       "type": "sc-press",
       "blocks": {
-        "p1": {
-          "type": "press",
-          "settings": {
-            "name": "Vogue"
-          }
-        },
-        "p2": {
-          "type": "press",
-          "settings": {
-            "name": "Elle"
-          }
-        },
-        "p3": {
-          "type": "press",
-          "settings": {
-            "name": "Grazia"
-          }
-        },
-        "p4": {
-          "type": "press",
-          "settings": {
-            "name": "Stylist"
-          }
-        }
+        "l1": { "type": "logo", "settings": { "name": "Vogue" } },
+        "l2": { "type": "logo", "settings": { "name": "Good Morning America" } },
+        "l3": { "type": "logo", "settings": { "name": "GQ" } },
+        "l4": { "type": "logo", "settings": { "name": "YOU" } }
       },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4"
-      ],
-      "settings": {
-        "caption": "As seen in · Winner, Beauty Awards 2025",
-        "padding_top": 72,
-        "background_color": "#ffffff"
-      }
+      "block_order": ["l1", "l2", "l3", "l4"],
+      "settings": { "eyebrow": "As seen in" }
     },
-    "founder": {
-      "type": "sc-founder",
-      "settings": {
-        "quote": "“I wanted smoothing that felt considered — gentle, everyday, yours.”",
-        "button_label": "Read our story",
-        "button_link": "",
-        "padding_top": 72,
-        "background_color": "#ffffff"
-      }
-    },
-    "watch": {
-      "type": "sc-watch-shop",
+    "statement": {
+      "type": "sc-statement",
       "blocks": {
-        "v1": {
-          "type": "clip",
-          "settings": {
-            "title": "Tame flyaways in 60s",
-            "price": "£24"
-          }
-        },
-        "v2": {
-          "type": "clip",
-          "settings": {
-            "title": "The polished slick",
-            "price": "£22"
-          }
-        },
-        "v3": {
-          "type": "clip",
-          "settings": {
-            "title": "Travel-ready hair",
-            "price": "£30"
-          }
-        }
+        "s1": { "type": "link", "settings": { "label": "Our story" } },
+        "s2": { "type": "link", "settings": { "label": "Smooth School" } }
       },
-      "block_order": [
-        "v1",
-        "v2",
-        "v3"
-      ],
-      "settings": {
-        "eyebrow": "Watch & shop",
-        "padding_top": 72,
-        "background_color": "#ffffff"
-      }
+      "block_order": ["s1", "s2"],
+      "settings": {}
+    },
+    "category": {
+      "type": "sc-category-rail",
+      "blocks": {
+        "c1": { "type": "category", "settings": { "label": "Brushes" } },
+        "c2": { "type": "category", "settings": { "label": "Sticks" } },
+        "c3": { "type": "category", "settings": { "label": "Gifting" } }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": { "heading": "Shop by category", "link_label": "View all", "columns_desktop": 3 }
+    },
+    "reels": {
+      "type": "sc-reels",
+      "blocks": {
+        "r1": { "type": "reel", "settings": { "name": "Smooth Stick™", "price": "£18.00" } },
+        "r2": { "type": "reel", "settings": { "name": "The Mane Master™", "price": "£24.00" } },
+        "r3": { "type": "reel", "settings": { "name": "The Detangler™ Duo", "price": "£30.00" } },
+        "r4": { "type": "reel", "settings": { "name": "Smoothcase™ Filled", "price": "£64.00" } },
+        "r5": { "type": "reel", "settings": { "name": "Finishing Balm", "price": "£20.00" } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5"],
+      "settings": { "heading": "Watch & shop", "link_label": "Shop the edit" }
     },
     "reviews": {
       "type": "sc-reviews",
       "blocks": {
-        "r1": {
-          "type": "review",
-          "settings": {
-            "quote": "My hair has never looked so polished.",
-            "name": "Amara K.",
-            "product": "Stick"
-          }
-        },
-        "r2": {
-          "type": "review",
-          "settings": {
-            "quote": "The stick lives in my bag now.",
-            "name": "Priya S.",
-            "product": "Stick"
-          }
-        },
-        "r3": {
-          "type": "review",
-          "settings": {
-            "quote": "Frizz gone in seconds, no crunch.",
-            "name": "Jo M.",
-            "product": "Cream"
-          }
-        },
-        "r4": {
-          "type": "review",
-          "settings": {
-            "quote": "Feels like skincare for my hair.",
-            "name": "Elle R.",
-            "product": "Balm"
-          }
-        }
+        "rv1": { "type": "review", "settings": { "quote": "My hair has never looked so polished.", "name": "Amara K." } },
+        "rv2": { "type": "review", "settings": { "quote": "The stick lives in my bag now.", "name": "Priya S." } },
+        "rv3": { "type": "review", "settings": { "quote": "Frizz gone in seconds, no crunch.", "name": "Jo M." } },
+        "rv4": { "type": "review", "settings": { "quote": "Feels like skincare for my hair.", "name": "Elle R." } }
       },
-      "block_order": [
-        "r1",
-        "r2",
-        "r3",
-        "r4"
-      ],
-      "settings": {
-        "score": "4.7",
-        "count_label": "460+ verified reviews",
-        "button_label": "Read all 460 reviews",
-        "button_link": "",
-        "padding_top": 72,
-        "background_color": "#ffffff"
-      }
+      "block_order": ["rv1", "rv2", "rv3", "rv4"],
+      "settings": { "heading": "460+ five-star reviews." }
     }
   },
-  "order": [
-    "hero",
-    "bestsellers",
-    "statement",
-    "categories",
-    "press",
-    "founder",
-    "watch",
-    "reviews"
-  ]
+  "order": ["hero", "bestsellers", "editorial", "press", "statement", "category", "reels", "reviews"]
 }

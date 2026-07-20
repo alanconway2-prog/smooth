@@ -1,101 +1,130 @@
 {% comment %}
-  Smooth Company — Hero (custom)
-  Full-bleed muted autoplay loop (poster for first paint), with the copy sitting
-  BELOW the video, centered on white: rating line, one-line H2, subcopy, CTA.
-  Touchpoint 1 of the reviews rule (aggregate rating under the hero).
+  Smooth Company — Hero "10A" (custom)
+  Full-bleed muted autoplay loop (poster for first paint). Two text placements:
+    • below  — headline + subline + solid square CTA, centered on white under the film
+    • overlay — text ON the video, positioned via a 6-way control with an auto scrim
+  No aggregate rating line (moved out of the hero in 10A).
 {% endcomment %}
 
 {%- liquid
   assign video = section.settings.video
   assign poster = section.settings.poster
+  assign pos = section.settings.text_position
+  assign scrim = 'scrim-bottom'
+  if pos == 'top-left' or pos == 'top-right'
+    assign scrim = 'scrim-top'
+  elsif pos == 'center'
+    assign scrim = 'scrim-center'
+  endif
 -%}
 
 <style>
-  #shopify-section-{{ section.id }} .sc-hero { background: {{ section.settings.background_color }}; --sc-ink:#1d1d1b; --sc-muted:#6C6C66; }
-  #shopify-section-{{ section.id }} .sc-hero__media {
-    position: relative; height: {{ section.settings.video_height }}px; overflow: hidden; background: #e7e3dd;
+  #shopify-section-{{ section.id }} .sc-hero { background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-hero__film {
+    position: relative; height: {{ section.settings.height_mobile }}px; overflow: hidden; background: #20262a;
   }
-  #shopify-section-{{ section.id }} .sc-hero__media video,
-  #shopify-section-{{ section.id }} .sc-hero__media img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
-  }
+  #shopify-section-{{ section.id }} .sc-hero__film video,
+  #shopify-section-{{ section.id }} .sc-hero__film img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   #shopify-section-{{ section.id }} .sc-hero__ph {
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(120deg,#e7e3dd 0 16px,#efece6 16px 32px);
-    animation: sc-softpan 20s ease-in-out infinite;
+    position: absolute; inset: 0; animation: sc-softpan 22s ease-in-out infinite;
+    background: repeating-linear-gradient(120deg,#20262a 0 18px,#31404a 18px 36px);
   }
-  #shopify-section-{{ section.id }} .sc-hero__ph-label {
-    position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%);
-    text-align: center; font-style: italic; color: #b3aa9e; font-size: 11px; font-family: Georgia, serif;
-  }
-  @keyframes sc-softpan { 0%{transform:scale(1.08) translate(0,0)} 50%{transform:scale(1.15) translate(-2%,-1%)} 100%{transform:scale(1.08) translate(0,0)} }
-  #shopify-section-{{ section.id }} .sc-hero__body { text-align: center; padding: 44px 20px 0; }
-  #shopify-section-{{ section.id }} .sc-hero__rating {
-    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
-    font-family: 'Gotham Medium', sans-serif; font-size: 11px; letter-spacing: 0.06em; color: var(--sc-muted);
-  }
-  #shopify-section-{{ section.id }} .sc-hero__stars { color: var(--sc-ink); font-size: 12px; letter-spacing: 0.1em; }
-  #shopify-section-{{ section.id }} .sc-hero__title {
-    font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700;
-    font-size: 26px; line-height: 1.02; letter-spacing: -0.01em; margin: 0 0 14px;
-    white-space: nowrap; color: var(--sc-ink); text-transform: none;
+  @keyframes sc-softpan { 0%{transform:scale(1.06)} 50%{transform:scale(1.12)} 100%{transform:scale(1.06)} }
+
+  /* ---- Below-video text ---- */
+  #shopify-section-{{ section.id }} .sc-hero__below { text-align: {{ section.settings.below_alignment }}; padding: 44px 24px 0; }
+  #shopify-section-{{ section.id }} .sc-hero__h {
+    font-family: 'Gotham', sans-serif; font-weight: 700; text-transform: none;
+    font-size: 30px; line-height: 1; letter-spacing: -0.02em; margin: 0 0 12px; color: {{ section.settings.text_color_below }};
   }
   #shopify-section-{{ section.id }} .sc-hero__sub {
-    font-family: 'Gotham Medium', sans-serif; font-size: 13px; color: var(--sc-muted);
-    line-height: 1.5; margin: 0 auto 22px; max-width: 290px;
+    font-family: 'Gotham Medium', sans-serif; font-size: 13px; color: #6C6C66; line-height: 1.55;
+    margin: 0 auto 22px; max-width: 300px;
   }
   #shopify-section-{{ section.id }} .sc-hero__cta {
-    display: inline-block; background: var(--sc-ink); color: #fff;
-    font-family: 'Gotham Medium', sans-serif; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase; padding: 16px 34px;
+    display: inline-block; background: {{ section.settings.button_bg }}; color: {{ section.settings.button_fg }};
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+    text-transform: uppercase; padding: 15px 32px;
   }
-  #shopify-section-{{ section.id }} .sc-hero__cta:hover { color: #fff; background: #0f3d51; }
-  @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sc-hero__title { font-size: 40px; white-space: normal; }
-    #shopify-section-{{ section.id }} .sc-hero__sub { max-width: 420px; font-size: 15px; }
-    #shopify-section-{{ section.id }} .sc-hero__body { padding-top: 52px; }
+
+  /* ---- Overlay text ---- */
+  #shopify-section-{{ section.id }} .sc-hero__scrim { position: absolute; inset: 0; z-index: 1; }
+  #shopify-section-{{ section.id }} .sc-hero__scrim.scrim-bottom { background: linear-gradient(to top, rgba(12,14,16,{{ section.settings.scrim_opacity | divided_by: 100.0 }}), transparent 55%); }
+  #shopify-section-{{ section.id }} .sc-hero__scrim.scrim-top { background: linear-gradient(to bottom, rgba(12,14,16,{{ section.settings.scrim_opacity | divided_by: 100.0 }}), transparent 55%); }
+  #shopify-section-{{ section.id }} .sc-hero__scrim.scrim-center { background: rgba(12,14,16,{{ section.settings.scrim_opacity | minus: 28 | at_least: 0 | divided_by: 100.0 }}); }
+  #shopify-section-{{ section.id }} .sc-hero__ov {
+    position: absolute; z-index: 2; color: #fff; padding: 0 4px;
+    --sc-pad-x: 24px; --sc-pad-b: 34px; --sc-pad-t: 30px;
   }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-bottom-left { bottom: var(--sc-pad-b); left: var(--sc-pad-x); text-align: left; }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-bottom-right { bottom: var(--sc-pad-b); right: var(--sc-pad-x); text-align: right; }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-bottom-center { bottom: var(--sc-pad-b); left: 0; right: 0; text-align: center; }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-center { top: 50%; transform: translateY(-50%); left: 0; right: 0; text-align: center; }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-top-left { top: var(--sc-pad-t); left: var(--sc-pad-x); text-align: left; }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-top-right { top: var(--sc-pad-t); right: var(--sc-pad-x); text-align: right; }
+  #shopify-section-{{ section.id }} .sc-hero__hov {
+    font-family: 'Gotham', sans-serif; font-weight: 700; text-transform: none;
+    font-size: 32px; line-height: 0.98; letter-spacing: -0.02em; margin: 0 0 12px;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__subov {
+    font-family: 'Gotham Medium', sans-serif; font-size: 12.5px; color: #f1efe9; line-height: 1.5; margin: 0 0 18px; max-width: 260px;
+  }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-bottom-center .sc-hero__subov,
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-center .sc-hero__subov { margin-left: auto; margin-right: auto; }
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-bottom-right .sc-hero__subov,
+  #shopify-section-{{ section.id }} .sc-hero__ov.pos-top-right .sc-hero__subov { margin-left: auto; }
+  #shopify-section-{{ section.id }} .sc-hero__ctaov {
+    display: inline-block; background: #fff; color: #1d1d1b;
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+    text-transform: uppercase; padding: 15px 32px;
+  }
+
   @media (min-width: 1024px) {
-    #shopify-section-{{ section.id }} .sc-hero__media { height: {{ section.settings.video_height_desktop }}px; }
-    #shopify-section-{{ section.id }} .sc-hero__title { font-size: 52px; letter-spacing: -0.015em; margin-bottom: 18px; }
-    #shopify-section-{{ section.id }} .sc-hero__body { padding-top: 56px; }
-    #shopify-section-{{ section.id }} .sc-hero__rating { font-size: 12px; margin-bottom: 22px; }
+    #shopify-section-{{ section.id }} .sc-hero__film { height: {{ section.settings.height_desktop }}px; }
+    #shopify-section-{{ section.id }} .sc-hero__below { padding: 56px 30px 0; }
+    #shopify-section-{{ section.id }} .sc-hero__h { font-size: 44px; margin-bottom: 16px; }
     #shopify-section-{{ section.id }} .sc-hero__sub { font-size: 15px; max-width: 440px; margin-bottom: 26px; }
-    #shopify-section-{{ section.id }} .sc-hero__cta { font-size: 12px; padding: 18px 44px; }
+    #shopify-section-{{ section.id }} .sc-hero__cta { font-size: 12px; padding: 17px 42px; }
+    #shopify-section-{{ section.id }} .sc-hero__ov { --sc-pad-x: 48px; --sc-pad-b: 52px; --sc-pad-t: 48px; padding: 0; }
+    #shopify-section-{{ section.id }} .sc-hero__hov { font-size: 54px; margin-bottom: 16px; }
+    #shopify-section-{{ section.id }} .sc-hero__subov { font-size: 15px; max-width: 420px; margin-bottom: 24px; }
+    #shopify-section-{{ section.id }} .sc-hero__ctaov { font-size: 12px; padding: 17px 42px; }
   }
 </style>
 
+{%- if section.settings.enable -%}
 <div class="sc-hero">
-  <div class="sc-hero__media">
+  <div class="sc-hero__film">
     {%- if video != blank -%}
-      <video autoplay muted loop playsinline preload="metadata"{% if poster != blank %} poster="{{ poster | image_url: width: 1100 }}"{% endif %}>
-        {%- for source in video.sources -%}
-          <source src="{{ source.url }}" type="{{ source.mime_type }}">
-        {%- endfor -%}
+      <video autoplay muted loop playsinline preload="metadata"{% if poster != blank %} poster="{{ poster | image_url: width: 1600 }}"{% endif %}>
+        {%- for source in video.sources -%}<source src="{{ source.url }}" type="{{ source.mime_type }}">{%- endfor -%}
       </video>
     {%- elsif poster != blank -%}
-      {{ poster | image_url: width: 1100 | image_tag: loading: 'eager', sizes: '100vw', widths: '390, 750, 1100, 1500', alt: '' }}
+      {%- assign hero_alt = poster.alt | default: section.settings.heading -%}
+      {{ poster | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '600, 900, 1200, 1600, 2000', alt: hero_alt }}
     {%- else -%}
       <div class="sc-hero__ph"></div>
-      <div class="sc-hero__ph-label">brand film — muted · autoplay · loop</div>
+    {%- endif -%}
+
+    {%- if section.settings.placement == 'overlay' -%}
+      <div class="sc-hero__scrim {{ scrim }}"></div>
+      <div class="sc-hero__ov pos-{{ pos }}">
+        {%- if section.settings.heading != blank -%}<h2 class="sc-hero__hov">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.subheading != blank -%}<p class="sc-hero__subov">{{ section.settings.subheading }}</p>{%- endif -%}
+        {%- if section.settings.button_label != blank -%}<a class="sc-hero__ctaov" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>{%- endif -%}
+      </div>
     {%- endif -%}
   </div>
 
-  <div class="sc-hero__body">
-    {%- if section.settings.rating_text != blank -%}
-      <div class="sc-hero__rating"><span class="sc-hero__stars">★★★★★</span>{{ section.settings.rating_text }}</div>
-    {%- endif -%}
-    {%- if section.settings.heading != blank -%}
-      <h2 class="sc-hero__title">{{ section.settings.heading }}</h2>
-    {%- endif -%}
-    {%- if section.settings.subheading != blank -%}
-      <p class="sc-hero__sub">{{ section.settings.subheading }}</p>
-    {%- endif -%}
-    {%- if section.settings.button_label != blank -%}
-      <a class="sc-hero__cta" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>
-    {%- endif -%}
-  </div>
+  {%- if section.settings.placement == 'below' -%}
+    <div class="sc-hero__below">
+      {%- if section.settings.heading != blank -%}<h2 class="sc-hero__h">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="sc-hero__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      {%- if section.settings.button_label != blank -%}<a class="sc-hero__cta" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>{%- endif -%}
+    </div>
+  {%- endif -%}
 </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -103,17 +132,27 @@
   "tag": "section",
   "class": "sc-section",
   "settings": [
+    { "type": "checkbox", "id": "enable", "label": "Enable section", "default": true },
+    { "type": "header", "content": "Media" },
     { "type": "video", "id": "video", "label": "Hero video (muted loop)" },
     { "type": "image_picker", "id": "poster", "label": "Poster / fallback image" },
-    { "type": "range", "id": "video_height", "min": 300, "max": 640, "step": 10, "unit": "px", "label": "Media height (mobile)", "default": 470 },
-    { "type": "range", "id": "video_height_desktop", "min": 400, "max": 820, "step": 10, "unit": "px", "label": "Media height (desktop)", "default": 660 },
-    { "type": "header", "content": "Copy (below the video)" },
-    { "type": "text", "id": "rating_text", "label": "Rating line", "default": "4.7 · 460+ reviews" },
+    { "type": "range", "id": "height_mobile", "min": 280, "max": 700, "step": 10, "unit": "px", "label": "Media height (mobile)", "default": 430 },
+    { "type": "range", "id": "height_desktop", "min": 360, "max": 900, "step": 10, "unit": "px", "label": "Media height (desktop)", "default": 560 },
+    { "type": "header", "content": "Text placement" },
+    { "type": "select", "id": "placement", "label": "Text placement", "default": "below", "options": [ { "value": "below", "label": "Below the video" }, { "value": "overlay", "label": "On the video" } ] },
+    { "type": "select", "id": "text_position", "label": "Text position (when on video)", "default": "bottom-left", "options": [ { "value": "bottom-left", "label": "Bottom left" }, { "value": "bottom-center", "label": "Bottom center" }, { "value": "bottom-right", "label": "Bottom right" }, { "value": "center", "label": "Center" }, { "value": "top-left", "label": "Top left" }, { "value": "top-right", "label": "Top right" } ] },
+    { "type": "select", "id": "below_alignment", "label": "Alignment (when below)", "default": "center", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+    { "type": "range", "id": "scrim_opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Overlay darkness (on video)", "default": 62 },
+    { "type": "header", "content": "Copy" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Smooth, the quiet way." },
-    { "type": "text", "id": "subheading", "label": "Subcopy", "default": "Smoothing that feels like skincare — considered, gentle, everyday." },
+    { "type": "text", "id": "subheading", "label": "Subline", "default": "Award-winning smoothing tools, loved by 50,000+. Frizz and flyaways, gone in seconds." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop the range" },
     { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+    { "type": "header", "content": "Colours (below-video text)" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color_below", "label": "Heading colour", "default": "#1d1d1b" },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#1d1d1b" },
+    { "type": "color", "id": "button_fg", "label": "Button text", "default": "#ffffff" }
   ],
   "presets": [ { "name": "SC Hero" } ],
   "disabled_on": { "groups": ["header", "footer"] }

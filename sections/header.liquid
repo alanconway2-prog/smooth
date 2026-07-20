@@ -1571,6 +1571,11 @@
               {% endfor %}
             </ul>
           </nav>
+          {%- if section.settings.offer_text != blank -%}
+            <a href="{{ section.settings.offer_link | default: routes.all_products_collection_url }}" class="sc-offer">
+              <span class="sc-offer__dot"></span>{{ section.settings.offer_text }}
+            </a>
+          {%- endif -%}
           <a
             href="{{ routes.search_url }}"
             class="header__search-button"
@@ -3381,6 +3386,18 @@
       "id": "show_border",
       "label": "t:component.header.show_border.label",
       "default": false
+    },
+    {
+      "type": "text",
+      "id": "offer_text",
+      "label": "Offer highlight (desktop)",
+      "info": "Small highlighted link shown at the top-right on desktop. Leave empty to hide.",
+      "default": "20% off gift sets"
+    },
+    {
+      "type": "url",
+      "id": "offer_link",
+      "label": "Offer highlight link"
     },
     {
       "type": "header",

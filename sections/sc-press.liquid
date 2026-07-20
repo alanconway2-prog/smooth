@@ -1,66 +1,108 @@
 {% comment %}
-  Smooth Company — Press / social proof band (custom)
-  One airy band on white: press names in Gotham Bold + a single caption line.
-  The one press touchpoint — keep proof off the rest of the homepage.
+  Smooth Company — "As seen in" press band (custom)
+  One airy centred band on white. Press entries are merchant-uploadable logo
+  IMAGES with a Gotham Bold text fallback when no image is set. The single press
+  touchpoint on the homepage — keep proof off the rest of the page.
 {% endcomment %}
 <style>
-  #shopify-section-{{ section.id }} .sc-press { padding: {{ section.settings.padding_top }}px 20px 0; text-align: center; background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-press {
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+    text-align: center; background: {{ section.settings.background_color }};
+  }
+  #shopify-section-{{ section.id }} .sc-press__eyebrow {
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; letter-spacing: 0.24em;
+    text-transform: uppercase; color: {{ section.settings.eyebrow_color }};
+    margin: 0 0 18px;
+  }
   #shopify-section-{{ section.id }} .sc-press__names {
-    display: flex; align-items: center; justify-content: center; gap: 22px; flex-wrap: wrap;
-    color: #1d1d1b; font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700;
-    font-size: 21px; line-height: 1; text-transform: none;
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    gap: 20px;
   }
-  #shopify-section-{{ section.id }} .sc-press__names img { height: 22px; width: auto; object-fit: contain; }
-  #shopify-section-{{ section.id }} .sc-press__caption {
-    font-family: 'Gotham Medium', sans-serif; font-size: 10px; letter-spacing: 0.22em;
-    text-transform: uppercase; color: #9A9A94; margin-top: 16px;
+  #shopify-section-{{ section.id }} .sc-press__entry {
+    display: inline-flex; align-items: center; text-decoration: none;
+    color: #1d1d1b; font-family: 'Gotham', sans-serif; font-weight: 700;
+    text-transform: none; font-size: 17px; line-height: 1; letter-spacing: -0.01em;
   }
-  @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sc-press { padding-top: calc({{ section.settings.padding_top }}px * 1.35); }
-    #shopify-section-{{ section.id }} .sc-press__names { gap: 40px; font-size: 26px; }
-    #shopify-section-{{ section.id }} .sc-press__names img { height: 26px; }
-    #shopify-section-{{ section.id }} .sc-press__caption { font-size: 11px; margin-top: 22px; }
+  #shopify-section-{{ section.id }} .sc-press__logo {
+    height: 20px; width: auto; object-fit: contain; opacity: 0.85; display: block;
   }
   @media (min-width: 1024px) {
-    #shopify-section-{{ section.id }} .sc-press__names { gap: 44px; font-size: 30px; }
+    #shopify-section-{{ section.id }} .sc-press {
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+      padding-left: 48px; padding-right: 48px;
+    }
+    #shopify-section-{{ section.id }} .sc-press__eyebrow { margin-bottom: 24px; }
+    #shopify-section-{{ section.id }} .sc-press__names { gap: 52px; }
+    #shopify-section-{{ section.id }} .sc-press__entry { font-size: 26px; }
+    #shopify-section-{{ section.id }} .sc-press__logo { height: {{ section.settings.logo_height }}px; }
   }
 </style>
-<div class="sc-press">
-  <div class="sc-press__names">
-    {%- if section.blocks.size > 0 -%}
-      {%- for block in section.blocks -%}
-        {%- if block.settings.image != blank -%}
-          {%- assign press_alt = block.settings.name | default: shop.name -%}
-          {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: press_alt, class: 'sc-press__logo' }}
-        {%- else -%}
-          <span {{ block.shopify_attributes }}>{{ block.settings.name }}</span>
-        {%- endif -%}
-      {%- endfor -%}
-    {%- else -%}
-      <span>Vogue</span><span>Elle</span><span>Grazia</span><span>Stylist</span>
+{%- if section.settings.enable -%}
+  <div class="sc-press">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="sc-press__eyebrow">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
+    <div class="sc-press__names">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign press_name = block.settings.name -%}
+          {%- if block.settings.url != blank -%}
+            <a class="sc-press__entry" href="{{ block.settings.url }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {%- assign press_alt = press_name | default: shop.name -%}
+                {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy', alt: press_alt, class: 'sc-press__logo' }}
+              {%- else -%}
+                {{ press_name }}
+              {%- endif -%}
+            </a>
+          {%- else -%}
+            <span class="sc-press__entry" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {%- assign press_alt = press_name | default: shop.name -%}
+                {{ block.settings.image | image_url: width: 320 | image_tag: loading: 'lazy', alt: press_alt, class: 'sc-press__logo' }}
+              {%- else -%}
+                {{ press_name }}
+              {%- endif -%}
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        <span class="sc-press__entry">Vogue</span>
+        <span class="sc-press__entry">Good Morning America</span>
+        <span class="sc-press__entry">GQ</span>
+        <span class="sc-press__entry">YOU</span>
+      {%- endif -%}
+    </div>
   </div>
-  {%- if section.settings.caption != blank -%}
-    <div class="sc-press__caption">{{ section.settings.caption }}</div>
-  {%- endif -%}
-</div>
+{%- endif -%}
 {% schema %}
 {
   "name": "SC Press band",
   "tag": "section",
   "class": "sc-section",
   "settings": [
-    { "type": "text", "id": "caption", "label": "Caption", "default": "As seen in · Winner, Beauty Awards 2025" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+    { "type": "checkbox", "id": "enable", "label": "Enable section", "default": true },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "As seen in" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow colour", "default": "#1d1d1b" },
+    { "type": "range", "id": "logo_height", "min": 16, "max": 48, "step": 2, "unit": "px", "label": "Logo height (desktop)", "default": 26 },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Top padding (mobile)", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Bottom padding (mobile)", "default": 0 },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Top padding (desktop)", "default": 110 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Bottom padding (desktop)", "default": 0 }
   ],
   "blocks": [
     {
-      "type": "press",
-      "name": "Press name",
+      "type": "logo",
+      "name": "Logo",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Vogue" },
-        { "type": "image_picker", "id": "image", "label": "Logo image (optional, overrides name)" }
+        { "type": "image_picker", "id": "image", "label": "Logo image (overrides name)" },
+        { "type": "text", "id": "name", "label": "Name (fallback)", "default": "Vogue" },
+        { "type": "url", "id": "url", "label": "Link (optional)" }
       ]
     }
   ],
@@ -68,10 +110,10 @@
     {
       "name": "SC Press band",
       "blocks": [
-        { "type": "press", "settings": { "name": "Vogue" } },
-        { "type": "press", "settings": { "name": "Elle" } },
-        { "type": "press", "settings": { "name": "Grazia" } },
-        { "type": "press", "settings": { "name": "Stylist" } }
+        { "type": "logo", "settings": { "name": "Vogue" } },
+        { "type": "logo", "settings": { "name": "Good Morning America" } },
+        { "type": "logo", "settings": { "name": "GQ" } },
+        { "type": "logo", "settings": { "name": "YOU" } }
       ]
     }
   ],

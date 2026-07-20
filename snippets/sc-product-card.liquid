@@ -1,76 +1,71 @@
 {% comment %}
-  Smooth Company — bordered product card with action-bar add-to-cart (treatment 4A).
+  Smooth Company — product card "10A"
   Usage: {% render 'sc-product-card', product: product %}
-  Called with no product → renders a striped-grey placeholder card (for the editor
-  before collections are chosen).
+  Called with no product → striped-grey placeholder (editor before a collection is set).
 
-  Card extras read from metafields (all optional):
-    product.metafields.custom.cutline       → short descriptor line
-    product.metafields.custom.review_count  → number shown in (nnn)
-    product.metafields.custom.badge         → top-left label (e.g. Bestseller / New)
+  Visual: grey media (#f4f3f0), mint badge flush top-left, filled-black plus-circle
+  add-to-cart bottom-right, then uppercase name, black stars + underlined grey (count),
+  price with sale support. Card shape (portrait 4:5 / square 1:1) is controlled by the
+  parent section via the --sc-card-ar CSS variable. All CSS lives in the parent section
+  (sc-product-rail) so the card stays presentation-only.
+
+  Optional product metafields (all optional, graceful fallback):
+    custom.badge         → top-left label (e.g. Bestseller / New / Winner)
+    custom.review_count  → number shown in (nnn)
 {% endcomment %}
 
 {%- if product == blank -%}
-  {%- comment %}Placeholder card{% endcomment -%}
-  <div class="sc-card">
-    <div class="sc-card__frame">
-      <div class="sc-card__media">
-        <span class="sc-card__badge">Bestseller</span>
-      </div>
-      <button type="button" class="sc-card__action" aria-hidden="true" tabindex="-1">
-        <span>Add to cart</span><span class="sc-card__plus">+</span>
-      </button>
+  <div class="sc-pcard">
+    <div class="sc-pcard__media">
+      <div class="sc-pcard__ph"></div>
+      <span class="sc-pcard__badge">Bestseller</span>
+      <button type="button" class="sc-pcard__add" aria-hidden="true" tabindex="-1">+</button>
     </div>
-    <div class="sc-card__info">
-      <p class="sc-card__title">The Smoothing Stick</p>
-      <div class="sc-card__cut">Frizz + flyaways, on the go</div>
-      <div class="sc-card__stars">★★★★★ <span class="sc-card__count">(312)</span></div>
-      <div class="sc-card__price"><span class="price">£24.00</span></div>
+    <div class="sc-pcard__meta">
+      <div class="sc-pcard__name">The Mane Master™</div>
+      <div class="sc-pcard__stars">★★★★★ <span class="sc-pcard__count">(312)</span></div>
+      <div class="sc-pcard__price"><span class="price">£24.00</span></div>
     </div>
   </div>
 {%- else -%}
   {%- liquid
-    assign cutline = product.metafields.custom.cutline
-    assign review_count = product.metafields.custom.review_count
     assign badge = product.metafields.custom.badge
+    assign review_count = product.metafields.custom.review_count
     assign on_sale = false
     if product.compare_at_price > product.price
       assign on_sale = true
     endif
   -%}
-  <div class="sc-card">
-    <div class="sc-card__frame">
-      <a class="sc-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-        {%- if badge != blank -%}
-          <span class="sc-card__badge">{{ badge }}</span>
-        {%- elsif on_sale -%}
-          <span class="sc-card__badge">Sale</span>
-        {%- endif -%}
+  <div class="sc-pcard">
+    <div class="sc-pcard__media">
+      <a class="sc-pcard__link" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
         {%- if product.featured_image -%}
           {%- assign card_alt = product.featured_image.alt | default: product.title -%}
-          {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', sizes: '248px', widths: '248, 372, 496, 700', alt: card_alt }}
+          {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', sizes: '(min-width:1024px) 25vw, 80vw', widths: '280, 420, 560, 700', alt: card_alt }}
+        {%- else -%}
+          <div class="sc-pcard__ph"></div>
         {%- endif -%}
       </a>
+      {%- if badge != blank -%}
+        <span class="sc-pcard__badge">{{ badge }}</span>
+      {%- elsif on_sale -%}
+        <span class="sc-pcard__badge">Sale</span>
+      {%- endif -%}
       {%- if product.available -%}
-        {% form 'product', product, data-sc-add-form: '', class: 'sc-card__form' %}
+        {% form 'product', product, data-sc-add-form: '', class: 'sc-pcard__form' %}
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-          <button type="submit" class="sc-card__action">
-            <span>Add to cart</span><span class="sc-card__plus">+</span>
-          </button>
+          <button type="submit" class="sc-pcard__add" aria-label="Add {{ product.title | escape }} to cart">+</button>
         {% endform %}
       {%- else -%}
-        <button type="button" class="sc-card__action" disabled>
-          <span>Sold out</span>
-        </button>
+        <button type="button" class="sc-pcard__add is-soldout" disabled aria-label="Sold out">×</button>
       {%- endif -%}
     </div>
-    <div class="sc-card__info">
-      <p class="sc-card__title"><a href="{{ product.url }}">{{ product.title }}</a></p>
-      {%- if cutline != blank -%}<div class="sc-card__cut">{{ cutline }}</div>{%- endif -%}
-      <div class="sc-card__stars">★★★★★
-        {%- if review_count != blank %} <span class="sc-card__count">({{ review_count }})</span>{% endif -%}
+    <div class="sc-pcard__meta">
+      <a class="sc-pcard__name" href="{{ product.url }}">{{ product.title }}</a>
+      <div class="sc-pcard__stars">★★★★★
+        {%- if review_count != blank %} <span class="sc-pcard__count">({{ review_count }})</span>{% endif -%}
       </div>
-      <div class="sc-card__price">{% render 'price', product: product %}</div>
+      <div class="sc-pcard__price">{% render 'price', product: product %}</div>
     </div>
   </div>
 {%- endif -%}

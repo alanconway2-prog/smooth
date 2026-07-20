@@ -1,140 +1,148 @@
 {% comment %}
   Smooth Company — Reviews (custom / PROVISIONAL — Touchpoint 3)
-  Big aggregate score, full stars, "460+ verified reviews", a rail of photo review
-  cards (image + stars + quote + verified buyer + product), and an outline CTA.
+  Big centered statement + a grid (desktop) / horizontal rail (mobile) of mint
+  review cards. Each card = mint background, black stars, quote, verified name.
 
-  PROVISIONAL: markup is kept deliberately generic and swappable. Once the reviews
-  platform is chosen (Loox / Klaviyo Reviews / Firework), replace the cards loop
-  (or the whole rail) with that app's block/snippet. The header + CTA can stay.
+  PROVISIONAL: the card markup is kept deliberately generic and swappable. Once a
+  reviews platform is chosen (Loox / Klaviyo Reviews / Firework), replace the
+  blocks loop (or the whole grid) with that app's block/snippet. Heading + CTA stay.
 {% endcomment %}
+{%- if section.settings.enable -%}
 <style>
-  #shopify-section-{{ section.id }} .sc-rev { padding: {{ section.settings.padding_top }}px 0 0; background: {{ section.settings.background_color }}; --sc-rev-border: {% if section.settings.show_card_border %}1px solid #ececea{% else %}none{% endif %}; }
-  #shopify-section-{{ section.id }} .sc-rev__head { text-align: center; margin-bottom: 30px; }
-  #shopify-section-{{ section.id }} .sc-rev__score {
-    font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700; font-size: 72px; line-height: 0.9; color: #1d1d1b;
+  #shopify-section-{{ section.id }} .sc-rev {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.background_color }};
   }
-  #shopify-section-{{ section.id }} .sc-rev__stars { font-size: 15px; letter-spacing: 0.14em; margin: 10px 0 8px; color: #000; }
-  #shopify-section-{{ section.id }} .sc-rev__count {
-    font-family: 'Gotham Medium', sans-serif; font-size: 10px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: #9A9A94;
+  #shopify-section-{{ section.id }} .sc-rev__head {
+    text-align: {{ section.settings.heading_alignment }};
+    padding: 0 24px; margin-bottom: 28px;
   }
-  #shopify-section-{{ section.id }} .sc-rev__track {
-    display: flex; gap: 2px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  #shopify-section-{{ section.id }} .sc-rev__heading {
+    font-family: 'Gotham', sans-serif; font-weight: 700; text-transform: none;
+    font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; margin: 0;
+    color: {{ section.settings.heading_color }};
   }
-  #shopify-section-{{ section.id }} .sc-rev__track::-webkit-scrollbar { height: 0; }
-  #shopify-section-{{ section.id }} .sc-rev__card { flex: 0 0 260px; scroll-snap-align: start; }
+  #shopify-section-{{ section.id }} .sc-rev__grid {
+    display: flex; gap: 2px; overflow-x: auto; padding: 0 20px;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  }
+  #shopify-section-{{ section.id }} .sc-rev__grid::-webkit-scrollbar { height: 0; }
+  #shopify-section-{{ section.id }} .sc-rev__card {
+    flex: 0 0 240px; scroll-snap-align: start;
+    background: {{ section.settings.card_color }}; color: #000; padding: 20px;
+  }
   #shopify-section-{{ section.id }} .sc-rev__media {
-    aspect-ratio: 1/1; position: relative;
-    background: repeating-linear-gradient(120deg,#efefec 0 13px,#f6f6f4 13px 26px);
+    aspect-ratio: 1/1; margin-bottom: 14px; overflow: hidden;
+    background: repeating-linear-gradient(120deg,#eef0ee 0 13px,#f6f7f5 13px 26px);
   }
   #shopify-section-{{ section.id }} .sc-rev__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   #shopify-section-{{ section.id }} .sc-rev__chip {
-    position: absolute; bottom: 14px; left: 14px; z-index: 2; background: #fff; color: #1d1d1b;
-    padding: 6px 10px; font-family: 'Gotham Medium', sans-serif; font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    display: inline-block; background: #1d1d1b; color: #fff; margin-bottom: 12px;
+    padding: 5px 9px; font-family: 'Gotham Medium', sans-serif;
+    font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase;
   }
-  #shopify-section-{{ section.id }} .sc-rev__body { padding: 14px; }
-  #shopify-section-{{ section.id }} .sc-rev__cstars { font-size: 12px; letter-spacing: 0.1em; margin-bottom: 10px; color: #000; }
+  #shopify-section-{{ section.id }} .sc-rev__stars {
+    font-size: 12px; letter-spacing: 0.1em; margin-bottom: 12px; color: #1d1d1b;
+  }
   #shopify-section-{{ section.id }} .sc-rev__quote {
-    font-family: 'Gotham Medium', sans-serif; font-size: 14px; line-height: 1.4; margin: 0 0 12px; color: #1d1d1b;
+    font-family: 'Gotham Medium', sans-serif; font-size: 14px; line-height: 1.42;
+    margin: 0 0 14px; color: #1d1d1b;
   }
-  #shopify-section-{{ section.id }} .sc-rev__by {
-    font-family: 'Gotham Medium', sans-serif; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #A8A8A2;
+  #shopify-section-{{ section.id }} .sc-rev__lab {
+    font-family: 'Gotham Medium', sans-serif; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #1d1d1b;
   }
-  #shopify-section-{{ section.id }} .sc-rev__cta { text-align: center; margin-top: 26px; }
+  #shopify-section-{{ section.id }} .sc-rev__cta { text-align: center; margin-top: 26px; padding: 0 20px; }
   #shopify-section-{{ section.id }} .sc-rev__btn {
-    display: inline-block; border: 1px solid #1d1d1b; background: transparent; color: #1d1d1b;
-    font-family: 'Gotham Medium', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+    display: inline-block; border: 1px solid #1d1d1b; border-radius: 0; background: transparent; color: #1d1d1b;
+    font-family: 'Gotham Medium', sans-serif; font-size: 11px; letter-spacing: 0.16em;
     text-transform: uppercase; padding: 14px 34px; transition: all .18s;
   }
   #shopify-section-{{ section.id }} .sc-rev__btn:hover { background: #1d1d1b; color: #fff; }
-  /* Tablet & desktop: rail becomes a grid (2-up → 4-up) */
-  @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sc-rev { padding-top: calc({{ section.settings.padding_top }}px * 1.4); }
-    #shopify-section-{{ section.id }} .sc-rev__head { margin-bottom: 44px; }
-    #shopify-section-{{ section.id }} .sc-rev__score { font-size: 88px; }
-    #shopify-section-{{ section.id }} .sc-rev__stars { font-size: 18px; margin: 12px 0 10px; }
-    #shopify-section-{{ section.id }} .sc-rev__count { font-size: 11px; }
-    #shopify-section-{{ section.id }} .sc-rev__track {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; overflow: visible; padding: 0 24px;
-    }
-    #shopify-section-{{ section.id }} .sc-rev__card { flex: none; scroll-snap-align: none; border: var(--sc-rev-border); }
-    #shopify-section-{{ section.id }} .sc-rev__body { padding: 20px; }
-    #shopify-section-{{ section.id }} .sc-rev__quote { font-size: 15px; line-height: 1.42; }
-    #shopify-section-{{ section.id }} .sc-rev__cta { margin-top: 38px; }
-    #shopify-section-{{ section.id }} .sc-rev__btn { font-size: 12px; padding: 15px 40px; }
-  }
   @media (min-width: 1024px) {
-    #shopify-section-{{ section.id }} .sc-rev__track { grid-template-columns: repeat(4, 1fr); padding: 0 48px; }
+    #shopify-section-{{ section.id }} .sc-rev {
+      padding: {{ section.settings.padding_top_desktop }}px 48px {{ section.settings.padding_bottom_desktop }}px;
+    }
+    #shopify-section-{{ section.id }} .sc-rev__head { margin-bottom: 40px; }
+    #shopify-section-{{ section.id }} .sc-rev__heading { font-size: 52px; }
+    #shopify-section-{{ section.id }} .sc-rev__grid {
+      display: grid; grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+      gap: 2px; overflow: visible; padding: 0;
+    }
+    #shopify-section-{{ section.id }} .sc-rev__card { flex: none; scroll-snap-align: none; padding: 28px; }
+    #shopify-section-{{ section.id }} .sc-rev__quote { font-size: 15px; }
+    #shopify-section-{{ section.id }} .sc-rev__cta { margin-top: 38px; padding: 0; }
   }
 </style>
 <div class="sc-rev">
-  <div class="sc-rev__head">
-    <div class="sc-rev__score">{{ section.settings.score }}</div>
-    <div class="sc-rev__stars">★★★★★</div>
-    <div class="sc-rev__count">{{ section.settings.count_label }}</div>
-  </div>
-  <div class="sc-rev__track">
+  {%- if section.settings.heading != blank -%}
+    <div class="sc-rev__head">
+      <h2 class="sc-rev__heading">{{ section.settings.heading }}</h2>
+    </div>
+  {%- endif -%}
+  <div class="sc-rev__grid">
     {%- if section.blocks.size > 0 -%}
       {%- for block in section.blocks -%}
+        {%- assign alt_txt = block.settings.name | default: 'Verified review' -%}
         <div class="sc-rev__card" {{ block.shopify_attributes }}>
-          <div class="sc-rev__media">
-            {%- if block.settings.image != blank -%}
-              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '260px', widths: '260, 390, 520, 600', alt: block.settings.name }}
-            {%- endif -%}
-            {%- if block.settings.product != blank -%}<span class="sc-rev__chip">Shop {{ block.settings.product }}</span>{%- endif -%}
-          </div>
-          <div class="sc-rev__body">
-            <div class="sc-rev__cstars">★★★★★</div>
-            <p class="sc-rev__quote">“{{ block.settings.quote }}”</p>
-            <div class="sc-rev__by">{{ block.settings.name }} · Verified buyer</div>
-          </div>
-        </div>
-      {%- endfor -%}
-    {%- else -%}
-      {%- assign phr = 'My hair has never looked so polished.|Amara K.|Stick,The stick lives in my bag now.|Priya S.|Stick,Frizz gone in seconds, no crunch.|Jo M.|Cream,Feels like skincare for my hair.|Elle R.|Balm' | split: ',' -%}
-      {%- for item in phr -%}
-        {%- assign parts = item | split: '|' -%}
-        <div class="sc-rev__card">
-          <div class="sc-rev__media"><span class="sc-rev__chip">Shop {{ parts[2] }}</span></div>
-          <div class="sc-rev__body">
-            <div class="sc-rev__cstars">★★★★★</div>
-            <p class="sc-rev__quote">“{{ parts[0] }}”</p>
-            <div class="sc-rev__by">{{ parts[1] }} · Verified buyer</div>
-          </div>
+          {%- if block.settings.image != blank -%}
+            <div class="sc-rev__media">
+              {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '240px', widths: '240, 360, 480, 600', alt: alt_txt }}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.product != blank -%}<span class="sc-rev__chip">{{ block.settings.product }}</span>{%- endif -%}
+          <div class="sc-rev__stars">★★★★★</div>
+          {%- if block.settings.quote != blank -%}<p class="sc-rev__quote">“{{ block.settings.quote }}”</p>{%- endif -%}
+          <div class="sc-rev__lab">{{ block.settings.name }} · Verified</div>
         </div>
       {%- endfor -%}
     {%- endif -%}
   </div>
   {%- if section.settings.button_label != blank -%}
     <div class="sc-rev__cta">
-      <a class="sc-rev__btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>
+      <a class="sc-rev__btn" href="{{ section.settings.button_url | default: '#' }}">{{ section.settings.button_label }}</a>
     </div>
   {%- endif -%}
 </div>
+{%- endif -%}
 {% schema %}
 {
   "name": "SC Reviews",
   "tag": "section",
   "class": "sc-section",
   "settings": [
-    { "type": "paragraph", "content": "Provisional block — swap the cards for your reviews app (Loox / Klaviyo / Firework) once chosen. Score, count and CTA can stay." },
-    { "type": "text", "id": "score", "label": "Aggregate score", "default": "4.7" },
-    { "type": "text", "id": "count_label", "label": "Count label", "default": "460+ verified reviews" },
-    { "type": "text", "id": "button_label", "label": "Button label", "default": "Read all 460 reviews" },
-    { "type": "url", "id": "button_link", "label": "Button link" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
+    { "type": "paragraph", "content": "Provisional — swap for your reviews app once chosen." },
+    { "type": "checkbox", "id": "enable", "label": "Enable section", "default": true },
     { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
-    { "type": "checkbox", "id": "show_card_border", "label": "Show border around review cards (desktop)", "default": true }
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "460+ five-star reviews." },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#1d1d1b" },
+    { "type": "select", "id": "heading_alignment", "label": "Heading alignment", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "header", "content": "Cards" },
+    { "type": "color", "id": "card_color", "label": "Card background", "default": "#b5e3d9" },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 5, "step": 1, "label": "Columns (desktop)", "default": 4 },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_url", "label": "Button link" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Top padding (mobile)", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Bottom padding (mobile)", "default": 0 },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Top padding (desktop)", "default": 110 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Bottom padding (desktop)", "default": 0 }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "image_picker", "id": "image", "label": "Photo (optional)" },
         { "type": "textarea", "id": "quote", "label": "Quote", "default": "My hair has never looked so polished." },
         { "type": "text", "id": "name", "label": "Name", "default": "Amara K." },
-        { "type": "text", "id": "product", "label": "Product chip label", "default": "Stick" }
+        { "type": "text", "id": "product", "label": "Product chip label (optional)" }
       ]
     }
   ],
@@ -142,10 +150,10 @@
     {
       "name": "SC Reviews",
       "blocks": [
-        { "type": "review", "settings": { "quote": "My hair has never looked so polished.", "name": "Amara K.", "product": "Stick" } },
-        { "type": "review", "settings": { "quote": "The stick lives in my bag now.", "name": "Priya S.", "product": "Stick" } },
-        { "type": "review", "settings": { "quote": "Frizz gone in seconds, no crunch.", "name": "Jo M.", "product": "Cream" } },
-        { "type": "review", "settings": { "quote": "Feels like skincare for my hair.", "name": "Elle R.", "product": "Balm" } }
+        { "type": "review", "settings": { "quote": "My hair has never looked so polished.", "name": "Amara K." } },
+        { "type": "review", "settings": { "quote": "The stick lives in my bag now.", "name": "Priya S." } },
+        { "type": "review", "settings": { "quote": "Frizz gone in seconds, no crunch.", "name": "Jo M." } },
+        { "type": "review", "settings": { "quote": "Feels like skincare for my hair.", "name": "Elle R." } }
       ]
     }
   ],

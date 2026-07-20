@@ -1,0 +1,317 @@
+{% comment %}
+  Smooth Company — Shoppable reels "10A" (custom)
+  9:16 tiles. Desktop: edge-to-edge, 5 across, only the centered tile autoplays and it
+  auto-rotates (~4.5s); click any tile to move it to center and play; prev/next arrows sit
+  ON the video. Mobile: one centered tile + two peeks, no autoplay beyond the centered one,
+  no arrows. Under each video: a bordered shoppable card (thumb + name + price + add).
+  Uses scrollTo/scrollLeft math (never scrollIntoView).
+{% endcomment %}
+
+{%- liquid
+  assign blocks = section.blocks
+  assign start = blocks.size | divided_by: 2
+  assign align = section.settings.heading_alignment
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .sc-reels {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.background_color }};
+  }
+  #shopify-section-{{ section.id }} .sc-reels__head {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; padding: 0 20px 24px; text-align: {{ align }};
+  }
+  {% if align == 'center' %}#shopify-section-{{ section.id }} .sc-reels__head { justify-content: center; }{% endif %}
+  #shopify-section-{{ section.id }} .sc-reels__title {
+    font-family: 'Gotham', sans-serif; font-weight: 700; text-transform: none;
+    font-size: 25px; letter-spacing: -0.02em; line-height: 1; margin: 0; color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .sc-reels__viewall {
+    flex: 0 0 auto; font-family: 'Gotham Medium', sans-serif; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: #1d1d1b; border-bottom: 1px solid #1d1d1b; padding-bottom: 3px; white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .sc-reels__frame { position: relative; }
+  #shopify-section-{{ section.id }} .sc-reels__rail {
+    display: flex; gap: 12px; overflow-x: auto; padding: 0 20px; scroll-padding-left: 20px;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  }
+  #shopify-section-{{ section.id }} .sc-reels__rail::-webkit-scrollbar { height: 0; }
+  #shopify-section-{{ section.id }} .sc-reel { flex: 0 0 72%; min-width: 0; scroll-snap-align: center; }
+  #shopify-section-{{ section.id }} .sc-reel__media {
+    width: 100%; aspect-ratio: 9/16; background: #20262a; position: relative; overflow: hidden; cursor: pointer;
+  }
+  #shopify-section-{{ section.id }} .sc-reel__media img,
+  #shopify-section-{{ section.id }} .sc-reel__media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  #shopify-section-{{ section.id }} .sc-reel__ph { position: absolute; inset: 0; background: repeating-linear-gradient(120deg,#20262a 0 18px,#31404a 18px 36px); }
+  #shopify-section-{{ section.id }} .sc-reel__dim { position: absolute; inset: 0; z-index: 1; background: rgba(12,14,16,0.28); transition: opacity .25s; }
+  #shopify-section-{{ section.id }} .sc-reel.is-active .sc-reel__dim { opacity: 0; }
+  #shopify-section-{{ section.id }} .sc-reel__mute {
+    position: absolute; bottom: 12px; right: 12px; z-index: 2; width: 26px; height: 26px; border-radius: 100px;
+    background: rgba(0,0,0,0.4); color: #fff; display: none; align-items: center; justify-content: center; font-size: 11px;
+  }
+  #shopify-section-{{ section.id }} .sc-reel.is-active .sc-reel__mute { display: flex; }
+  #shopify-section-{{ section.id }} .sc-reel__card {
+    display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #efefec; margin: 12px 0 0;
+  }
+  #shopify-section-{{ section.id }} .sc-reel__thumb { flex: 0 0 auto; width: 40px; height: 40px; object-fit: cover; background: repeating-linear-gradient(120deg,#eef0ee 0 10px,#f6f7f5 10px 20px); display: block; }
+  #shopify-section-{{ section.id }} .sc-reel__info { flex: 1; min-width: 0; }
+  #shopify-section-{{ section.id }} .sc-reel__name {
+    font-family: 'Gotham Medium', sans-serif; font-size: 11.5px; font-weight: 600; line-height: 1.2;
+    text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1d1d1b;
+  }
+  #shopify-section-{{ section.id }} .sc-reel__price { font-family: 'Gotham Medium', sans-serif; font-size: 11.5px; margin-top: 4px; color: #6C6C66; }
+  #shopify-section-{{ section.id }} .sc-reel__add {
+    flex: 0 0 auto; width: 34px; height: 34px; border-radius: 100px; border: none; background: #1d1d1b; color: #fff;
+    font-size: 16px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .sc-reel__add.is-loading { opacity: .6; cursor: progress; }
+  #shopify-section-{{ section.id }} .sc-reels__arrow { display: none; }
+
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-reels { padding-top: {{ section.settings.padding_top_desktop }}px; padding-bottom: {{ section.settings.padding_bottom_desktop }}px; }
+    #shopify-section-{{ section.id }} .sc-reels__head { padding: 0 48px 34px; }
+    #shopify-section-{{ section.id }} .sc-reels__title { font-size: 34px; }
+    #shopify-section-{{ section.id }} .sc-reels__rail { gap: 2px; padding: 0; scroll-padding-left: 0; }
+    #shopify-section-{{ section.id }} .sc-reel { flex-basis: calc((100% - 8px) / 5); }
+    #shopify-section-{{ section.id }} .sc-reel__card { padding: 14px; margin: 14px 12px 0; }
+    #shopify-section-{{ section.id }} .sc-reel__name, #shopify-section-{{ section.id }} .sc-reel__price { font-size: 12px; }
+    #shopify-section-{{ section.id }} .sc-reel__add { width: 38px; height: 38px; font-size: 18px; }
+    {% if section.settings.show_arrows %}
+    #shopify-section-{{ section.id }} .sc-reels__arrow {
+      position: absolute; top: calc((100% - 66px) * 0.5); transform: translateY(-50%); z-index: 3;
+      width: 48px; height: 48px; border-radius: 100px; border: none; background: rgba(255,255,255,0.92); color: #1d1d1b;
+      font-size: 16px; cursor: pointer; box-shadow: 0 2px 14px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center;
+    }
+    #shopify-section-{{ section.id }} .sc-reels__arrow--prev { left: 20px; }
+    #shopify-section-{{ section.id }} .sc-reels__arrow--next { right: 20px; }
+    {% endif %}
+  }
+</style>
+
+{%- if section.settings.enable -%}
+<div class="sc-reels" data-sc-reels data-start="{{ start }}" data-rotate="{{ section.settings.autorotate }}" data-interval="{{ section.settings.rotate_seconds | times: 1000 }}">
+  <div class="sc-reels__head">
+    {%- if section.settings.heading != blank -%}<h3 class="sc-reels__title">{{ section.settings.heading }}</h3>{%- endif -%}
+    {%- if section.settings.link_label != blank -%}<a class="sc-reels__viewall" href="{{ section.settings.link_url | default: '#' }}">{{ section.settings.link_label }}</a>{%- endif -%}
+  </div>
+  <div class="sc-reels__frame">
+    <div class="sc-reels__rail" data-sc-reels-rail>
+      {%- if blocks.size > 0 -%}
+        {%- for block in blocks -%}
+          {%- liquid
+            assign prod = block.settings.product
+            assign r_name = block.settings.name | default: prod.title | default: 'Product'
+            assign r_url = block.settings.url | default: prod.url | default: '#'
+            assign r_thumb = block.settings.thumb | default: prod.featured_image
+          -%}
+          <div class="sc-reel" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <div class="sc-reel__media" data-sc-reel-media data-index="{{ forloop.index0 }}">
+              {%- if block.settings.video != blank -%}
+                <video muted loop playsinline preload="none"{% if block.settings.poster != blank %} poster="{{ block.settings.poster | image_url: width: 700 }}"{% endif %} data-sc-reel-video>
+                  {%- for source in block.settings.video.sources -%}<source src="{{ source.url }}" type="{{ source.mime_type }}">{%- endfor -%}
+                </video>
+              {%- elsif block.settings.poster != blank -%}
+                {%- assign reel_alt = r_name -%}
+                {{ block.settings.poster | image_url: width: 700 | image_tag: loading: 'lazy', sizes: '(min-width:1024px) 20vw, 72vw', widths: '300, 500, 700', alt: reel_alt }}
+              {%- else -%}
+                <div class="sc-reel__ph"></div>
+              {%- endif -%}
+              <div class="sc-reel__dim"></div>
+              <span class="sc-reel__mute" aria-hidden="true">♪</span>
+            </div>
+            <div class="sc-reel__card">
+              {%- if r_thumb != blank -%}
+                {%- assign thumb_alt = r_name -%}
+                {{ r_thumb | image_url: width: 120 | image_tag: loading: 'lazy', widths: '80, 120', alt: thumb_alt, class: 'sc-reel__thumb' }}
+              {%- else -%}
+                <span class="sc-reel__thumb"></span>
+              {%- endif -%}
+              <a class="sc-reel__info" href="{{ r_url }}">
+                <div class="sc-reel__name">{{ r_name }}</div>
+                <div class="sc-reel__price">
+                  {%- if block.settings.price != blank -%}{{ block.settings.price }}{%- elsif prod != blank -%}{{ prod.price | money }}{%- endif -%}
+                </div>
+              </a>
+              {%- if prod != blank and prod.available -%}
+                {% form 'product', prod, data-sc-add-form: '', class: 'sc-reel__form' %}
+                  <input type="hidden" name="id" value="{{ prod.selected_or_first_available_variant.id }}">
+                  <button type="submit" class="sc-reel__add" aria-label="Add {{ r_name | escape }} to cart">+</button>
+                {% endform %}
+              {%- else -%}
+                <a class="sc-reel__add" href="{{ r_url }}" aria-label="View {{ r_name | escape }}">+</a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign ph = 'Smooth Stick™|£18.00,The Mane Master™|£24.00,The Detangler™ Duo|£30.00,Smoothcase™ Filled|£64.00,Finishing Balm|£20.00' | split: ',' -%}
+        {%- for item in ph -%}
+          {%- assign parts = item | split: '|' -%}
+          <div class="sc-reel" data-index="{{ forloop.index0 }}">
+            <div class="sc-reel__media" data-sc-reel-media data-index="{{ forloop.index0 }}">
+              <div class="sc-reel__ph"></div><div class="sc-reel__dim"></div><span class="sc-reel__mute" aria-hidden="true">♪</span>
+            </div>
+            <div class="sc-reel__card">
+              <span class="sc-reel__thumb"></span>
+              <div class="sc-reel__info"><div class="sc-reel__name">{{ parts[0] }}</div><div class="sc-reel__price">{{ parts[1] }}</div></div>
+              <button type="button" class="sc-reel__add" aria-hidden="true" tabindex="-1">+</button>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+    {%- if section.settings.show_arrows -%}
+      <button type="button" class="sc-reels__arrow sc-reels__arrow--prev" data-sc-reel-arrow="-1" aria-label="Previous">←</button>
+      <button type="button" class="sc-reels__arrow sc-reels__arrow--next" data-sc-reel-arrow="1" aria-label="Next">→</button>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root || root.dataset.scInit) return;
+    root.dataset.scInit = '1';
+    var wrap = root.querySelector('[data-sc-reels]');
+    var rail = root.querySelector('[data-sc-reels-rail]');
+    if (!wrap || !rail) return;
+    var reels = Array.prototype.slice.call(rail.querySelectorAll('.sc-reel'));
+    if (!reels.length) return;
+    var isDesktop = function () { return window.matchMedia('(min-width:1024px)').matches; };
+    var active = parseInt(wrap.dataset.start, 10) || 0;
+    var timer = null;
+
+    function center(i) {
+      var el = reels[i]; if (!el) return;
+      rail.scrollTo({ left: el.offsetLeft - (rail.clientWidth - el.clientWidth) / 2, behavior: 'smooth' });
+    }
+    function apply(playCentered) {
+      reels.forEach(function (el, i) {
+        var on = i === active;
+        el.classList.toggle('is-active', on);
+        var v = el.querySelector('[data-sc-reel-video]');
+        if (v) {
+          if (on && playCentered) { try { v.play(); } catch (e) {} }
+          else { try { v.pause(); } catch (e) {} }
+        }
+      });
+    }
+    function setActive(i, doCenter) {
+      active = (i + reels.length) % reels.length;
+      apply(true);
+      if (doCenter) center(active);
+    }
+    function startRotate() {
+      if (timer || wrap.dataset.rotate !== 'true' || !isDesktop()) return;
+      var ms = parseInt(wrap.dataset.interval, 10) || 4500;
+      timer = setInterval(function () { setActive(active + 1, true); }, ms);
+    }
+    function stopRotate() { if (timer) { clearInterval(timer); timer = null; } }
+
+    reels.forEach(function (el) {
+      var media = el.querySelector('[data-sc-reel-media]');
+      if (media) media.addEventListener('click', function () {
+        stopRotate();
+        setActive(parseInt(el.getAttribute('data-index'), 10), true);
+        startRotate();
+      });
+    });
+    root.querySelectorAll('[data-sc-reel-arrow]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        stopRotate();
+        setActive(active + (parseInt(btn.getAttribute('data-sc-reel-arrow'), 10)), true);
+        startRotate();
+      });
+    });
+    // pause rotation when the section is off-screen
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { startRotate(); } else { stopRotate(); } });
+      }, { threshold: 0.2 }).observe(wrap);
+    }
+
+    // add-to-cart on reel cards
+    root.querySelectorAll('[data-sc-add-form]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = form.querySelector('.sc-reel__add');
+        var routes = (window.PXUTheme && window.PXUTheme.routes) || {};
+        var addUrl = (routes.cart_add_url || '/cart/add') + '.js';
+        var cartUrl = routes.cart_url || '/cart';
+        if (btn) btn.classList.add('is-loading');
+        fetch(addUrl, { method: 'POST', headers: { 'Accept': 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' }, body: new FormData(form) })
+          .then(function (r) { if (!r.ok) throw new Error('add failed'); return r.json(); })
+          .then(function () {
+            var drawer = (window.Core && window.Core.Components && window.Core.Components.getComponent) ? window.Core.Components.getComponent('cart-drawer') : null;
+            if (drawer && drawer.data && drawer.data.enabled && typeof drawer.open === 'function') {
+              try { drawer.open(btn, true, null); } catch (err) { window.location = cartUrl; }
+            } else { window.location = cartUrl; }
+          })
+          .catch(function () { window.location = cartUrl; })
+          .finally(function () { if (btn) btn.classList.remove('is-loading'); });
+      });
+    });
+
+    // init
+    apply(true);
+    requestAnimationFrame(function () { center(active); });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SC Shoppable reels",
+  "tag": "section",
+  "class": "sc-section",
+  "settings": [
+    { "type": "checkbox", "id": "enable", "label": "Enable section", "default": true },
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "heading", "label": "Title", "default": "Watch & shop" },
+    { "type": "color", "id": "heading_color", "label": "Title colour", "default": "#1d1d1b" },
+    { "type": "select", "id": "heading_alignment", "label": "Heading alignment", "default": "left", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" } ] },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop the edit" },
+    { "type": "url", "id": "link_url", "label": "Link URL" },
+    { "type": "header", "content": "Behaviour" },
+    { "type": "checkbox", "id": "autorotate", "label": "Auto-rotate centre (desktop)", "default": true },
+    { "type": "range", "id": "rotate_seconds", "min": 2, "max": 10, "step": 1, "unit": "s", "label": "Rotate every", "default": 5 },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show prev/next arrows (desktop)", "default": true },
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Top padding (mobile)", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Bottom padding (mobile)", "default": 0 },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Top padding (desktop)", "default": 110 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Bottom padding (desktop)", "default": 0 }
+  ],
+  "blocks": [
+    {
+      "type": "reel",
+      "name": "Reel",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Video (9:16, muted loop)" },
+        { "type": "image_picker", "id": "poster", "label": "Poster / still image" },
+        { "type": "header", "content": "Shoppable card" },
+        { "type": "product", "id": "product", "label": "Product (enables add-to-cart)" },
+        { "type": "image_picker", "id": "thumb", "label": "Thumbnail (overrides product image)" },
+        { "type": "text", "id": "name", "label": "Name (overrides product title)" },
+        { "type": "text", "id": "price", "label": "Price (overrides product price)" },
+        { "type": "url", "id": "url", "label": "Link (overrides product URL)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Shoppable reels",
+      "blocks": [
+        { "type": "reel", "settings": { "name": "Smooth Stick™", "price": "£18.00" } },
+        { "type": "reel", "settings": { "name": "The Mane Master™", "price": "£24.00" } },
+        { "type": "reel", "settings": { "name": "The Detangler™ Duo", "price": "£30.00" } },
+        { "type": "reel", "settings": { "name": "Smoothcase™ Filled", "price": "£64.00" } },
+        { "type": "reel", "settings": { "name": "Finishing Balm", "price": "£20.00" } }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] }
+}
+{% endschema %}

@@ -1,38 +1,92 @@
 {% comment %}
-  Smooth Company — Statement moment (custom)
-  A centered brand line with a short mint accent rule beneath it.
+  Smooth Company — Statement break (custom)
+  A soft paper-toned centered statement band with two tracked-caps links.
 {% endcomment %}
+{%- if section.settings.enable -%}
 <style>
-  #shopify-section-{{ section.id }} .sc-statement { padding: {{ section.settings.padding_top }}px 28px 0; text-align: center; background: {{ section.settings.background_color }}; }
+  #shopify-section-{{ section.id }} .sc-statement {
+    padding: {{ section.settings.padding_top }}px 30px {{ section.settings.padding_bottom }}px;
+    margin-top: {{ section.settings.gap_top }}px;
+    background: {{ section.settings.background_color }};
+    text-align: center;
+  }
   #shopify-section-{{ section.id }} .sc-statement__text {
-    font-family: 'Gotham', 'Gotham Medium', sans-serif; font-weight: 700;
-    font-size: 29px; line-height: 1.1; letter-spacing: -0.01em; margin: 0; color: #1d1d1b; text-transform: none;
+    font-family: 'Gotham', sans-serif; font-weight: 700; text-transform: none;
+    font-size: 28px; line-height: 1.16; letter-spacing: -0.02em;
+    margin: 0 auto; max-width: 330px; color: {{ section.settings.text_color }};
   }
-  #shopify-section-{{ section.id }} .sc-statement__rule { width: 40px; height: 2px; background: {{ section.settings.accent_color }}; margin: 22px auto 0; }
-  @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sc-statement { padding-top: calc({{ section.settings.padding_top }}px * 1.4); }
-    #shopify-section-{{ section.id }} .sc-statement__text { font-size: 40px; }
-    #shopify-section-{{ section.id }} .sc-statement__rule { width: 48px; margin-top: 28px; }
+  #shopify-section-{{ section.id }} .sc-statement__text > *:first-child { margin-top: 0; }
+  #shopify-section-{{ section.id }} .sc-statement__text > *:last-child { margin-bottom: 0; }
+  #shopify-section-{{ section.id }} .sc-statement__links {
+    display: flex; flex-wrap: wrap; gap: 28px; justify-content: center;
+    margin-top: 32px;
   }
-  @media (min-width: 1024px) { #shopify-section-{{ section.id }} .sc-statement__text { font-size: 46px; } }
+  #shopify-section-{{ section.id }} .sc-statement__link {
+    font-family: 'Gotham Medium', sans-serif;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: {{ section.settings.text_color }}; text-decoration: none;
+    border-bottom: 1px solid {{ section.settings.text_color }}; padding-bottom: 3px;
+  }
+  @media (min-width: 1024px) {
+    #shopify-section-{{ section.id }} .sc-statement {
+      padding: {{ section.settings.padding_top_desktop }}px 48px {{ section.settings.padding_bottom_desktop }}px;
+      margin-top: {{ section.settings.gap_top_desktop }}px;
+    }
+    #shopify-section-{{ section.id }} .sc-statement__text { font-size: 44px; max-width: 900px; }
+    #shopify-section-{{ section.id }} .sc-statement__links { gap: 36px; margin-top: 44px; }
+  }
 </style>
 <div class="sc-statement">
-  <p class="sc-statement__text">{{ section.settings.text }}</p>
-  {%- if section.settings.show_rule -%}<div class="sc-statement__rule"></div>{%- endif -%}
+  <div class="sc-statement__text">{{ section.settings.text }}</div>
+  {%- if section.blocks.size > 0 -%}
+    <div class="sc-statement__links">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.label != blank -%}
+          <a class="sc-statement__link lab" href="{{ block.settings.url | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
 </div>
+{%- endif -%}
 {% schema %}
 {
-  "name": "SC Statement",
+  "name": "SC Statement break",
   "tag": "section",
   "class": "sc-section",
   "settings": [
-    { "type": "text", "id": "text", "label": "Statement", "default": "Smoothing that feels like skincare." },
-    { "type": "checkbox", "id": "show_rule", "label": "Show accent rule", "default": true },
-    { "type": "color", "id": "accent_color", "label": "Accent rule color", "default": "#b5e3d9" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top spacing", "default": 72 },
-    { "type": "color", "id": "background_color", "label": "Background", "default": "#ffffff" }
+    { "type": "checkbox", "id": "enable", "label": "Enable section", "default": true },
+    { "type": "header", "content": "Text" },
+    { "type": "richtext", "id": "text", "label": "Statement", "default": "<p>Smoothing that feels like skincare. A certified B Corp, cruelty-free and vegan — with 1% of every sale given back.</p>" },
+    { "type": "color", "id": "text_color", "label": "Text colour", "default": "#1d1d1b" },
+    { "type": "header", "content": "Background & spacing" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#f6f5f1" },
+    { "type": "range", "id": "gap_top", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Top margin (mobile)", "default": 80 },
+    { "type": "range", "id": "gap_top_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Top margin (desktop)", "default": 110 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Top padding (mobile)", "default": 104 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 200, "step": 2, "unit": "px", "label": "Bottom padding (mobile)", "default": 104 },
+    { "type": "range", "id": "padding_top_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Top padding (desktop)", "default": 150 },
+    { "type": "range", "id": "padding_bottom_desktop", "min": 0, "max": 240, "step": 2, "unit": "px", "label": "Bottom padding (desktop)", "default": 150 }
   ],
-  "presets": [ { "name": "SC Statement" } ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Our story" },
+        { "type": "url", "id": "url", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SC Statement break",
+      "blocks": [
+        { "type": "link", "settings": { "label": "Our story" } },
+        { "type": "link", "settings": { "label": "Smooth School" } }
+      ]
+    }
+  ],
   "disabled_on": { "groups": ["header", "footer"] }
 }
 {% endschema %}
